@@ -8,7 +8,7 @@ while true; do
     echo "4. Ping 1.1.1.1 and google.com"
     echo "5. Tukar firmware?"
     echo "6. Nyah kau dari sini"
-    echo -n "Janda atau Perawan? "
+    echo -n "Janda atau Perawan?pilih no: "
     read choice
 
     case $choice in
@@ -30,7 +30,7 @@ while true; do
                 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz && \
                 tar -xzf ookla-speedtest-1.2.0-linux-aarch64.tgz && \
                 mv speedtest /bin && chmod +x /bin/speedtest && \
-                echo "Installed! Now running speedtest..." && speedtest -s 45610
+                echo "Installed! Now running speedtest..." && speedtest 
             fi
             ;;
         3)
@@ -60,6 +60,9 @@ while true; do
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
             echo "4. NialWRT"
+            echo "5. Shimwrt"
+            echo "6. Khairulwrt"
+            echo "7. Pakawrt"
             echo -n "Pilihan ditangan anda: "
             read fw_choice
 
@@ -87,6 +90,21 @@ while true; do
                     wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt24042025.sh && \
                     chmod 755 /tmp/installer.sh && /tmp/installer.sh
                     ;;
+                5)
+                    echo "Pasang Shimwrt..."
+                    wget -q -O installer http://abidarwi.sh/bangshimfirmware_owrt11225-final.sh && \
+                    chmod 755 installer && ./installer
+                    ;;
+                6)
+                    echo "Pasang Khairulwrt..."
+                    wget -q -O /tmp/installer.sh http://abidarwi.sh/khairulwrt07052025.sh && \
+                    chmod 755 /tmp/installer.sh && /tmp/installer.sh
+                    ;;
+                7)
+                    echo "Pasang Pakawrt..."
+                    wget -q -O installer http://abidarwi.sh/pakanss30042025.sh && \
+                    chmod 755 installer && ./installer
+                    ;;
                 *)
                     echo "Pilih bagus2 laa."
                     ;;
@@ -97,12 +115,12 @@ while true; do
             break
             ;;
         *)
-            echo "Invalid choice. Please enter a number between 1 and 6."
+            echo "salah pilihan hidupmu betulkan."
             continue
             ;;
     esac
 
     echo ""
-    echo "Press Enter to return to menu..."
+    echo "tekan Enter balik menuuu"
     read dummy
 done
