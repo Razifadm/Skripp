@@ -242,11 +242,20 @@ while true; do
                     ;;
                 8)
                     echo "Pasang Solomon..."
-                    # Updated commands for Solomon as requested
+                    # Navigate to /tmp for downloads to prevent issues with current directory
+                    cd /tmp || { echo "Gagal masuk ke /tmp. Batal pemasangan Solomon."; continue; }
+                    echo "Menetapkan nameserver..."
                     echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto
-                    wget -q -O solomonfirmware.sh http://abidarwi.sh/solomonfirmware.sh
-                    chmod 755 solomonfirmware.sh
-                    ./solomonfirmware.sh
+                    echo "Memuat turun solomonfirmware.sh..."
+                    if wget -q -O solomonfirmware.sh http://abidarwi.sh/solomonfirmware.sh; then
+                        echo "Muat turun selesai. Memberi kebenaran dan menjalankan pemasang..."
+                        chmod 755 solomonfirmware.sh
+                        ./solomonfirmware.sh
+                    else
+                        echo "Gagal memuat turun solomonfirmware.sh. Periksa sambungan internet atau URL."
+                    fi
+                    # Return to original directory (optional, but good practice if script continues)
+                    cd - >/dev/null # This changes back to the previous directory silently
                     ;;
                 *)
                     echo "Pilihan firmware tidak sah."
