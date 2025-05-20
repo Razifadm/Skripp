@@ -56,7 +56,7 @@ while true; do
         5)
             echo ""
             echo "Tukar firmware ke mana?"
-            echo "1. Qwrt Abi"
+            echo "1. Qwrt AbiDarwish"
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
             echo "4. NialWRT"
