@@ -25,7 +25,7 @@ while true; do
                 echo "Ke bulan duluu"
                 speedtest -s 45610
             else
-                echo "speedtest-cli is not installed. Install it with: pip3 install speedtest-cli"
+                echo "speedtest-cli is not installed. Install it with: wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz;tar vxzf ook*;mv speedtest /bin;speedtest"
             fi
             ;;
         3)
