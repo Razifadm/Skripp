@@ -1,55 +1,45 @@
 #!/bin/sh
 
-trap "echo; echo 'Keluar script. Bye!'; exit" INT
-
 while true; do
-    echo "=================================="
-    echo "          MENU ARCA TOOL          "
-    echo "=================================="
+    echo "Select an option:"
     echo "1. Run htop"
-    echo "2. Speedtest GBPS"
-    echo "3. Nak reboot Arca ke?"
-    echo "4. Ping 1.1.1.1 dan google.com"
+    echo "2. Speedtest GBPS (pilih server)"
+    echo "3. Nak reboot arca ke?"
+    echo "4. Ping 1.1.1.1 and google.com"
     echo "5. Tukar firmware?"
     echo "6. Nyah kau dari sini"
-    echo -n "Janda atau Perawan? Pilih nombor anda: "
+    echo -n "Janda atau Perawan?pilih no: "
     read choice
 
     case $choice in
         1)
             if command -v htop >/dev/null 2>&1; then
-                echo "Periksa kesihatan..."
+                echo "Periksa kesihatan"
                 htop
             else
-                echo "htop tidak dijumpai. Cuba pasang..."
-                if ! opkg update; then
-                    echo "Tidak dapat update repo. Semak sambungan internet atau tetapan DNS."
-                elif ! opkg install htop; then
-                    echo "Gagal pasang htop. Mungkin pakej tiada dalam repo."
-                else
+                echo "htop not found. Installing..."
+                opkg update && opkg install htop
+                if command -v htop >/dev/null 2>&1; then
                     htop
+                else
+                    echo "Gagal install htop. engkau xde internet atau repo xdak."
                 fi
             fi
             ;;
         2)
-            if command -v speedtest >/dev/null 2>&1; then
-                echo "Ke bulan duluuu..."
-                speedtest
-            else
-                echo "speedtest-cli tidak dijumpai. Memasang..."
-                cd /tmp || exit
-                wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz && \
-                tar -xzf ookla-speedtest-1.2.0-linux-aarch64.tgz && \
-                mv speedtest /bin && chmod +x /bin/speedtest && \
-                echo "Siap dipasang. Menjalankan ujian kelajuan..." && speedtest
-            fi
+            echo "Senarai server speedtest:"
+            /bin/speedtest -L
+            echo -n "Masukkan ID server: "
+            read server_id
+            echo "Running speedtest dengan server ID $server_id..."
+            /bin/speedtest -s "$server_id"
             ;;
         3)
             echo -n "Betul nak reboot Arca? [y/N]: "
             read confirm
             case "$confirm" in
                 [yY]|[yY][eE][sS])
-                    echo "Rebooting AW1000..."
+                    echo "Rebooting Aw1000..."
                     reboot
                     ;;
                 *)
@@ -58,16 +48,16 @@ while true; do
             esac
             ;;
         4)
-            echo "Ping ke 1.1.1.1..."
+            echo "Pinging 1.1.1.1..."
             ping -c 4 1.1.1.1
             echo ""
-            echo "Ping ke google.com..."
+            echo "Pinging google.com..."
             ping -c 4 google.com
             ;;
         5)
             echo ""
-            echo "Tukar firmware ke mana?"
-            echo "1. Qwrt AbiDarwish"
+            echo "Tukar firmware ke mana? tapi make sure ko dah ade token laa"
+            echo "1. Qwrt AbiDarwish Versi 6.1~6.5 sahaja"
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
             echo "4. NialWRT"
@@ -80,64 +70,120 @@ while true; do
 
             case $fw_choice in
                 1)
-                    echo "Pasang Qwrt Abi..."
-                    echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && \
-                    wget -q -O /tmp/installer http://abidarwi.sh/gbps6.5 && \
-                    chmod 755 /tmp/installer && /tmp/installer
+                    echo "Pilih versi QWRT:"
+                    echo "1. QWRT 6.1"
+                    echo "2. QWRT 6.2"
+                    echo "3. QWRT 6.3"
+                    echo "4. QWRT 6.4"
+                    echo "5. QWRT 6.5"
+                    echo -n "Versi mana: "
+                    read qwrt_version
+                    case $qwrt_version in
+                        1)
+                            echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.1
+                            chmod 755 /tmp/installer
+                            /tmp/installer
+                            ;;
+                        2)
+                            echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.2
+                            chmod 755 /tmp/installer
+                            /tmp/installer
+                            ;;
+                        3)
+                            echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.3
+                            chmod 755 /tmp/installer
+                            /tmp/installer
+                            ;;
+                        4)
+                            echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.4
+                            chmod 755 /tmp/installer
+                            /tmp/installer
+                            ;;
+                        5)
+                            echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.5
+                            chmod 755 /tmp/installer
+                            /tmp/installer
+                            ;;
+                        *)
+                            echo "Pilih bagus2 kawan."
+                            ;;
+                    esac
                     ;;
                 2)
-                    echo "Pasang Qwrt Hongkong..."
-                    echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.d/resolv.conf.auto && \
-                    wget -q -O /tmp/installer http://abidarwi.sh/gbps6.0 && \
-                    chmod 755 /tmp/installer && /tmp/installer
+                    echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.d/resolv.conf.auto
+                    wget -q -O /tmp/installer http://abidarwi.sh/gbps6.0
+                    chmod 755 /tmp/installer
+                    /tmp/installer
                     ;;
                 3)
-                    echo "Pasang Sopek FW..."
-                    echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto && \
-                    wget -q -O /tmp/installer http://abidarwi.sh/sopekfirmware.sh && \
-                    chmod 755 /tmp/installer && /tmp/installer
+                    echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto
+                    wget -q -O /tmp/installer http://abidarwi.sh/sopekfirmware.sh
+                    chmod 755 /tmp/installer
+                    /tmp/installer
                     ;;
                 4)
-                    echo "Pasang NialWRT..."
-                    wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt24042025.sh && \
-                    chmod 755 /tmp/installer.sh && /tmp/installer.sh
+                    echo "Pilih versi NialWRT:"
+                    echo "1. nialwrt pro"
+                    echo "2. nialwrt aw1k v1.o(ipv4 only)"
+                    echo "3. nialwrt aw1k"
+                    echo -n "Versi mana: "
+                    read nial_ver
+                    case $nial_ver in
+                        1)
+                            wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt11052025.sh && chmod 755 /tmp/installer.sh && /tmp/installer.sh
+                            ;;
+                        2)
+                            wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt30042025.sh && chmod 755 /tmp/installer.sh && /tmp/installer.sh
+                            ;;
+                        3)
+                            wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt24042025.sh && chmod 755 /tmp/installer.sh && /tmp/installer.sh
+                            ;;
+                        *)
+                            echo "pilih yang mana sedap boh."
+                            ;;
+                    esac
                     ;;
                 5)
-                    echo "Pasang Shimwrt..."
-                    wget -q -O installer http://abidarwi.sh/bangshimfirmware_owrt11225-final.sh && \
-                    chmod 755 installer && ./installer
+                    wget -q -O installer http://abidarwi.sh/bangshimfirmware_owrt11225-final.sh
+                    chmod 755 installer
+                    ./installer
                     ;;
                 6)
-                    echo "Pasang Khairulwrt..."
-                    wget -q -O /tmp/installer.sh http://abidarwi.sh/khairulwrt07052025.sh && \
-                    chmod 755 /tmp/installer.sh && /tmp/installer.sh
+                    wget -q -O /tmp/installer.sh http://abidarwi.sh/khairulwrt07052025.sh
+                    chmod 755 /tmp/installer.sh
+                    /tmp/installer.sh
                     ;;
                 7)
-                    echo "Pasang Pakawrt..."
-                    wget -q -O installer http://abidarwi.sh/pakanss30042025.sh && \
-                    chmod 755 installer && ./installer
+                    wget -q -O installer http://abidarwi.sh/pakanss30042025.sh
+                    chmod 755 installer
+                    ./installer
                     ;;
                 8)
-                    echo "Pasang Solomon..."
-                    echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto; \
-                    wget -q -O solomonfirmware.sh http://abidarwi.sh/solomonfirmware.sh; \
-                    chmod 755 solomonfirmware.sh; ./solomonfirmware.sh
+                    echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto
+                    wget -q -O solomonfirmware.sh http://abidarwi.sh/solomonfirmware.sh
+                    chmod 755 solomonfirmware.sh
+                    ./solomonfirmware.sh
                     ;;
                 *)
-                    echo "Pilih betul-betul laa."
+                    echo "Salah pilihan firmware."
                     ;;
             esac
             ;;
         6)
-            echo "Bubyeeeee~"
+            echo "bubyeeeee"
             break
             ;;
         *)
-            echo "Salah pilihan hidupmu, betulkan."
+            echo "salah pilihan hidupmu betulkan."
             ;;
     esac
 
     echo ""
-    echo "Tekan Enter untuk kembali ke menu..."
+    echo "tekan Enter balik menuuu"
     read dummy
 done
