@@ -31,7 +31,7 @@ while true; do
         if command -v speedtest >/dev/null 2>&1; then
             echo "Senarai server speedtest:"
             speedtest -L | awk '{print NR". "$0}'
-            echo -n "Pilih nombor server (atau tekan Enter guna default): "
+            echo -n "Pilih nombor server(start dari no 5) (atau tekan Enter guna default): "
             read server_num
 
             if [ -z "$server_num" ]; then
