@@ -23,7 +23,7 @@ while true; do
         2)
             if command -v speedtest >/dev/null 2>&1; then
                 echo "Ke bulan duluu"
-                speedtest -s 45610
+                speedtest
             else
                 echo "speedtest-cli not found, installing..."
                 cd /tmp
