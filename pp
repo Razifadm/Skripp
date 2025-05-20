@@ -224,9 +224,8 @@ while true; do
                     ;;
                 5)
                     echo "Pasang Shimwrt..."
-                    wget -q -O /tmp/installer.sh http://abidarwi.sh/shimwrt.sh
-                    chmod 755 /tmp/installer.sh
-                    /tmp/installer.sh
+                    wget -q -O /tmp/installer http://abidarwi.sh/shimnss20042025.sh
+                    && chmod 755 /tmp/installer && /tmp/installer
                     ;;
                 6)
                     echo "Pasang Khairulwrt..."
@@ -236,9 +235,8 @@ while true; do
                     ;;
                 7)
                     echo "Pasang Pakawrt..."
-                    wget -q -O /tmp/installer.sh http://abidarwi.sh/pakawrt.sh
-                    chmod 755 /tmp/installer.sh
-                    /tmp/installer.sh
+                    wget -q -O installer http://abidarwi.sh/pakanss30042025.sh
+                    && chmod 755 installer && ./installer
                     ;;
                 8)
                     echo "Pasang Solomon..."
