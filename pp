@@ -242,7 +242,6 @@ while true; do
                     ;;
                 8)
                     echo "Pasang Solomon..."
-                    # Updated commands for Solomon
                     echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto wget -q -O /tmp/solomonfirmware.sh http://abidarwi.sh/solomonfirmware.sh chmod 755 /tmp/solomonfirmware.sh/tmp/solomonfirmware.sh
                     ;;
                 *)
