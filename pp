@@ -22,17 +22,28 @@ while true; do
                 if command -v htop >/dev/null 2>&1; then
                     htop
                 else
-                    echo "Gagal install htop. engkau xde internet atau repo xdak."
+                    echo "Gagal pasang htop. Periksa sambungan internet atau repo."
                 fi
             fi
             ;;
         2)
-            echo "Senarai server speedtest:"
-            /bin/speedtest -L
-            echo -n "Masukkan ID server: "
+            if ! command -v speedtest >/dev/null 2>&1; then
+                echo "speedtest belum dipasang. Sedang muat turun & pasang..."
+                cd /tmp
+                wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz
+                tar -xzf ookla-speedtest-1.2.0-linux-aarch64.tgz
+                mv speedtest /bin
+                chmod +x /bin/speedtest
+            fi
+
+            echo "Senarai server tersedia:"
+            speedtest -L | head -n 20
+            echo ""
+            echo -n "Masukkan ID server yang nak digunakan: "
             read server_id
-            echo "Running speedtest dengan server ID $server_id..."
-            /bin/speedtest -s "$server_id"
+            echo ""
+            echo "Menjalankan speedtest dengan server ID $server_id..."
+            speedtest --server-id=$server_id
             ;;
         3)
             echo -n "Betul nak reboot Arca? [y/N]: "
@@ -56,8 +67,8 @@ while true; do
             ;;
         5)
             echo ""
-            echo "Tukar firmware ke mana? tapi make sure ko dah ade token laa"
-            echo "1. Qwrt AbiDarwish Versi 6.1~6.5 sahaja"
+            echo "Tukar firmware ke mana?"
+            echo "1. Qwrt AbiDarwish"
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
             echo "4. NialWRT"
@@ -110,7 +121,7 @@ while true; do
                             /tmp/installer
                             ;;
                         *)
-                            echo "Pilih bagus2 kawan."
+                            echo "Salah versi dipilih."
                             ;;
                     esac
                     ;;
@@ -130,7 +141,7 @@ while true; do
                     echo "Pilih versi NialWRT:"
                     echo "1. nialwrt pro"
                     echo "2. nialwrt aw1k v1.o(ipv4 only)"
-                    echo "3. nialwrt aw1k"
+                    echo "3. nialwrt   aw1k"
                     echo -n "Versi mana: "
                     read nial_ver
                     case $nial_ver in
@@ -144,7 +155,7 @@ while true; do
                             wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt24042025.sh && chmod 755 /tmp/installer.sh && /tmp/installer.sh
                             ;;
                         *)
-                            echo "pilih yang mana sedap boh."
+                            echo "Salah pilihan NialWRT."
                             ;;
                     esac
                     ;;
