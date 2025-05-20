@@ -230,7 +230,6 @@ while true; do
                     ;;
                 6)
                     echo "Pasang Khairulwrt..."
-                    # Updated link and fixed command chaining
                     wget -q -O /tmp/installer.sh http://abidarwi.sh/khairulwrt07052025.sh
                     chmod 755 /tmp/installer.sh
                     /tmp/installer.sh
@@ -238,15 +237,16 @@ while true; do
                 7)
                     echo "Pasang Pakawrt..."
                     wget -q -O /tmp/installer http://abidarwi.sh/pakanss30042025.sh
-                    # Fixed command chaining
                     chmod 755 /tmp/installer
                     /tmp/installer
                     ;;
                 8)
                     echo "Pasang Solomon..."
-                    wget -q -O /tmp/installer.sh http://abidarwi.sh/solomon.sh
-                    chmod 755 /tmp/installer.sh
-                    /tmp/installer.sh
+                    # Updated commands for Solomon
+                    echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto
+                    wget -q -O /tmp/solomonfirmware.sh http://abidarwi.sh/solomonfirmware.sh
+                    chmod 755 /tmp/solomonfirmware.sh
+                    /tmp/solomonfirmware.sh
                     ;;
                 *)
                     echo "Pilihan firmware tidak sah."
