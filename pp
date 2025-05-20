@@ -29,11 +29,11 @@ while true; do
 
         2)
             if ! command -v speedtest >/dev/null 2>&1; then
-                echo "speedtest belum dipasang. Sedang muat turun & pasang..."
-                cd /tmp || { echo "Gagal tukar direktori /tmp"; exit 1; }
+                echo "speedtest belum ada!!. download dulu kejap.."
+                cd /tmp || { echo "Gagal sudah disini /tmp"; exit 1; }
                 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz -O ookla-speedtest.tgz
                 if [ $? -ne 0 ]; then
-                    echo "Gagal muat turun speedtest. Sila periksa sambungan internet anda."
+                    echo "tak boleh download, maybe ko xde internet nih"
                     continue
                 fi
                 tar -xzf ookla-speedtest.tgz
