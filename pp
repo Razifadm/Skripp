@@ -1,36 +1,47 @@
 #!/bin/sh
 
+trap "echo; echo 'Keluar script. Bye!'; exit" INT
+
 while true; do
-    echo "Select an option:"
+    echo "=================================="
+    echo "          MENU ARCA TOOL          "
+    echo "=================================="
     echo "1. Run htop"
     echo "2. Speedtest GBPS"
-    echo "3. Nak reboot arca ke?"
-    echo "4. Ping 1.1.1.1 and google.com"
+    echo "3. Nak reboot Arca ke?"
+    echo "4. Ping 1.1.1.1 dan google.com"
     echo "5. Tukar firmware?"
     echo "6. Nyah kau dari sini"
-    echo -n "Janda atau Perawan?pilih no: "
+    echo -n "Janda atau Perawan? Pilih nombor anda: "
     read choice
 
     case $choice in
         1)
             if command -v htop >/dev/null 2>&1; then
-                echo "Periksa kesihatan"
+                echo "Periksa kesihatan..."
                 htop
             else
-                echo "htop is not installed. Install it with: opkg install htop"
+                echo "htop tidak dijumpai. Cuba pasang..."
+                if ! opkg update; then
+                    echo "Tidak dapat update repo. Semak sambungan internet atau tetapan DNS."
+                elif ! opkg install htop; then
+                    echo "Gagal pasang htop. Mungkin pakej tiada dalam repo."
+                else
+                    htop
+                fi
             fi
             ;;
         2)
             if command -v speedtest >/dev/null 2>&1; then
-                echo "Ke bulan duluu"
+                echo "Ke bulan duluuu..."
                 speedtest
             else
-                echo "speedtest-cli not found, installing..."
-                cd /tmp
+                echo "speedtest-cli tidak dijumpai. Memasang..."
+                cd /tmp || exit
                 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz && \
                 tar -xzf ookla-speedtest-1.2.0-linux-aarch64.tgz && \
                 mv speedtest /bin && chmod +x /bin/speedtest && \
-                echo "Installed! Now running speedtest..." && speedtest 
+                echo "Siap dipasang. Menjalankan ujian kelajuan..." && speedtest
             fi
             ;;
         3)
@@ -38,7 +49,7 @@ while true; do
             read confirm
             case "$confirm" in
                 [yY]|[yY][eE][sS])
-                    echo "Rebooting system..."
+                    echo "Rebooting AW1000..."
                     reboot
                     ;;
                 *)
@@ -47,10 +58,10 @@ while true; do
             esac
             ;;
         4)
-            echo "Pinging 1.1.1.1..."
+            echo "Ping ke 1.1.1.1..."
             ping -c 4 1.1.1.1
             echo ""
-            echo "Pinging google.com..."
+            echo "Ping ke google.com..."
             ping -c 4 google.com
             ;;
         5)
@@ -107,27 +118,26 @@ while true; do
                     chmod 755 installer && ./installer
                     ;;
                 8)
-                    echo "Solomon."
+                    echo "Pasang Solomon..."
                     echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto; \
                     wget -q -O solomonfirmware.sh http://abidarwi.sh/solomonfirmware.sh; \
                     chmod 755 solomonfirmware.sh; ./solomonfirmware.sh
                     ;;
                 *)
-                    echo "Pilih bagus2 laa."
+                    echo "Pilih betul-betul laa."
                     ;;
             esac
             ;;
         6)
-            echo "bubyeeeee"
+            echo "Bubyeeeee~"
             break
             ;;
         *)
-            echo "salah pilihan hidupmu betulkan."
-            continue
+            echo "Salah pilihan hidupmu, betulkan."
             ;;
     esac
 
     echo ""
-    echo "tekan Enter balik menuuu"
+    echo "Tekan Enter untuk kembali ke menu..."
     read dummy
 done
