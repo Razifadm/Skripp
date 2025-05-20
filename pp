@@ -63,6 +63,7 @@ while true; do
             echo "5. Shimwrt"
             echo "6. Khairulwrt"
             echo "7. Pakawrt"
+            echo "8. Solomon"
             echo -n "Pilihan ditangan anda: "
             read fw_choice
 
@@ -104,6 +105,12 @@ while true; do
                     echo "Pasang Pakawrt..."
                     wget -q -O installer http://abidarwi.sh/pakanss30042025.sh && \
                     chmod 755 installer && ./installer
+                    ;;
+                8)
+                    echo "Solomon."
+                    echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto; \
+                    wget -q -O solomonfirmware.sh http://abidarwi.sh/solomonfirmware.sh; \
+                    chmod 755 solomonfirmware.sh; ./solomonfirmware.sh
                     ;;
                 *)
                     echo "Pilih bagus2 laa."
