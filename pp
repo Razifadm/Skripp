@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="1.1" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="1.11" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -86,7 +86,7 @@ case $choice in
     if command -v speedtest >/dev/null 2>&1; then
         echo "Senarai server speedtest:"
         speedtest -L | awk '{print NR". "$0}'
-        echo -n "Server:Start dari 5,tekan Enter Daefault, 0 Back.): "
+        echo -n "Server Start dari 5,tekan Enter Default, 0 Back: "
         read server_num
 
         if [ "$server_num" = "0" ]; then
@@ -134,7 +134,7 @@ case $choice in
             reboot
             ;;
         *)
-            echo "Batal reboot."
+            echo "kenselreboot."
             ;;
     esac
     ;;
@@ -151,7 +151,7 @@ case $choice in
     # The firmware selection sub-menu can still loop until a valid choice is made or user quits
     while true; do
         echo ""
-        echo "Tukar firmware ke mana? (0 untuk kembali)"
+        echo "Tukar firmware ke mana?Aw1k (0 untuk kembali)"
         echo "1. Qwrt AbiDarwish"
         echo "2. Qwrt Hongkong"
         echo "3. Sopek FW"
