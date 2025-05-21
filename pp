@@ -55,11 +55,9 @@ self_update() {
 # --- Execute the self-update check at the very beginning ---
 self_update
 
----
-## Main Menu Loop
----
+# --- Main Menu Loop ---
 
-# This loop ensures the main menu keeps appearing until a valid option (including exit) is chosen.
+# This loop ensures the main menu keeps appearing until an explicit exit is chosen.
 while true; do
     echo "Select an option:"
     echo "1. Run htop"
@@ -153,7 +151,7 @@ while true; do
         ;;
 
       5)
-        # The firmware selection sub-menu can still loop until a valid choice is made or user quits
+        # This loop ensures the firmware sub-menu keeps appearing until a valid choice is made or user quits with 0.
         while true; do
             echo ""
             echo "Tukar firmware ke mana? (0 untuk kembali)"
@@ -170,7 +168,7 @@ while true; do
 
             if [ "$fw_choice" = "0" ]; then
                 echo "Kembali ke menu utama..."
-                break # Exit the firmware sub-menu loop
+                break # Exit the firmware sub-menu loop and return to the main menu loop
             fi
 
             case $fw_choice in
@@ -187,7 +185,7 @@ while true; do
 
                         if [ "$qwrt_ver" = "0" ]; then
                             echo "Kembali ke menu firmware..."
-                            break # Exit the Qwrt AbiDarwish sub-menu loop
+                            break # Exit the Qwrt AbiDarwish sub-menu loop and return to the firmware sub-menu
                         fi
 
                         case $qwrt_ver in
@@ -197,6 +195,7 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/gbps6.1
                                 chmod 755 /tmp/installer
                                 /tmp/installer
+                                break # Exit this inner loop after installation (optional, you might want to return to Qwrt sub-menu)
                                 ;;
                             2)
                                 echo "Pasang Qwrt 6.2..."
@@ -204,6 +203,7 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/gbps6.2
                                 chmod 755 /tmp/installer
                                 /tmp/installer
+                                break
                                 ;;
                             3)
                                 echo "Pasang Qwrt 6.3..."
@@ -211,6 +211,7 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/gbps6.3
                                 chmod 755 /tmp/installer
                                 /tmp/installer
+                                break
                                 ;;
                             4)
                                 echo "Pasang Qwrt 6.4..."
@@ -218,6 +219,7 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/gbps6.4
                                 chmod 755 /tmp/installer
                                 /tmp/installer
+                                break
                                 ;;
                             5)
                                 echo "Pasang Qwrt 6.5..."
@@ -225,13 +227,14 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/gbps6.5
                                 chmod 755 /tmp/installer
                                 /tmp/installer
+                                break
                                 ;;
                             *)
                                 echo "Pilihan versi tidak sah."
                                 ;;
                         esac
-                    done
-                    ;;
+                    done # End of Qwrt AbiDarwish version selection loop
+                    ;; # End of case 1 (Qwrt AbiDarwish)
                 2)
                     echo "Pasang Qwrt Hongkong..."
                     echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.d/resolv.conf.auto
@@ -256,7 +259,7 @@ while true; do
                         read nial_choice
                         if [ "$nial_choice" = "0" ]; then
                             echo "Kembali ke menu firmware..."
-                            break # Exit the NialWRT sub-menu loop
+                            break # Exit the NialWRT sub-menu loop and return to the firmware sub-menu
                         fi
                         case $nial_choice in
                             1)
@@ -264,25 +267,28 @@ while true; do
                                 wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt11052025.sh
                                 chmod 755 /tmp/installer.sh
                                 /tmp/installer.sh
+                                break
                                 ;;
                             2)
                                 echo "Pasang NialWRT Aw1k v1.o (IPv4 only)..."
                                 wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt30042025.sh
                                 chmod 755 /tmp/installer.sh
                                 /tmp/installer.sh
+                                break
                                 ;;
                             3)
                                 echo "Pasang NialWRT Aw1k..."
                                 wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt24042025.sh
                                 chmod 755 /tmp/installer.sh
                                 /tmp/installer.sh
+                                break
                                 ;;
                             *)
                                 echo "Pilihan NialWRT tidak sah."
                                 ;;
                         esac
-                    done
-                    ;;
+                    done # End of NialWRT sub-menu loop
+                    ;; # End of case 4 (NialWRT)
                 5)
                     echo "Pasang Shimwrt..."
                     wget -q -O /tmp/installer http://abidarwi.sh/shimnss20042025.sh
@@ -322,30 +328,25 @@ while true; do
                     echo "Pilihan firmware tidak sah."
                     ;;
             esac
-        done
-        ;;
+        done # End of Firmware selection loop
+        ;; # End of case 5 (Tukar firmware?)
 
       6)
         echo "Bye bye... Tak jumpa lagi."
-        exit 0
+        exit 0 # Exit the script explicitly when choosing to exit
         ;;
 
       *) # This is the case for any other input not matching 1-6
         echo "Pilihan tidak sah. Sila masukkan nombor antara 1 hingga 6 sahaja."
-        # Use 'continue' to go back to the start of the while loop (re-display the menu)
+        # The 'continue' statement here is important: it goes back to the start
+        # of the 'while true' loop, re-displaying the main menu.
         continue
         ;;
     esac
-    # After a valid option (1-5) is processed, the script will break out of the loop
-    # and exit, except for option 6 which exits directly.
-    # We only want to break if a valid choice led to an action that doesn't involve
-    # re-displaying the menu (like a firmware install leading to reboot).
-    # If any other choice means you want to go back to the main menu after it's done,
-    # then you'd need 'continue' for that option's case.
-    # For now, if it's not an invalid choice and not option 6 (exit), it will just run once.
-    # To clarify, if you want the menu to reappear AFTER a successful action (like htop completes),
-    # you would need to enclose the 'case' statement itself within a 'while true' loop.
-    # Given your original request was "jalan sekali sahaja", the current setup exits
-    # after a valid action from 1-5 is completed.
-    break # Break out of the main menu loop after a valid choice (1-5) is processed.
-done
+
+    # If the user made a valid choice (1-5) and it wasn't '0' to go back,
+    # then the loop should continue for the next interaction.
+    # We no longer need a 'break' here, as the loop should only terminate
+    # if option 6 is chosen, or if the script is designed to run only once per valid selection.
+    # Given the 'while true' main loop, it will naturally repeat unless an exit condition is met.
+done # End of Main Menu Loop
