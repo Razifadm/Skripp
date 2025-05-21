@@ -1,45 +1,61 @@
 #!/bin/sh
 
 # --- Script Version and Update Information ---
-# IMPORTANT: Update this SCRIPT_VERSION every time you make changes to the script
-# on your GitHub repo that you want users to be notified about.
-SCRIPT_VERSION="1.1"
+# IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
+# to your GitHub repository.
+SCRIPT_VERSION="1.1" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
-# --- Function to Check for Updates ---
-check_for_updates() {
+# --- Function to Perform Self-Update ---
+self_update() {
     echo "Checking for script updates..."
-    # Fetch only the first few lines to get the remote SCRIPT_VERSION
-    REMOTE_VERSION=$(wget -qO- "$SCRIPT_URL" | grep '^SCRIPT_VERSION=' | head -n 1 | cut -d'"' -f2)
+    # Fetch only the line with SCRIPT_VERSION from the remote script
+    REMOTE_VERSION=$(wget -qO- "$SCRIPT_URL" 2>/dev/null | grep '^SCRIPT_VERSION=' | head -n 1 | cut -d'"' -f2)
 
     if [ -z "$REMOTE_VERSION" ]; then
-        echo "Warning: Could not check for remote script version. Continuing with current version."
-        return 0 # Indicate success but no update check
+        # If wget fails or version isn't found, assume no internet or malformed script
+        echo "Warning: Could not check for remote script version. Network issue or repo problem?"
+        return 0 # Continue with current version
     fi
 
     # Compare versions. 'sort -V' handles version strings correctly (e.g., 1.9 < 1.10)
-    # If local version is numerically smaller than remote version, an update is available.
+    # If the local version is numerically smaller than the remote version, an update is available.
     if [ "$(printf '%s\n' "$SCRIPT_VERSION" "$REMOTE_VERSION" | sort -V | head -n 1)" = "$SCRIPT_VERSION" ] && [ "$SCRIPT_VERSION" != "$REMOTE_VERSION" ]; then
         echo "---------------------------------------------------------"
         echo "            *** SCRIPT UPDATE AVAILABLE! *** "
         echo "---------------------------------------------------------"
         echo "Your current version: $SCRIPT_VERSION"
-        echo "New version available: $REMOTE_VERSION"
-        echo "To update, please run the following command:"
-        echo "wget -O $SCRIPT_PATH $SCRIPT_URL && chmod +x $SCRIPT_PATH"
-        echo "Then run the script again: $SCRIPT_PATH"
-        echo "---------------------------------------------------------"
-        echo ""
+        echo "New version found: $REMOTE_VERSION"
+        echo "Updating script... please wait."
+
+        # Download the new script to a temporary file
+        if wget -qO "$SCRIPT_PATH.new" "$SCRIPT_URL"; then
+            chmod +x "$SCRIPT_PATH.new" # Make the new script executable
+
+            # Move the new script over the old one
+            mv "$SCRIPT_PATH.new" "$SCRIPT_PATH"
+            echo "Script updated successfully to version $REMOTE_VERSION!"
+            echo "Re-running with the new version..."
+            echo "---------------------------------------------------------"
+
+            # Re-execute the script with the same arguments ($@)
+            # This is crucial for the user to instantly use the updated version
+            exec "$SCRIPT_PATH" "$@"
+        else
+            echo "Failed to download update. Please check your internet connection."
+            echo "You are currently running version $SCRIPT_VERSION."
+            echo "---------------------------------------------------------"
+        fi
     else
         echo "Script is up to date (version $SCRIPT_VERSION)."
     fi
 }
 
-# --- Execute Update Check at Start ---
-check_for_updates
+# --- Execute the self-update check at the very beginning ---
+self_update
 
-# --- Main Menu Logic (Runs Once) ---
+# --- Main Menu Logic (Runs Once After Update Check) ---
 echo "Select an option:"
 echo "1. Run htop"
 echo "2. Speedtest GBPS"
