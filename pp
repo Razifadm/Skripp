@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Update this SCRIPT_VERSION every time you make changes to the script
 # on your GitHub repo that you want users to be notified about.
-SCRIPT_VERSION="1.0"
+SCRIPT_VERSION="1.1"
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -70,7 +70,7 @@ case $choice in
     if command -v speedtest >/dev/null 2>&1; then
         echo "Senarai server speedtest:"
         speedtest -L | awk '{print NR". "$0}'
-        echo -n "Pilih nombor server(start dari no 5) (atau tekan Enter guna default, 0 untuk kembali): "
+        echo -n "Server:Start dari 5,tekan Enter Daefault, 0 Back.): "
         read server_num
 
         if [ "$server_num" = "0" ]; then
@@ -79,12 +79,12 @@ case $choice in
         fi
 
         if [ -z "$server_num" ]; then
-            echo "Jalankan speedtest dengan server default..."
+            echo "Speed GBPS dengan server"
             speedtest
         else
             server_id=$(speedtest -L | sed -n "${server_num}p" | awk '{print $1}')
             if [ -z "$server_id" ]; then
-                echo "Pilihan server tidak sah, jalankan speedtest default..."
+                echo "salah pilihan tuh, default je laa..."
                 speedtest
             else
                 echo "Jalankan speedtest dengan server ID $server_id..."
@@ -92,16 +92,16 @@ case $choice in
             fi
         fi
     else
-        echo "speedtest-cli not found, installing..."
+        echo "belum ada speedtest, installing.."
         cd /tmp || exit
         if wget --spider https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz 2>/dev/null; then
             wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz && \
             tar -xzf ookla-speedtest-1.2.0-linux-aarch64.tgz && \
             mv speedtest /bin && chmod +x /bin/speedtest && \
-            echo "Installed! Now running speedtest..."
+            echo "okay shiapp, blh go"
             speedtest
         else
-            echo "Tiada sambungan internet atau fail tidak dijumpai. Tak boleh pasang speedtest."
+            echo "Xde internet ni bang, cane nak test?."
         fi
     fi
     ;;
