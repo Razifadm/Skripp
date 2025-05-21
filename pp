@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="1.0" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.1" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -15,7 +15,7 @@ self_update() {
 
     if [ -z "$REMOTE_VERSION" ]; then
         # If wget fails or version isn't found, assume no internet or malformed script
-        echo "Warning: Could not check for remote script version. Network issue or repo problem?"
+        echo "Warning: sama ada kau xde tenet, atau Raducksijaa x update hahah"
         return 0 # Continue with current version
     fi
 
@@ -25,7 +25,7 @@ self_update() {
         echo "---------------------------------------------------------"
         echo "            *** SCRIPT UPDATE AVAILABLE! *** "
         echo "---------------------------------------------------------"
-        echo "Your current version: $SCRIPT_VERSION"
+        echo "versi ko $SCRIPT_VERSION"
         echo "New version found: $REMOTE_VERSION"
         echo "Updating script... please wait."
 
@@ -55,7 +55,10 @@ self_update() {
 # --- Execute the self-update check at the very beginning ---
 self_update
 
-# --- Main Menu Logic (Runs Once After Update Check) ---
+---
+## Main Menu
+---
+
 echo "Select an option:"
 echo "1. Run htop"
 echo "2. Speedtest GBPS"
@@ -86,7 +89,7 @@ case $choice in
     if command -v speedtest >/dev/null 2>&1; then
         echo "Senarai server speedtest:"
         speedtest -L | awk '{print NR". "$0}'
-        echo -n "Server Start dari 5,tekan Enter Default, 0 Back: "
+        echo -n "Server:Start dari 5,tekan Enter Daefault, 0 Back.): "
         read server_num
 
         if [ "$server_num" = "0" ]; then
@@ -134,7 +137,7 @@ case $choice in
             reboot
             ;;
         *)
-            echo "kenselreboot."
+            echo "Batal reboot."
             ;;
     esac
     ;;
@@ -151,7 +154,7 @@ case $choice in
     # The firmware selection sub-menu can still loop until a valid choice is made or user quits
     while true; do
         echo ""
-        echo "Tukar firmware ke mana?Aw1k (0 untuk kembali)"
+        echo "Tukar firmware ke mana? (0 untuk kembali)"
         echo "1. Qwrt AbiDarwish"
         echo "2. Qwrt Hongkong"
         echo "3. Sopek FW"
@@ -172,11 +175,11 @@ case $choice in
             1)
                 while true; do
                     echo "Pilih versi Qwrt AbiDarwish: (0 untuk kembali)"
-                    echo "1. Qwrt 6.5"
-                    echo "2. Qwrt 6.4"
+                    echo "1. Qwrt 6.1"
+                    echo "2. Qwrt 6.2"
                     echo "3. Qwrt 6.3"
-                    echo "4. Qwrt 6.2"
-                    echo "5. Qwrt 6.1"
+                    echo "4. Qwrt 6.4"
+                    echo "5. Qwrt 6.5"
                     echo -n "Pilihan versi: "
                     read qwrt_ver
 
@@ -187,16 +190,16 @@ case $choice in
 
                     case $qwrt_ver in
                         1)
-                            echo "Pasang Qwrt 6.5..."
-                            echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
-                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.5
+                            echo "Pasang Qwrt 6.1..."
+                            echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.1
                             chmod 755 /tmp/installer
                             /tmp/installer
                             ;;
                         2)
-                            echo "Pasang Qwrt 6.4..."
-                            echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
-                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.4
+                            echo "Pasang Qwrt 6.2..."
+                            echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.2
                             chmod 755 /tmp/installer
                             /tmp/installer
                             ;;
@@ -208,16 +211,16 @@ case $choice in
                             /tmp/installer
                             ;;
                         4)
-                            echo "Pasang Qwrt 6.2..."
-                            echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
-                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.2
+                            echo "Pasang Qwrt 6.4..."
+                            echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.4
                             chmod 755 /tmp/installer
                             /tmp/installer
                             ;;
                         5)
-                            echo "Pasang Qwrt 6.1..."
-                            echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
-                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.1
+                            echo "Pasang Qwrt 6.5..."
+                            echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
+                            wget -q -O /tmp/installer http://abidarwi.sh/gbps6.5
                             chmod 755 /tmp/installer
                             /tmp/installer
                             ;;
