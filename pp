@@ -23,7 +23,7 @@ self_update() {
     # If the local version is numerically smaller than the remote version, an update is available.
     if [ "$(printf '%s\n' "$SCRIPT_VERSION" "$REMOTE_VERSION" | sort -V | head -n 1)" = "$SCRIPT_VERSION" ] && [ "$SCRIPT_VERSION" != "$REMOTE_VERSION" ]; then
         echo "---------------------------------------------------------"
-        echo "            *** SCRIPT UPDATE AVAILABLE! *** "
+        echo "                 *** SCRIPT UPDATE AVAILABLE! *** "
         echo "---------------------------------------------------------"
         echo "Your current version: $SCRIPT_VERSION"
         echo "New version found: $REMOTE_VERSION"
@@ -322,9 +322,9 @@ while true; do
                         ./solomonfirmware.sh
                     else
                         echo "Gagal memuat turun solomonfirmware.sh. Periksa sambungan internet atau URL."
-                    Felse
+                    fi # CORRECTED LINE
                     # Return to original directory (optional, but good practice if script continues)
-                    cd - >/dev/null # This changes back to the previous directory silently
+                    cd - >/dev/null 2>&1 # This changes back to the previous directory silently
                     ;;
                 *)
                     echo "Pilihan firmware tidak sah."
