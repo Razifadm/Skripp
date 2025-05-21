@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.1" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="1.1" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -15,7 +15,7 @@ self_update() {
 
     if [ -z "$REMOTE_VERSION" ]; then
         # If wget fails or version isn't found, assume no internet or malformed script
-        echo "Warning: sama ada kau xde tenet, atau Raducksijaa x update hahah"
+        echo "Warning: Could not check for remote script version. Network issue or repo problem?"
         return 0 # Continue with current version
     fi
 
@@ -25,7 +25,7 @@ self_update() {
         echo "---------------------------------------------------------"
         echo "            *** SCRIPT UPDATE AVAILABLE! *** "
         echo "---------------------------------------------------------"
-        echo "versi ko $SCRIPT_VERSION"
+        echo "Your current version: $SCRIPT_VERSION"
         echo "New version found: $REMOTE_VERSION"
         echo "Updating script... please wait."
 
@@ -55,9 +55,7 @@ self_update() {
 # --- Execute the self-update check at the very beginning ---
 self_update
 
----
-## Main Menu
----
+# --- Main Menu ---
 
 echo "Select an option:"
 echo "1. Run htop"
