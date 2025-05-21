@@ -168,7 +168,9 @@ while true; do
 
             if [ "$fw_choice" = "0" ]; then
                 echo "Kembali ke menu utama..."
-                break # Exit the firmware sub-menu loop and return to the main menu loop
+                # No 'break' here directly. Let the case statement handle the return.
+                # Instead, we just let the inner 'while true' loop end for this choice.
+                break # Exit the firmware sub-menu loop
             fi
 
             case $fw_choice in
@@ -320,7 +322,7 @@ while true; do
                         ./solomonfirmware.sh
                     else
                         echo "Gagal memuat turun solomonfirmware.sh. Periksa sambungan internet atau URL."
-                    fi
+                    Felse
                     # Return to original directory (optional, but good practice if script continues)
                     cd - >/dev/null # This changes back to the previous directory silently
                     ;;
@@ -329,6 +331,7 @@ while true; do
                     ;;
             esac
         done # End of Firmware selection loop
+        echo "Kembali ke menu utama." # Confirmation message that we're back from firmware menu
         ;; # End of case 5 (Tukar firmware?)
 
       6)
@@ -343,7 +346,6 @@ while true; do
         continue
         ;;
     esac
-    # No 'break' here. The main 'while true' loop will naturally repeat
-    # after processing a valid choice (1-5), allowing the menu to reappear.
-    # It will only exit if option 6 is chosen or if any sub-command explicitly exits.
+    # The main 'while true' loop will naturally repeat after processing a valid choice (1-5).
+    # It will only exit if option 6 is chosen, or if any sub-command explicitly exits (e.g., in a firmware installer).
 done # End of Main Menu Loop
