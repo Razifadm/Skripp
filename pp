@@ -343,10 +343,7 @@ while true; do
         continue
         ;;
     esac
-
-    # If the user made a valid choice (1-5) and it wasn't '0' to go back,
-    # then the loop should continue for the next interaction.
-    # We no longer need a 'break' here, as the loop should only terminate
-    # if option 6 is chosen, or if the script is designed to run only once per valid selection.
-    # Given the 'while true' main loop, it will naturally repeat unless an exit condition is met.
+    # No 'break' here. The main 'while true' loop will naturally repeat
+    # after processing a valid choice (1-5), allowing the menu to reappear.
+    # It will only exit if option 6 is chosen or if any sub-command explicitly exits.
 done # End of Main Menu Loop
