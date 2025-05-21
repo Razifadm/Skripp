@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="1.1" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="1.0" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -55,7 +55,9 @@ self_update() {
 # --- Execute the self-update check at the very beginning ---
 self_update
 
-# --- Main Menu ---
+---
+## Main Menu
+---
 
 echo "Select an option:"
 echo "1. Run htop"
@@ -326,8 +328,9 @@ case $choice in
     exit 0
     ;;
 
-  *)
-    echo "Salah pilih. Cuba lagi."
+  *) # This is the case for any other input not matching 1-6
+    echo "Pilihan tidak sah. Sila masukkan nombor antara 1 hingga 6 sahaja."
+    exit 1 # Exit the script with an error status
     ;;
 esac
 
