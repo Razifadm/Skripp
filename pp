@@ -1,40 +1,5 @@
 #!/bin/sh
-# Ini adalah skrip 'pp' yang akan dimuat turun ke /usr/bin/pp.
-# Ia berfungsi sebagai 'launcher' untuk sentiasa mendapatkan versi terkini dari GitHub
-# dan kemudian menjalankan skrip menu utama yang disertakan di bawah.
 
-# URL sebenar skrip ini di GitHub repo
-# (Ini adalah URL yang akan dipanggil untuk mendapatkan versi terkini!)
-GITHUB_SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
-
-# Laluan sementara untuk menyimpan skrip menu yang dimuat turun sebelum dijalankan
-TEMP_RUN_SCRIPT="/tmp/pp_menu_latest.sh"
-
-echo "Memuat turun versi terkini menu dari GitHub repo..."
-if wget -qO "$TEMP_RUN_SCRIPT" "$GITHUB_SCRIPT_URL"; then
-    chmod +x "$TEMP_RUN_SCRIPT"
-    echo "Menjalankan menu..."
-    # 'exec' akan menggantikan proses shell semasa dengan skrip yang baru dimuat turun.
-    # Ini memastikan skrip yang dijalankan adalah versi yang paling baru.
-    exec "$TEMP_RUN_SCRIPT" "$@"
-else
-    echo "Ralat: Tidak dapat memuat turun skrip menu dari $GITHUB_SCRIPT_URL."
-    echo "Sila periksa sambungan internet anda atau URL repo."
-    
-    # Pilihan: Cuba jalankan versi yang telah dimuat turun sebelumnya jika ada (untuk offline/ralat)
-    if [ -f "$TEMP_RUN_SCRIPT" ]; then
-        echo "Mencuba menjalankan versi menu yang telah dimuat turun sebelum ini..."
-        exec "$TEMP_RUN_SCRIPT" "$@"
-    else
-        echo "Tiada versi menu sebelumnya ditemui. Perintah 'pp' gagal."
-    fi
-fi
-
-# --- KOD SKRIP MENU UTAMA ANDA BERMULA DI SINI ---
-# Letakkan KESELURUHAN kod skrip menu anda yang lengkap di bawah baris ini.
-# Ini termasuklah 'while true; do ... case $choice in ...' dan semua fungsi lain.
-
-# CONTOH START KOD MENU (Anda ganti dengan kod penuh anda!)
 while true; do
     echo "Select an option:"
     echo "1. Run htop"
@@ -309,4 +274,3 @@ while true; do
         ;;
     esac
 done
-
