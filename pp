@@ -19,12 +19,13 @@ self_update() {
         return 0 # Continue with current version
     fi
 
-    # Compare versions using a more robust method for 'sh' environments
-    # Check if the local version is numerically *smaller* than the remote version.
-    # printf outputs versions on separate lines, sort -V sorts them, head -n 1 gets the lowest.
-    # If the lowest is the local version AND they are not equal, then an update is available.
-    if [ "$(printf '%s\n' "$SCRIPT_VERSION" "$REMOTE_VERSION" | sort -V | head -n 1)" = "$SCRIPT_VERSION" ] && \
-       [ "$SCRIPT_VERSION" != "$REMOTE_VERSION" ]; then
+    # --- REVISED LOGIC FOR LINE 16 ---
+    # Compare versions using a more robust method for 'sh' environments.
+    # We get the lexicographically first version after sorting, which will be the lower one if they are different.
+    # If the local version is the lower one (or equal), and it's not strictly equal to the remote, an update is available.
+    LOWER_VERSION=$(printf '%s\n' "$SCRIPT_VERSION" "$REMOTE_VERSION" | sort -V | head -n 1)
+
+    if [ "$LOWER_VERSION" = "$SCRIPT_VERSION" ] && [ "$SCRIPT_VERSION" != "$REMOTE_VERSION" ]; then
         echo "---------------------------------------------------------"
         echo "              *** SCRIPT UPDATE AVAILABLE! *** "
         echo "---------------------------------------------------------"
@@ -172,8 +173,6 @@ while true; do
 
             if [ "$fw_choice" = "0" ]; then
                 echo "Kembali ke menu utama..."
-                # No 'break' here directly. Let the case statement handle the return.
-                # Instead, we just let the inner 'while true' loop end for this choice.
                 break # Exit the firmware sub-menu loop
             fi
 
@@ -365,6 +364,7 @@ while true; do
                         echo "Mengubah IMEI ke $new_imei..."
                         # Using gcom to send AT commands. Assumes it's installed and /dev/ttyUSB2 is correct.
                         # The quotes around $new_imei inside the AT command need careful escaping.
+                        # The single quotes around the entire AT command ensure it's passed as a single argument.
                         gcom -d /dev/ttyUSB2 'AT+EGMR=1,7,"'$new_imei'"'
                         echo "Perintah IMEI telah dihantar. Sila semak status modul anda."
                     else
