@@ -82,7 +82,7 @@ while true; do
                 htop
             else
                 echo "Gagal pasang htop. Periksa sambungan internet atau sumber repo."
-            F
+            fi # CORRECTED: Changed 'F' to 'fi'
         fi
         ;;
 
