@@ -23,7 +23,7 @@ self_update() {
     # If the local version is numerically smaller than the remote version, an update is available.
     if [ "$(printf '%s\n' "$SCRIPT_VERSION" "$REMOTE_VERSION" | sort -V | head -n 1)" = "$SCRIPT_VERSION" ] && [ "$SCRIPT_VERSION" != "$REMOTE_VERSION" ]; then
         echo "---------------------------------------------------------"
-        echo "                 *** SCRIPT UPDATE AVAILABLE! *** "
+        echo "              *** SCRIPT UPDATE AVAILABLE! *** "
         echo "---------------------------------------------------------"
         echo "Your current version: $SCRIPT_VERSION"
         echo "New version found: $REMOTE_VERSION"
@@ -65,7 +65,8 @@ while true; do
     echo "3. Nak reboot arca ke?"
     echo "4. Ping 1.1.1.1 and google.com"
     echo "5. Tukar firmware?"
-    echo "6. Nyah kau dari sini"
+    echo "6. AT Command" # New Option Added
+    echo "7. Nyah kau dari sini" # This was option 6, now 7
     echo -n "Janda atau Perawan? pilih no: "
     read choice
 
@@ -81,7 +82,7 @@ while true; do
                 htop
             else
                 echo "Gagal pasang htop. Periksa sambungan internet atau sumber repo."
-            fi
+            F
         fi
         ;;
 
@@ -168,8 +169,6 @@ while true; do
 
             if [ "$fw_choice" = "0" ]; then
                 echo "Kembali ke menu utama..."
-                # No 'break' here directly. Let the case statement handle the return.
-                # Instead, we just let the inner 'while true' loop end for this choice.
                 break # Exit the firmware sub-menu loop
             fi
 
@@ -322,7 +321,7 @@ while true; do
                         ./solomonfirmware.sh
                     else
                         echo "Gagal memuat turun solomonfirmware.sh. Periksa sambungan internet atau URL."
-                    fi # CORRECTED LINE
+                    fi
                     # Return to original directory (optional, but good practice if script continues)
                     cd - >/dev/null 2>&1 # This changes back to the previous directory silently
                     ;;
@@ -334,18 +333,89 @@ while true; do
         echo "Kembali ke menu utama." # Confirmation message that we're back from firmware menu
         ;; # End of case 5 (Tukar firmware?)
 
-      6)
+      6) # New AT Command option
+        while true; do
+            echo ""
+            echo "AT Command Menu (0 untuk kembali)"
+            echo "1. Change IMEI"
+            echo "2. Restart Module"
+            echo "3. Change QMI"
+            echo "4. Change MBIM"
+            echo "5. Auto Band"
+            echo "6. Lock 4G Band"
+            echo "7. Lock 4G+5G Band"
+            echo -n "Pilihan AT Command: "
+            read at_choice
+
+            if [ "$at_choice" = "0" ]; then
+                echo "Kembali ke menu utama..."
+                break # Exit the AT Command sub-menu loop
+            fi
+
+            case $at_choice in
+                1)
+                    echo -n "Masukkan IMEI baru: "
+                    read new_imei
+                    if [ -n "$new_imei" ]; then
+                        echo "Mengubah IMEI ke $new_imei..."
+                        # Using gcom to send AT commands. Assumes it's installed and /dev/ttyUSB2 is correct.
+                        # The quotes around $new_imei inside the AT command need careful escaping.
+                        # The single quotes around the entire AT command ensure it's passed as a single argument to gcom.
+                        gcom -d /dev/ttyUSB2 'AT+EGMR=1,7,"'$new_imei'"'
+                        echo "Perintah IMEI telah dihantar. Sila semak status modul anda."
+                    else
+                        echo "IMEI tidak boleh kosong. Pembatalan."
+                    fi
+                    ;;
+                2)
+                    echo "Memulakan semula modul..."
+                    gcom -d /dev/ttyUSB2 'AT+CFUN=1'
+                    echo "Perintah modul telah dihantar. Modul akan dimulakan semula."
+                    ;;
+                3)
+                    echo "Menukar ke mod QMI..."
+                    gcom -d /dev/ttyUSB2 'AT+QCFG="usbnet",0'
+                    echo "Perintah QMI telah dihantar. Mungkin perlu reboot untuk kesan."
+                    ;;
+                4)
+                    echo "Menukar ke mod MBIM..."
+                    gcom -d /dev/ttyUSB2 'AT+QCFG="usbnet",2'
+                    echo "Perintah MBIM telah dihantar. Mungkin perlu reboot untuk kesan."
+                    ;;
+                5)
+                    echo "Menetapkan band ke AUTO..."
+                    gcom -d /dev/ttyUSB2 'AT+QNWPREFCFG="mode_pref",AUTO'
+                    echo "Perintah Auto Band telah dihantar."
+                    ;;
+                6)
+                    echo "Mengunci band ke 4G (LTE)..."
+                    gcom -d /dev/ttyUSB2 'AT+QNWPREFCFG="mode_pref",LTE'
+                    echo "Perintah Lock 4G Band telah dihantar."
+                    ;;
+                7)
+                    echo "Mengunci band ke 4G+5G (NR5G:LTE)..."
+                    gcom -d /dev/ttyUSB2 'AT+QNWPREFCFG="mode_pref",NR5G:LTE'
+                    echo "Perintah Lock 4G+5G Band telah dihantar."
+                    ;;
+                *)
+                    echo "Pilihan AT Command tidak sah."
+                    ;;
+            esac
+        done # End of AT Command sub-menu loop
+        ;; # End of case 6 (AT Command)
+
+      7) # This was option 6, now option 7
         echo "Bye bye... Tak jumpa lagi."
         exit 0 # Exit the script explicitly when choosing to exit
         ;;
 
-      *) # This is the case for any other input not matching 1-6
-        echo "Pilihan tidak sah. Sila masukkan nombor antara 1 hingga 6 sahaja."
+      *) # This is the case for any other input not matching 1-7
+        echo "Pilihan tidak sah. Sila masukkan nombor antara 1 hingga 7 sahaja."
         # The 'continue' statement here is important: it goes back to the start
         # of the 'while true' loop, re-displaying the main menu.
         continue
         ;;
     esac
-    # The main 'while true' loop will naturally repeat after processing a valid choice (1-5).
-    # It will only exit if option 6 is chosen, or if any sub-command explicitly exits (e.g., in a firmware installer).
+    # The main 'while true' loop will naturally repeat after processing a valid choice (1-6).
+    # It will only exit if option 7 is chosen, or if any sub-command explicitly exits (e.g., in a firmware installer).
 done # End of Main Menu Loop
