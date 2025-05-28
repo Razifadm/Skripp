@@ -23,7 +23,7 @@ self_update() {
     # If the local version is numerically smaller than the remote version, an update is available.
     if [ "$(printf '%s\n' "$SCRIPT_VERSION" "$REMOTE_VERSION" | sort -V | head -n 1)" = "$SCRIPT_VERSION" ] && [ "$SCRIPT_VERSION" != "$REMOTE_VERSION" ]; then
         echo "---------------------------------------------------------"
-        echo "                 *** SCRIPT UPDATE AVAILABLE! *** "
+        echo "           *** SCRIPT UPDATE AVAILABLE! *** "
         echo "---------------------------------------------------------"
         echo "Your current version: $SCRIPT_VERSION"
         echo "New version found: $REMOTE_VERSION"
@@ -65,7 +65,8 @@ while true; do
     echo "3. Nak reboot arca ke?"
     echo "4. Ping 1.1.1.1 and google.com"
     echo "5. Tukar firmware?"
-    echo "6. Nyah kau dari sini"
+    echo "6. AT Command"
+    echo "7. Nyah kau dari sini"
     echo -n "Janda atau Perawan? pilih no: "
     read choice
 
@@ -334,18 +335,99 @@ while true; do
         echo "Kembali ke menu utama." # Confirmation message that we're back from firmware menu
         ;; # End of case 5 (Tukar firmware?)
 
-      6)
+      6) # New AT Command option
+        while true; do
+            echo ""
+            echo "Pilih AT Command: (0 untuk kembali)"
+            echo "1. Change IMEI"
+            echo "2. Restart Module"
+            echo "3. Change QMI"
+            echo "4. Change MBIM"
+            echo "5. Auto Band"
+            echo "6. Lock 4G Band"
+            echo "7. Lock 4G+5G Band"
+            echo -n "Pilihan anda: "
+            read at_choice
+
+            if [ "$at_choice" = "0" ]; then
+                echo "Kembali ke menu utama..."
+                break # Exit the AT Command sub-menu loop
+            fi
+
+            echo -n "Adakah anda pasti untuk menjalankan arahan ini? [y/N]: "
+            read confirm_at
+
+            case "$confirm_at" in
+                [yY]|[yY][eE][sS])
+                    case $at_choice in
+                        1)
+                            echo -n "Sila masukkan IMEI baru: "
+                            read new_imei
+                            if [ -n "$new_imei" ]; then
+                                echo "Menukar IMEI kepada $new_imei..."
+                                # Replace 'AT_COMMAND_EXECUTOR' with the actual command to send AT commands
+                                # For example, if you use microcom or a specific utility:
+                                # microcom -t 5000 /dev/ttyUSB2 "AT+EGMR=1,7,\"$new_imei\""
+                                echo "AT+EGMR=1,7,\"$new_imei\"" # Placeholder for actual command execution
+                                echo "Arahan IMEI dihantar."
+                            else
+                                echo "IMEI tidak boleh kosong. Batal perubahan."
+                            fi
+                            ;;
+                        2)
+                            echo "Memulakan semula modul..."
+                            echo "AT+CFUN=1" # Placeholder for actual command execution
+                            echo "Arahan Restart Module dihantar."
+                            ;;
+                        3)
+                            echo "Menukar kepada QMI..."
+                            echo "AT+QCFG=\"usbnet\",0" # Placeholder for actual command execution
+                            echo "Arahan Change QMI dihantar."
+                            ;;
+                        4)
+                            echo "Menukar kepada MBIM..."
+                            echo "AT+QCFG=\"usbnet\",2" # Placeholder for actual command execution
+                            echo "Arahan Change MBIM dihantar."
+                            ;;
+                        5)
+                            echo "Menetapkan Auto Band..."
+                            echo "AT+QNWPREFCFG=\"mode_pref\",AUTO" # Placeholder for actual command execution
+                            echo "Arahan Auto Band dihantar."
+                            ;;
+                        6)
+                            echo "Mengunci Band 4G..."
+                            echo "AT+QNWPREFCFG=\"mode_pref\",LTE" # Placeholder for actual command execution
+                            echo "Arahan Lock 4G Band dihantar."
+                            ;;
+                        7)
+                            echo "Mengunci Band 4G+5G..."
+                            echo "AT+QNWPREFCFG=\"mode_pref\",NR5G:LTE" # Placeholder for actual command execution
+                            echo "Arahan Lock 4G+5G Band dihantar."
+                            ;;
+                        *)
+                            echo "Pilihan AT Command tidak sah."
+                            ;;
+                    esac
+                    ;;
+                *)
+                    echo "Batal menjalankan arahan."
+                    ;;
+            esac
+        done # End of AT Command selection loop
+        ;; # End of case 6 (AT Command)
+
+      7)
         echo "Bye bye... Tak jumpa lagi."
         exit 0 # Exit the script explicitly when choosing to exit
         ;;
 
-      *) # This is the case for any other input not matching 1-6
-        echo "Pilihan tidak sah. Sila masukkan nombor antara 1 hingga 6 sahaja."
+      *) # This is the case for any other input not matching 1-7
+        echo "Pilihan tidak sah. Sila masukkan nombor antara 1 hingga 7 sahaja."
         # The 'continue' statement here is important: it goes back to the start
         # of the 'while true' loop, re-displaying the main menu.
         continue
         ;;
     esac
-    # The main 'while true' loop will naturally repeat after processing a valid choice (1-5).
-    # It will only exit if option 6 is chosen, or if any sub-command explicitly exits (e.g., in a firmware installer).
+    # The main 'while true' loop will naturally repeat after processing a valid choice (1-6).
+    # It will only exit if option 7 is chosen, or if any sub-command explicitly exits (e.g., in a firmware installer).
 done # End of Main Menu Loop
