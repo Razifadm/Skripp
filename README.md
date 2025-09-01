@@ -6,3 +6,8 @@ command - pp
 4. ping
 5. tukar firmware
 6. exit
+how to install?
+```
+wget -O /usr/bin/pp https://raw.githubusercontent.com/Razifadm/Skripp/main/pp && chmod +x /usr/bin/pp && /usr/bin/pp
+
+```
