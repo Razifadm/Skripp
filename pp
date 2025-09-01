@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.1" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.2" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -65,13 +65,13 @@ while true; do
     echo "3. Nak reboot arca ke?"
     echo "4. Ping 1.1.1.1 and google.com"
     echo "5. Tukar firmware?"
-    echo "6. AT Command"
+    echo "6. Miscelineous"
     echo "7. Nyah kau dari sini"
     echo -n "Janda atau Perawan? pilih no: "
     read choice
 
     case $choice in
-      1)
+    1)
         if command -v htop >/dev/null 2>&1; then
             echo "Periksa kesihatan"
             htop
@@ -86,7 +86,7 @@ while true; do
         fi
         ;;
 
-      2)
+    2)
         if command -v speedtest >/dev/null 2>&1; then
             echo "Senarai server speedtest:"
             speedtest -L | awk '{print NR". "$0}'
@@ -108,7 +108,7 @@ while true; do
                     speedtest
                 else
                     echo "Jalankan speedtest dengan server ID $server_id..."
-                    speedtest -s $server_id
+                    speedtest -s "$server_id"
                 fi
             fi
         else
@@ -126,7 +126,7 @@ while true; do
         fi
         ;;
 
-      3)
+    3)
         echo -n "Betul nak reboot Arca? [y/N, 0 untuk batal]: "
         read confirm
         case "$confirm" in
@@ -143,7 +143,7 @@ while true; do
         esac
         ;;
 
-      4)
+    4)
         echo "Pinging 1.1.1.1..."
         ping -c 4 1.1.1.1
         echo ""
@@ -151,7 +151,7 @@ while true; do
         ping -c 4 google.com
         ;;
 
-      5)
+    5)
         # This loop ensures the firmware sub-menu keeps appearing until a valid choice is made or user quits with 0.
         while true; do
             echo ""
@@ -335,93 +335,56 @@ while true; do
         echo "Kembali ke menu utama." # Confirmation message that we're back from firmware menu
         ;; # End of case 5 (Tukar firmware?)
 
-      6) # New AT Command option
+    6)
         while true; do
             echo ""
-            echo "Pilih AT Command: (0 untuk kembali)"
-            echo "1. Change IMEI"
-            echo "2. Restart Module"
-            echo "3. Change QMI"
-            echo "4. Change MBIM"
-            echo "5. Auto Band"
-            echo "6. Lock 4G Band"
-            echo "7. Lock 4G+5G Band"
+            echo "Pilih pilihan Miscelineous: (0 untuk kembali)"
+            echo "1. Install 3mod"
+            echo "2. Install Modeminfo"
+            echo "3. Install NAS"
+            echo "4. Install setwifi via terminal"
             echo -n "Pilihan anda: "
-            read at_choice
-
-            if [ "$at_choice" = "0" ]; then
+            read misc_choice
+            
+            if [ "$misc_choice" = "0" ]; then
                 echo "Kembali ke menu utama..."
-                break # Exit the AT Command sub-menu loop
+                break
             fi
 
-            echo -n "Adakah anda pasti untuk menjalankan arahan ini? [y/N]: "
-            read confirm_at
-
-            case "$confirm_at" in
-                [yY]|[yY][eE][sS])
-                    case $at_choice in
-                        1)
-                            echo -n "Sila masukkan IMEI baru: "
-                            read new_imei
-                            if [ -n "$new_imei" ]; then
-                                echo "Menukar IMEI kepada $new_imei..."
-                                # Replace 'AT_COMMAND_EXECUTOR' with the actual command to send AT commands
-                                # For example, if you use microcom or a specific utility:
-                                # microcom -t 5000 /dev/ttyUSB2 "AT+EGMR=1,7,\"$new_imei\""
-                                echo "AT+EGMR=1,7,\"$new_imei\"" # Placeholder for actual command execution
-                                echo "Arahan IMEI dihantar."
-                            else
-                                echo "IMEI tidak boleh kosong. Batal perubahan."
-                            fi
-                            ;;
-                        2)
-                            echo "Memulakan semula modul..."
-                            echo "AT+CFUN=1" # Placeholder for actual command execution
-                            echo "Arahan Restart Module dihantar."
-                            ;;
-                        3)
-                            echo "Menukar kepada QMI..."
-                            echo "AT+QCFG=\"usbnet\",0" # Placeholder for actual command execution
-                            echo "Arahan Change QMI dihantar."
-                            ;;
-                        4)
-                            echo "Menukar kepada MBIM..."
-                            echo "AT+QCFG=\"usbnet\",2" # Placeholder for actual command execution
-                            echo "Arahan Change MBIM dihantar."
-                            ;;
-                        5)
-                            echo "Menetapkan Auto Band..."
-                            echo "AT+QNWPREFCFG=\"mode_pref\",AUTO" # Placeholder for actual command execution
-                            echo "Arahan Auto Band dihantar."
-                            ;;
-                        6)
-                            echo "Mengunci Band 4G..."
-                            echo "AT+QNWPREFCFG=\"mode_pref\",LTE" # Placeholder for actual command execution
-                            echo "Arahan Lock 4G Band dihantar."
-                            ;;
-                        7)
-                            echo "Mengunci Band 4G+5G..."
-                            echo "AT+QNWPREFCFG=\"mode_pref\",NR5G:LTE" # Placeholder for actual command execution
-                            echo "Arahan Lock 4G+5G Band dihantar."
-                            ;;
-                        *)
-                            echo "Pilihan AT Command tidak sah."
-                            ;;
-                    esac
+            case $misc_choice in
+                1)
+                    echo "Memasang 3mod..."
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/RND/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    break
+                    ;;
+                2)
+                    echo "Memasang Modeminfo..."
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/luci-app-modeminfo/5GSA/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    break
+                    ;;
+                3)
+                    echo "Memasang NAS..."
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/NAS/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    break
+                    ;;
+                4)
+                    echo "Memasang setwifi..."
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/setwifi/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    break
                     ;;
                 *)
-                    echo "Batal menjalankan arahan."
+                    echo "Pilihan tidak sah."
                     ;;
             esac
-        done # End of AT Command selection loop
-        ;; # End of case 6 (AT Command)
+        done
+        ;;
 
-      7)
+    7)
         echo "Bye bye... Tak jumpa lagi."
         exit 0 # Exit the script explicitly when choosing to exit
         ;;
 
-      *) # This is the case for any other input not matching 1-7
+    *) # This is the case for any other input not matching 1-7
         echo "Pilihan tidak sah. Sila masukkan nombor antara 1 hingga 7 sahaja."
         # The 'continue' statement here is important: it goes back to the start
         # of the 'while true' loop, re-displaying the main menu.
