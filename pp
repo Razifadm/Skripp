@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.4" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.5" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -66,14 +66,14 @@ while true; do
     echo "4. Ping 1.1.1.1 and google.com"
     echo "5. Tukar firmware?"
     echo "6. Miscelineous"
-    echo "7. Nyah kau dari sini"
-    echo -n "Janda atau Perawan? pilih no: "
+    echo "7. Exit"
+    echo -n "Please Make Choice "
     read choice
 
     case $choice in
     1)
         if command -v htop >/dev/null 2>&1; then
-            echo "Periksa kesihatan"
+            echo "Opening htop"
             htop
         else
             echo "htop is not installed. Attempting to install it..."
@@ -81,64 +81,64 @@ while true; do
             if command -v htop >/dev/null 2>&1; then
                 htop
             else
-                echo "Gagal pasang htop. Periksa sambungan internet atau sumber repo."
+                echo "failed htop. Check Network??."
             fi
         fi
         ;;
 
     2)
         if command -v speedtest >/dev/null 2>&1; then
-            echo "Senarai server speedtest:"
+            echo "server speedtest:"
             speedtest -L | awk '{print NR". "$0}'
-            echo -n "Server:Start dari 5,tekan Enter Daefault, 0 Back.): "
+            echo -n "Server:Start from 5,Enter for default, 0 Back.): "
             read server_num
 
             if [ "$server_num" = "0" ]; then
-                echo "Kembali ke menu utama..."
+                echo "Back to main menu..."
                 continue # Go back to the main menu (loop)
             fi
 
             if [ -z "$server_num" ]; then
-                echo "Speed GBPS dengan server"
+                echo "Speed GBPS with server"
                 speedtest
             else
                 server_id=$(speedtest -L | sed -n "${server_num}p" | awk '{print $1}')
                 if [ -z "$server_id" ]; then
-                    echo "salah pilihan tuh, default je laa..."
+                    echo "Wrong Choice- go default..."
                     speedtest
                 else
-                    echo "Jalankan speedtest dengan server ID $server_id..."
+                    echo "speedtest with server ID $server_id..."
                     speedtest -s "$server_id"
                 fi
             fi
         else
-            echo "belum ada speedtest, installing.."
+            echo "No speedtest-cli, installing.."
             cd /tmp || exit
             if wget --spider https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz 2>/dev/null; then
                 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz && \
                 tar -xzf ookla-speedtest-1.2.0-linux-aarch64.tgz && \
                 mv speedtest /bin && chmod +x /bin/speedtest && \
-                echo "okay shiapp, blh go"
+                echo "okay done, letsgo..!"
                 speedtest
             else
-                echo "Xde internet ni bang, cane nak test?."
+                echo "Please Check Network?."
             fi
         fi
         ;;
 
     3)
-        echo -n "Betul nak reboot Arca? [y/N, 0 untuk batal]: "
+        echo -n "Reboot router? [y/N, 0 untuk cancel]: "
         read confirm
         case "$confirm" in
             0|[nN]|"")
-                echo "Batal reboot."
+                echo "Cancelling reboot."
                 ;;
             [yY]|[yY][eE][sS])
-                echo "Rebooting Aw1000..."
+                echo "Rebooting Router..."
                 reboot
                 ;;
             *)
-                echo "Batal reboot."
+                echo "Cancel reboot."
                 ;;
         esac
         ;;
@@ -155,7 +155,7 @@ while true; do
         # This loop ensures the firmware sub-menu keeps appearing until a valid choice is made or user quits with 0.
         while true; do
             echo ""
-            echo "Tukar firmware ke mana? (0 untuk kembali)"
+            echo "Change Firmware Aw1000? (0 untuk back)"
             echo "1. Qwrt AbiDarwish"
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
@@ -165,11 +165,11 @@ while true; do
             echo "7. Pakawrt"
             echo "8. Solomon"
             echo "9. Raducksija Firmware"
-            echo -n "Pilihan ditangan anda: "
+            echo -n "Please Choose: "
             read fw_choice
 
             if [ "$fw_choice" = "0" ]; then
-                echo "Kembali ke menu utama..."
+                echo "Back to main menu.."
                 # No 'break' here directly. Let the case statement handle the return.
                 # Instead, we just let the inner 'while true' loop end for this choice.
                 break # Exit the firmware sub-menu loop
@@ -178,13 +178,13 @@ while true; do
             case $fw_choice in
                 1)
                     while true; do
-                        echo "Pilih versi Qwrt AbiDarwish: (0 untuk kembali)"
+                        echo "Choose versi Qwrt AbiDarwish: (0 untuk kembali)"
                         echo "1. Qwrt 6.1"
                         echo "2. Qwrt 6.2"
                         echo "3. Qwrt 6.3"
                         echo "4. Qwrt 6.4"
                         echo "5. Qwrt 6.5"
-                        echo -n "Pilihan versi: "
+                        echo -n "Choose version: "
                         read qwrt_ver
 
                         if [ "$qwrt_ver" = "0" ]; then
