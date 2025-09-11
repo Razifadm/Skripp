@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.2" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.4" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -164,6 +164,7 @@ while true; do
             echo "6. Khairulwrt"
             echo "7. Pakawrt"
             echo "8. Solomon"
+            echo "9. Raducksija Firmware"
             echo -n "Pilihan ditangan anda: "
             read fw_choice
 
@@ -326,6 +327,36 @@ while true; do
                     fi # CORRECTED LINE
                     # Return to original directory (optional, but good practice if script continues)
                     cd - >/dev/null 2>&1 # This changes back to the previous directory silently
+                    ;;
+                9) # NEW CASE ADDED HERE
+                    while true; do
+                        echo "Pilih Firmware Raducksija: (0 untuk kembali)"
+                        echo "1. ChaseNSS"
+                        echo "2. Full Blood Nss"
+                        echo -n "Pilihan versi: "
+                        read raduck_ver
+
+                        if [ "$raduck_ver" = "0" ]; then
+                            echo "Kembali ke menu firmware..."
+                            break
+                        fi
+
+                        case $raduck_ver in
+                            1)
+                                echo "Memasang ChaseNSS..."
+                                wget -q -O /tmp/installer http://abidarwi.sh/chasenss10092025.sh && chmod 755 /tmp/installer && /tmp/installer
+                                break
+                                ;;
+                            2) # NEW SUB-CASE ADDED HERE
+                                echo "Memasang Full Blood Nss..."
+                                wget -q -O /tmp/installer http://abidarwi.sh/fbd10092025.sh && chmod 755 /tmp/installer && /tmp/installer
+                                break
+                                ;;
+                            *)
+                                echo "Pilihan tidak sah."
+                                ;;
+                        esac
+                    done
                     ;;
                 *)
                     echo "Pilihan firmware tidak sah."
