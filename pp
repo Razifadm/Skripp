@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.6" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.7" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -334,6 +334,7 @@ while true; do
                         echo "1. ChaseNSS"
                         echo "2. Full Blood Nss"
                         echo "3. FBD Lite" # NEW OPTION ADDED HERE
+                        echo "4. RaduImmo NSSxFCN"
                         echo -n "Pilihan versi: "
                         read raduck_ver
 
@@ -353,9 +354,14 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/fbd10092025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
-                            3) # NEW SUB-CASE ADDED HERE
+                            3) # 
                                 echo "Memasang FBD Lite..."
                                 wget -q -O /tmp/installer http://abidarwi.sh/fbdlite11092025.sh && chmod 755 /tmp/installer && /tmp/installer
+                                break
+                                ;;
+                            4) # NEW SUB-CASE ADDED HERE
+                                echo "Memasang FCN..."
+                                wget -q -O /tmp/installer http://abidarwi.sh/chasenss18092025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             *)
