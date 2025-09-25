@@ -10,7 +10,7 @@ pp
 4. ping
 5. tukar firmware
 6. Misc
-7. 
+7. *******
 how to install?
 
 ```
