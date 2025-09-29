@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.7" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.8" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -62,18 +62,18 @@ while true; do
     echo "Select an option:"
     echo "1. Run htop"
     echo "2. Speedtest GBPS"
-    echo "3. Nak reboot arca ke?"
+    echo "3. Reboot AW1000?"
     echo "4. Ping 1.1.1.1 and google.com"
-    echo "5. Tukar firmware?"
+    echo "5. Change firmware?"
     echo "6. Miscelineous"
-    echo "7. Nyah kau dari sini"
-    echo -n "Janda atau Perawan? pilih no: "
+    echo "7. Bye!!"
+    echo -n "Choose your options pilih no: "
     read choice
 
     case $choice in
     1)
         if command -v htop >/dev/null 2>&1; then
-            echo "Periksa kesihatan"
+            echo "Checking health"
             htop
         else
             echo "htop is not installed. Attempting to install it..."
@@ -88,31 +88,31 @@ while true; do
 
     2)
         if command -v speedtest >/dev/null 2>&1; then
-            echo "Senarai server speedtest:"
+            echo "List of server speedtest:"
             speedtest -L | awk '{print NR". "$0}'
-            echo -n "Server:Start dari 5,tekan Enter Daefault, 0 Back.): "
+            echo -n "Server:Start from 5,press Enter Default, 0 Back.): "
             read server_num
 
             if [ "$server_num" = "0" ]; then
-                echo "Kembali ke menu utama..."
+                echo "Back to main menu.."
                 continue # Go back to the main menu (loop)
             fi
 
             if [ -z "$server_num" ]; then
-                echo "Speed GBPS dengan server"
+                echo "Speedtest with GBPS server"
                 speedtest
             else
                 server_id=$(speedtest -L | sed -n "${server_num}p" | awk '{print $1}')
                 if [ -z "$server_id" ]; then
-                    echo "salah pilihan tuh, default je laa..."
+                    echo "Wrong option, speedtest with default server"
                     speedtest
                 else
-                    echo "Jalankan speedtest dengan server ID $server_id..."
+                    echo "Speedtest with server ID $server_id..."
                     speedtest -s "$server_id"
                 fi
             fi
         else
-            echo "belum ada speedtest, installing.."
+            echo "No speedtest-cli, installing.."
             cd /tmp || exit
             if wget --spider https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz 2>/dev/null; then
                 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz && \
@@ -127,18 +127,18 @@ while true; do
         ;;
 
     3)
-        echo -n "Betul nak reboot Arca? [y/N, 0 untuk batal]: "
+        echo -n "Are you sure want to reboot Arca? [y/N, 0 cancel]: "
         read confirm
         case "$confirm" in
             0|[nN]|"")
-                echo "Batal reboot."
+                echo "Cancel reboot."
                 ;;
             [yY]|[yY][eE][sS])
                 echo "Rebooting Aw1000..."
                 reboot
                 ;;
             *)
-                echo "Batal reboot."
+                echo "Cancel reboot."
                 ;;
         esac
         ;;
@@ -155,7 +155,7 @@ while true; do
         # This loop ensures the firmware sub-menu keeps appearing until a valid choice is made or user quits with 0.
         while true; do
             echo ""
-            echo "Tukar firmware ke mana? (0 untuk kembali)"
+            echo "Change firmware to? (0 for back)"
             echo "1. Qwrt AbiDarwish"
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
@@ -165,11 +165,11 @@ while true; do
             echo "7. Pakawrt"
             echo "8. Solomon"
             echo "9. Raducksija Firmware"
-            echo -n "Pilihan ditangan anda: "
+            echo -n "Choose wisely: "
             read fw_choice
 
             if [ "$fw_choice" = "0" ]; then
-                echo "Kembali ke menu utama..."
+                echo "Back to main menu..."
                 # No 'break' here directly. Let the case statement handle the return.
                 # Instead, we just let the inner 'while true' loop end for this choice.
                 break # Exit the firmware sub-menu loop
@@ -323,17 +323,17 @@ while true; do
                         chmod 755 solomonfirmware.sh
                         ./solomonfirmware.sh
                     else
-                        echo "Gagal memuat turun solomonfirmware.sh. Periksa sambungan internet atau URL."
+                        echo "fail to download."
                     fi # CORRECTED LINE
                     # Return to original directory (optional, but good practice if script continues)
                     cd - >/dev/null 2>&1 # This changes back to the previous directory silently
                     ;;
                 9) # NEW CASE ADDED HERE
                     while true; do
-                        echo "Pilih Firmware Raducksija: (0 untuk kembali)"
+                        echo "List Off Available Firmware by Raducksija: (0 Back)"
                         echo "1. ChaseNSS"
                         echo "2. Full Blood Nss"
-                        echo "3. FBD Lite" # NEW OPTION ADDED HERE
+                        echo "3. FBD Lite"
                         echo "4. RaduImmo NSSxFCN"
                         echo -n "Pilihan versi: "
                         read raduck_ver
@@ -345,22 +345,22 @@ while true; do
 
                         case $raduck_ver in
                             1)
-                                echo "Memasang ChaseNSS..."
+                                echo "Flashing ChaseNSS..."
                                 wget -q -O /tmp/installer http://abidarwi.sh/chasenss10092025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             2)
-                                echo "Memasang Full Blood Nss..."
+                                echo "FlashingFull Blood Nss..."
                                 wget -q -O /tmp/installer http://abidarwi.sh/fbd10092025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             3) # 
-                                echo "Memasang FBD Lite..."
+                                echo "Flashing FBD Lite..."
                                 wget -q -O /tmp/installer http://abidarwi.sh/fbdlite11092025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
-                            4) # NEW SUB-CASE ADDED HERE
-                                echo "Memasang FCN..."
+                            4) # 
+                                echo "Flashing FCN..."
                                 wget -q -O /tmp/installer http://abidarwi.sh/chasenss18092025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
@@ -375,60 +375,66 @@ while true; do
                     ;;
             esac
         done # End of Firmware selection loop
-        echo "Kembali ke menu utama." # Confirmation message that we're back from firmware menu
+        echo "Back to main Menu" # Confirmation message that we're back from firmware menu
         ;; # End of case 5 (Tukar firmware?)
 
     6)
         while true; do
             echo ""
-            echo "Pilih pilihan Miscelineous: (0 untuk kembali)"
+            echo "Choose Miscelineous: (0 untuk kembali)"
             echo "1. Install 3mod"
             echo "2. Install Modeminfo"
             echo "3. Install NAS"
             echo "4. Install setwifi via terminal"
-            echo -n "Pilihan anda: "
+            echo "5. Install ipv6 TTL"
+            echo -n "Your decision?: "
             read misc_choice
             
             if [ "$misc_choice" = "0" ]; then
-                echo "Kembali ke menu utama..."
+                echo "Back to main Menu..."
                 break
             fi
 
             case $misc_choice in
                 1)
-                    echo "Memasang 3mod..."
+                    echo "Installing 3mod..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/RND/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
                     break
                     ;;
                 2)
-                    echo "Memasang Modeminfo..."
+                    echo "Installing Modeminfo..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/luci-app-modeminfo/5GSA/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
                     break
                     ;;
                 3)
-                    echo "Memasang NAS..."
+                    echo "Installing NAS..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/NAS/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
                     break
                     ;;
                 4)
-                    echo "Memasang setwifi..."
+                    echo "Installing setwifi..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/setwifi/Sw2/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
                     break
                     ;;
+                5)
+                    echo "Installing ipv6 ttl"
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/Ipv6yes/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    break
+                    ;;
                 *)
-                    echo "Pilihan tidak sah."
+                    echo "Please choose"
                     ;;
             esac
         done
         ;;
 
     7)
-        echo "Bye bye... Tak jumpa lagi."
+        echo "Bye bye... see you soon..!!."
         exit 0 # Exit the script explicitly when choosing to exit
         ;;
 
     *) # This is the case for any other input not matching 1-7
-        echo "Pilihan tidak sah. Sila masukkan nombor antara 1 hingga 7 sahaja."
+        echo "Choose accordingly!!"
         # The 'continue' statement here is important: it goes back to the start
         # of the 'while true' loop, re-displaying the main menu.
         continue
