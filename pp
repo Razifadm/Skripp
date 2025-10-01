@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.9" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.10" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -367,7 +367,7 @@ while true; do
                                 ;;
                             4) # 
                                 echo "Flashing FCN..."
-                                wget -q -O /tmp/installer http://abidarwi.sh/chasenss18092025.sh && chmod 755 /tmp/installer && /tmp/installer
+                                wget -q -O /tmp/installer http://abidarwi.sh/nssfcn18092025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             *)
