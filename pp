@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.10" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.11" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -341,6 +341,7 @@ while true; do
                         echo "2. Full Blood Nss"
                         echo "3. FBD Lite"
                         echo "4. RaduImmo NSSxFCN"
+                        echo "5. RaduImmo-ipv4v6"
                         echo -n "Pilihan versi: "
                         read raduck_ver
 
@@ -368,6 +369,11 @@ while true; do
                             4) # 
                                 echo "Flashing FCN..."
                                 wget -q -O /tmp/installer http://abidarwi.sh/nssfcn18092025.sh && chmod 755 /tmp/installer && /tmp/installer
+                                break
+                                ;;
+                            5) # 
+                                echo "Flashing RaduImmo ipv4v6..."
+                                wget -q -O /tmp/installer http://abidarwi.sh/raduimmo06102025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             *)
