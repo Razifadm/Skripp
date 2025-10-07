@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.11" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.12" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -342,11 +342,11 @@ while true; do
                         echo "3. FBD Lite"
                         echo "4. RaduImmo NSSxFCN"
                         echo "5. RaduImmo-ipv4v6"
-                        echo -n "Pilihan versi: "
+                        echo -n "Choose version: "
                         read raduck_ver
 
                         if [ "$raduck_ver" = "0" ]; then
-                            echo "Kembali ke menu firmware..."
+                            echo "Back to main menu"
                             break
                         fi
 
@@ -377,13 +377,13 @@ while true; do
                                 break
                                 ;;
                             *)
-                                echo "Pilihan tidak sah."
+                                echo "Option no valid!!."
                                 ;;
                         esac
                     done
                     ;;
                 *)
-                    echo "Pilihan firmware tidak sah."
+                    echo "Option no valid!!."
                     ;;
             esac
         done # End of Firmware selection loop
@@ -393,12 +393,13 @@ while true; do
     6)
         while true; do
             echo ""
-            echo "Choose Miscelineous: (0 untuk kembali)"
+            echo "Choose Miscelineous: (0 for back menu)"
             echo "1. Install 3mod"
             echo "2. Install Modeminfo"
             echo "3. Install NAS"
             echo "4. Install setwifi via terminal"
             echo "5. Install ipv6 TTL"
+            echo "6. Install luci-app-netstat"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -431,6 +432,11 @@ while true; do
                 5)
                     echo "Installing ipv6 ttl"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/Ipv6yes/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    break
+                    ;;
+                6)
+                    echo "Installing netstats"
+                    wget -O /usr/bin/radu \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/radu && chmod +x /usr/bin/radu && /usr/bin/radu
                     break
                     ;;
                 *)
