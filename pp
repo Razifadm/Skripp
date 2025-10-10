@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.12" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.13" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -400,6 +400,7 @@ while true; do
             echo "4. Install setwifi via terminal"
             echo "5. Install ipv6 TTL"
             echo "6. Install luci-app-netstat"
+            echo "7. Install luci-app-nikki"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -437,6 +438,14 @@ while true; do
                 6)
                     echo "Installing netstats"
                     wget -O /usr/bin/radu \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/radu && chmod +x /usr/bin/radu && /usr/bin/radu
+                    break
+                    ;;
+                7)
+                    echo "Installing luci-app-nikki"
+                    wget -O - https://github.com/nikkinikki-org/OpenWrt-nikki/raw/refs/heads/main/feed.sh | ash
+                    opkg install nikki
+                    opkg install luci-app-nikki
+                    opkg install luci-i18n-nikki-zh-cn
                     break
                     ;;
                 *)
