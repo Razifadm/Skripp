@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.16" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.17" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -401,6 +401,7 @@ while true; do
             echo "5. Install ipv6 TTL"
             echo "6. Install luci-app-netstat"
             echo "8. Install Aurora-themes"
+            echo "9. Install Openclash-Converter"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -445,6 +446,11 @@ while true; do
                     wget -O /usr/bin/Aurora \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/Aurora && chmod +x /usr/bin/Aurora && /usr/bin/Aurora
                     break
                     ;;
+                8)
+                    echo "Installing OpenClash-Converter"
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    break
+                    ;;                    
                 *)
                     echo "Please choose"
                     ;;
