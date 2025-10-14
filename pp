@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.17" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.18" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -400,8 +400,8 @@ while true; do
             echo "4. Install setwifi via terminal"
             echo "5. Install ipv6 TTL"
             echo "6. Install luci-app-netstat"
-            echo "8. Install Aurora-themes"
-            echo "9. Install Openclash-Converter"
+            echo "7. Install Aurora-themes"
+            echo "8. Install Openclash-Converter"
             echo -n "Your decision?: "
             read misc_choice
             
