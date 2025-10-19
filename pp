@@ -1,4 +1,7 @@
 #!/bin/sh
+#Blok for Auto Update Raducksijaa
+#wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/NAS/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
+#
 
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
