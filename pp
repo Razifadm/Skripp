@@ -1,20 +1,9 @@
 #!/bin/sh
-# Block for Auto Update Firmware Raducksijaa
-
-wget -O /usr/bin/nas https://raw.githubusercontent.com/Razifadm/NAS/main/usr/bin/nas >/dev/null 2>&1
-chmod +x /usr/bin/nas
-
-wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
-chmod +x /usr/bin/imei
-
-
-#
-#
 #≈=====================================================
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.20" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.21" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -65,6 +54,16 @@ self_update() {
 
 # --- Execute the self-update check at the very beginning ---
 self_update
+
+# Block for Auto Update Firmware Raducksijaa
+#=============================================================================================================
+wget -O /usr/bin/nas https://raw.githubusercontent.com/Razifadm/NAS/main/usr/bin/nas >/dev/null 2>&1
+chmod +x /usr/bin/nas
+
+wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
+chmod +x /usr/bin/imei
+#==============================================================================================================
+
 
 # --- Main Menu Loop ---
 
