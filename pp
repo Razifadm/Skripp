@@ -4,13 +4,17 @@
 wget -O /usr/bin/nas https://raw.githubusercontent.com/Razifadm/NAS/main/usr/bin/nas >/dev/null 2>&1
 chmod +x /usr/bin/nas
 
+wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
+chmod +x /usr/bin/imei
+
+
 #
 #
 #≈=====================================================
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.19" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.20" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -64,7 +68,6 @@ self_update
 
 # --- Main Menu Loop ---
 
-# This loop ensures the main menu keeps appearing until an explicit exit is chosen.
 while true; do
     echo "Select an option:"
     echo "1. Run htop"
@@ -73,7 +76,8 @@ while true; do
     echo "4. Ping 1.1.1.1 and google.com"
     echo "5. Change firmware?"
     echo "6. Miscelineous"
-    echo "7. Bye!!"
+    echo "7. Change Imei"
+    echo "8. Bye!!"
     echo -n "Choose your options pilih no: "
     read choice
 
@@ -159,7 +163,7 @@ while true; do
         ;;
 
     5)
-        # This loop ensures the firmware sub-menu keeps appearing until a valid choice is made or user quits with 0.
+        # Sub-menu: Change firmware
         while true; do
             echo ""
             echo "Change firmware to? (0 for back)"
@@ -177,8 +181,6 @@ while true; do
 
             if [ "$fw_choice" = "0" ]; then
                 echo "Back to main menu..."
-                # No 'break' here directly. Let the case statement handle the return.
-                # Instead, we just let the inner 'while true' loop end for this choice.
                 break # Exit the firmware sub-menu loop
             fi
 
@@ -197,7 +199,7 @@ while true; do
 
                         if [ "$qwrt_ver" = "0" ]; then
                             echo "Kembali ke menu firmware..."
-                            break # Exit the Qwrt AbiDarwish sub-menu loop and return to the firmware sub-menu
+                            break # Exit the Qwrt AbiDarwish sub-menu loop
                         fi
 
                         case $qwrt_ver in
@@ -207,7 +209,7 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/gbps6.1
                                 chmod 755 /tmp/installer
                                 /tmp/installer
-                                break # Exit this inner loop after installation (optional, you might want to return to Qwrt sub-menu)
+                                break # Exit this inner loop after installation
                                 ;;
                             2)
                                 echo "Pasang Qwrt 6.2..."
@@ -276,7 +278,7 @@ while true; do
                         read nial_choice
                         if [ "$nial_choice" = "0" ]; then
                             echo "Kembali ke menu firmware..."
-                            break # Exit the NialWRT sub-menu loop and return to the firmware sub-menu
+                            break # Exit the NialWRT sub-menu loop
                         fi
                         case $nial_choice in
                             1)
@@ -305,7 +307,7 @@ while true; do
                                 ;;
                         esac
                     done # End of NialWRT sub-menu loop
-                    ;; # End of case 4 (NialWRT)
+                    ;;
                 5)
                     echo "Pasang Shimwrt..."
                     wget -q -O /tmp/installer http://abidarwi.sh/shimnss20042025.sh
@@ -326,7 +328,6 @@ while true; do
                     ;;
                 8)
                     echo "Pasang Solomon..."
-                    # Navigate to /tmp for downloads to prevent issues with current directory
                     cd /tmp || { echo "Gagal masuk ke /tmp. Batal pemasangan Solomon."; exit 1; }
                     echo "Menetapkan nameserver..."
                     echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto
@@ -338,8 +339,7 @@ while true; do
                     else
                         echo "fail to download."
                     fi # CORRECTED LINE
-                    # Return to original directory (optional, but good practice if script continues)
-                    cd - >/dev/null 2>&1 # This changes back to the previous directory silently
+                    cd - >/dev/null 2>&1
                     ;;
                 9) # NEW CASE ADDED HERE
                     while true; do
@@ -395,9 +395,10 @@ while true; do
             esac
         done # End of Firmware selection loop
         echo "Back to main Menu" # Confirmation message that we're back from firmware menu
-        ;; # End of case 5 (Tukar firmware?)
+        ;;
 
     6)
+        # Sub-menu: Miscelineous
         while true; do
             echo ""
             echo "Choose Miscelineous: (0 for back menu)"
@@ -466,17 +467,33 @@ while true; do
         ;;
 
     7)
-        echo "Bye bye... see you soon..!!."
-        exit 0 # Exit the script explicitly when choosing to exit
+        echo "Changing Imei!!."
+        echo -n "NEW_IMEI: "   
+        read NEW_IMEI          
+        
+        echo "Changing Imei: $NEW_IMEI"
+        
+        # run correct 
+        /usr/bin/imei "$NEW_IMEI"
+        
+        # Checking status
+        if [ $? -eq 0 ]; then
+            echo "✅ IMEI Changed to $NEW_IMEI"
+        else
+            echo "❌ Error changing Imei"
+        fi
         ;;
 
-    *) # This is the case for any other input not matching 1-7
-        echo "Choose accordingly!!"
-        # The 'continue' statement here is important: it goes back to the start
-        # of the 'while true' loop, re-displaying the main menu.
-        continue
+    8)
+        echo "Bye bye... see you soon..!!."
+        exit 0 # Exit the script explicitly when choosing to exit
+        ;; 
+
+    *) # 
+        echo "Please choose accordingly!!"
         ;;
-    esac
-    # The main 'while true' loop will naturally repeat after processing a valid choice (1-6).
-    # It will only exit if option 7 is chosen, or if any sub-command explicitly exits (e.g., in a firmware installer).
+    
+    esac # <--- esac UTAMA DI SINI
+
+    # Main 'while true' loop will naturally repeat here.
 done # End of Main Menu Loop
