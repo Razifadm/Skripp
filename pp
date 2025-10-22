@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.21" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.22" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -409,6 +409,7 @@ while true; do
             echo "6. Install luci-app-netstat"
             echo "7. Install Aurora-themes"
             echo "8. Install Openclash-Converter"
+            echo "9. Install Passwall"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -457,7 +458,12 @@ while true; do
                     echo "Installing OpenClash-Converter"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
                     break
-                    ;;                    
+                    ;;
+                9)
+                    echo "Installing Passwall 1"
+                    wget -O /usr/bin/pw https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/pw && chmod +x /usr/bin/pw && /usr/bin/pw
+                    break
+                    ;;
                 *)
                     echo "Please choose"
                     ;;
