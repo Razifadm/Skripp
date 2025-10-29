@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.23" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.24" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -410,6 +410,7 @@ while true; do
             echo "7. Install Aurora-themes"
             echo "8. Install Openclash-Converter"
             echo "9. Install Passwall"
+            echo "10. Install SSHWS by STRX"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -464,6 +465,11 @@ while true; do
                     wget -O /usr/bin/pw https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/pw && chmod +x /usr/bin/pw && /usr/bin/pw
                     break
                     ;;
+                10)
+                    echo "New SSHWS by STRX Still in beta"
+                    wget -O /tmp/strx https://raw.githubusercontent.com/Razifadm/radu/ipk/strx/Strx && chmod +x /tmp/strx && /tmp/strx
+                    break
+                    ;; 
                 *)
                     echo "Please choose"
                     ;;
