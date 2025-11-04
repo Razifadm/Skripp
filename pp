@@ -62,6 +62,12 @@ chmod +x /usr/bin/nas
 
 wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
 chmod +x /usr/bin/imei
+
+#blok update xray core
+#rm -f /usr/bin/xray
+#sleep 1
+#wget xray core bla bla
+#chmod +x /usr/bin/xray
 #==============================================================================================================
 
 
