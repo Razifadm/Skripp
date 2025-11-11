@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.24" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.25" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -62,6 +62,8 @@ chmod +x /usr/bin/nas
 
 wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
 chmod +x /usr/bin/imei
+
+rm -rf /www/luci-static/resources/view/status/include/00_internet.js >/dev/null 2>&1
 
 #blok update xray core
 #rm -f /usr/bin/xray
