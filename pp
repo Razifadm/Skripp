@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.25" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.26" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -177,12 +177,8 @@ while true; do
             echo "1. Qwrt AbiDarwish"
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
-            echo "4. NialWRT"
-            echo "5. Shimwrt"
-            echo "6. Khairulwrt"
-            echo "7. Pakawrt"
-            echo "8. Solomon"
-            echo "9. Raducksija Firmware"
+            echo "4. Solomon"
+            echo "5. Raducksija Firmware"
             echo -n "Choose wisely: "
             read fw_choice
 
@@ -275,65 +271,8 @@ while true; do
                     chmod 755 /tmp/installer
                     /tmp/installer
                     ;;
+                
                 4)
-                    while true; do
-                        echo "Pilih NialWRT: (0 untuk kembali)"
-                        echo "1. NialWRT Pro"
-                        echo "2. NialWRT Aw1k v1.o (IPv4 only)"
-                        echo "3. NialWRT Aw1k"
-                        echo -n "Pilihan NialWRT: "
-                        read nial_choice
-                        if [ "$nial_choice" = "0" ]; then
-                            echo "Kembali ke menu firmware..."
-                            break # Exit the NialWRT sub-menu loop
-                        fi
-                        case $nial_choice in
-                            1)
-                                echo "Pasang NialWRT Pro..."
-                                wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt11052025.sh
-                                chmod 755 /tmp/installer.sh
-                                /tmp/installer.sh
-                                break
-                                ;;
-                            2)
-                                echo "Pasang NialWRT Aw1k v1.o (IPv4 only)..."
-                                wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt30042025.sh
-                                chmod 755 /tmp/installer.sh
-                                /tmp/installer.sh
-                                break
-                                ;;
-                            3)
-                                echo "Pasang NialWRT Aw1k..."
-                                wget -q -O /tmp/installer.sh http://abidarwi.sh/nialwrt24042025.sh
-                                chmod 755 /tmp/installer.sh
-                                /tmp/installer.sh
-                                break
-                                ;;
-                            *)
-                                echo "Pilihan NialWRT tidak sah."
-                                ;;
-                        esac
-                    done # End of NialWRT sub-menu loop
-                    ;;
-                5)
-                    echo "Pasang Shimwrt..."
-                    wget -q -O /tmp/installer http://abidarwi.sh/shimnss20042025.sh
-                    chmod 755 /tmp/installer
-                    /tmp/installer
-                    ;;
-                6)
-                    echo "Pasang Khairulwrt..."
-                    wget -q -O /tmp/installer.sh http://abidarwi.sh/khairulwrt07052025.sh
-                    chmod 755 /tmp/installer.sh
-                    /tmp/installer.sh
-                    ;;
-                7)
-                    echo "Pasang Pakawrt..."
-                    wget -q -O /tmp/installer http://abidarwi.sh/pakanss30042025.sh
-                    chmod 755 /tmp/installer
-                    /tmp/installer
-                    ;;
-                8)
                     echo "Pasang Solomon..."
                     cd /tmp || { echo "Gagal masuk ke /tmp. Batal pemasangan Solomon."; exit 1; }
                     echo "Menetapkan nameserver..."
@@ -348,7 +287,7 @@ while true; do
                     fi # CORRECTED LINE
                     cd - >/dev/null 2>&1
                     ;;
-                9) # NEW CASE ADDED HERE
+                5) # NEW CASE ADDED HERE
                     while true; do
                         echo "List Off Available Firmware by Raducksija: (0 Back)"
                         echo "1. ChaseNSS"
@@ -356,6 +295,7 @@ while true; do
                         echo "3. FBD Lite"
                         echo "4. RaduImmo NSSxFCN"
                         echo "5. RaduImmo-ipv4v6"
+                        echo "6. ChaseNSS-STRX"
                         echo -n "Choose version: "
                         read raduck_ver
 
@@ -390,6 +330,11 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/raduimmo06102025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
+                            6) # 
+                                echo "Flashing ChaseNSS-STRX..."
+                                wget -q -O /tmp/installer http://abidarwi.sh/chasenssstrx13112025.sh && chmod 755 /tmp/installer && /tmp/installer
+                                break
+                                ;;
                             *)
                                 echo "Option no valid!!."
                                 ;;
@@ -401,7 +346,7 @@ while true; do
                     ;;
             esac
         done # End of Firmware selection loop
-        echo "Back to main Menu" # Confirmation message that we're back from firmware menu
+        echo "Back to main Menu" 
         ;;
 
     6)
@@ -512,7 +457,7 @@ while true; do
         echo "Please choose accordingly!!"
         ;;
     
-    esac # <--- esac UTAMA DI SINI
+    esac #
 
     # Main 'while true' loop will naturally repeat here.
 done # End of Main Menu Loop
