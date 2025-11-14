@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.26" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.27" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -64,6 +64,18 @@ wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta
 chmod +x /usr/bin/imei
 
 rm -rf /www/luci-static/resources/view/status/include/00_internet.js >/dev/null 2>&1
+
+
+wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/xray-0.1.5 >/dev/null 2>&1 
+/etc/init.d/passwall stop >/dev/null 2>&1 
+/etc/init.d/passwall2 stop >/dev/null 2>&1 
+sleep 3 >/dev/null 2>&1 
+mv /tmp/strxcore /usr/bin/strxcore >/dev/null 2>&1 
+sleep 1 >/dev/null 2>&1 
+
+chmod +x /usr/bin/strxcore >/dev/null 2>&1 
+
+
 
 #blok update xray core
 #rm -f /usr/bin/xray
