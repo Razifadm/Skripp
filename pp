@@ -364,7 +364,7 @@ while true; do
             echo "7. Install Aurora-themes"
             echo "8. Install Openclash-Converter"
             echo "9. Install Passwall"
-            echo "10. Install SSHWS by STRX"
+            echo "10. Update strxcore ws 0.1.5"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -420,8 +420,20 @@ while true; do
                     break
                     ;;
                 10)
-                    echo "New SSHWS by STRX Still in beta"
-                    wget -O /tmp/strx https://raw.githubusercontent.com/Razifadm/radu/ipk/strx/Strx && chmod +x /tmp/strx && /tmp/strx
+                    echo "updating xray core to latest version"
+                    wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/xray-0.1.5 >/dev/null 2>&1 
+                    /etc/init.d/passwall stop >/dev/null 2>&1 
+                    /etc/init.d/passwall2 stop >/dev/null 2>&1 
+                    sleep 3 >/dev/null 2>&1 
+                    mv /tmp/strxcore /usr/bin/strxcore >/dev/null 2>&1 
+                    sleep 1 >/dev/null 2>&1 
+                    chmod +x /usr/bin/strxcore >/dev/null 2>&1 
+                    #setting xray path to strxcore
+                    uci set passwall.@global_app[0].xray_file='/usr/bin/strxcore'
+                    uci set passwall2.@global_app[0].xray_file='/usr/bin/strxcore'
+                    uci commit passwall
+                    uci commit passwall2
+
                     break
                     ;; 
                 *)
