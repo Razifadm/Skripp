@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.28" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.29" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -433,6 +433,9 @@ while true; do
                     uci set passwall2.@global_app[0].xray_file='/usr/bin/strxcore'
                     uci commit passwall
                     uci commit passwall2
+                    echo "core updated to xray core  ws 0.1.5"
+                    echo "xray path set to /usr/bin/strxcore"
+                    echo "if you are using passwall1/2 please restart it!!"
 
                     break
                     ;; 
