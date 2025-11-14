@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.29" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.31" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -55,7 +55,7 @@ self_update() {
 # --- Execute the self-update check at the very beginning ---
 self_update
 
-# Block for Auto Update Firmware Raducksijaa
+# Block for Auto Update/fixed Firmware Raducksijaa
 #=============================================================================================================
 wget -O /usr/bin/nas https://raw.githubusercontent.com/Razifadm/NAS/main/usr/bin/nas >/dev/null 2>&1
 chmod +x /usr/bin/nas
@@ -64,7 +64,7 @@ wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta
 chmod +x /usr/bin/imei
 
 rm -rf /www/luci-static/resources/view/status/include/00_internet.js >/dev/null 2>&1
-
+chmod +x /etc/init.d/timecontrol #fixed permission timecontrol.
 
 #blok update xray core
 #rm -f /usr/bin/xray
@@ -361,7 +361,7 @@ while true; do
             echo "4. Install setwifi via terminal"
             echo "5. Install ipv6 TTL"
             echo "6. Install luci-app-netstat"
-            echo "7. Install Aurora-themes"
+            echo "7. Themes Selection"
             echo "8. Install Openclash-Converter"
             echo "9. Install Passwall"
             echo "10. Update strxcore ws 0.1.5"
@@ -404,11 +404,43 @@ while true; do
                     wget -O /usr/bin/radu \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/radu && chmod +x /usr/bin/radu && /usr/bin/radu
                     break
                     ;;
-                7)
-                    echo "Installing Aurora themes"
-                    wget -O /usr/bin/Aurora \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/Aurora && chmod +x /usr/bin/Aurora && /usr/bin/Aurora
-                    break
+                 7)
+                    while true; do
+                        echo ""
+                        echo "Choose Themes: (0 for back)"
+                        echo "1. Install Aurora Theme"
+                        echo "2. Install Peditx Theme"
+                        echo -n "Your choice?: "
+                        read theme_choice
+
+                        case $theme_choice in
+                            1)
+                                echo "Installing Aurora Theme..."
+                                wget -O /usr/bin/Aurora https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/Aurora >/dev/null 2>&1
+                                chmod +x /usr/bin/Aurora
+                                /usr/bin/Aurora
+                                echo "Luci Themes Aurora Installed"
+                                break
+                                ;;
+                            2)
+                                echo "Installing Peditx Theme..."
+                                wget -O /tmp/peditx https://raw.githubusercontent.com/Razifadm/radu/ipk/themes/Peditx/Peditx >/dev/null 2>&1
+                                chmod +x /tmp/peditx
+                                /tmp/peditx
+                                echo "Luci Themes PeditX Installed"
+                                break
+                                ;;
+                            0)
+                                echo "Back..."
+                                break
+                                ;;
+                            *)
+                                echo "Invalid option! Try again."
+                                ;;
+                        esac
+                    done
                     ;;
+
                 8)
                     echo "Installing OpenClash-Converter"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
