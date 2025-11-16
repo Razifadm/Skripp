@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.33" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.34" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -458,22 +458,7 @@ while true; do
                     ;;
                 10)
                     echo "updating xray core to latest version"
-                    wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/xray-0.1.5 >/dev/null 2>&1 
-                    /etc/init.d/passwall stop >/dev/null 2>&1 
-                    /etc/init.d/passwall2 stop >/dev/null 2>&1 
-                    sleep 3 >/dev/null 2>&1 
-                    mv /tmp/strxcore /usr/bin/strxcore >/dev/null 2>&1 
-                    sleep 1 >/dev/null 2>&1 
-                    chmod +x /usr/bin/strxcore >/dev/null 2>&1 
-                    #setting xray path to strxcore
-                    uci set passwall.@global_app[0].xray_file='/usr/bin/strxcore'
-                    uci set passwall2.@global_app[0].xray_file='/usr/bin/strxcore'
-                    uci commit passwall
-                    uci commit passwall2
-                    echo "core updated to xray core  ws 0.1.5"
-                    echo "xray path set to /usr/bin/strxcore"
-                    echo "if you are using passwall1/2 please restart it!!"
-
+                    wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore
                     break
                     ;; 
                 *)
