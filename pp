@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.35" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.36" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -82,7 +82,8 @@ while true; do
     echo "5. Change firmware?"
     echo "6. Miscelineous"
     echo "7. Change Imei"
-    echo "8. Bye!!"
+    echo "8. Auto Updater FW Raducksijaa ONLY"
+    echo "9. Bye!!"
     echo -n "Choose your options pilih no: "
     read choice
 
@@ -508,9 +509,19 @@ while true; do
         ;;
 
     8)
-        echo "Bye bye... see you soon..!!."
-        exit 0 # Exit the script explicitly when choosing to exit
+        echo "Auto Updater Raducksijaa"
+        echo "STILL IN PROGRESS"
+        #===============================================================================================
+        wget -O /usr/lib/lua/luci/controller/passwall2.lua https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/pw2lua >/dev/null 2>&1
+        
+        #===============================================================================================
+        echo "updated"
         ;; 
+        
+    9) 
+       echo "Bye bye... see you soon..!!."
+       exit 0 # Exit the script explicitly when choosing to exit
+       ;; 
 
     *) # 
         echo "Please choose accordingly!!"
