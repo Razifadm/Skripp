@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.36" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.37" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -356,7 +356,7 @@ while true; do
             echo "1. Install 3mod"
             echo "2. Install Modeminfo"
             echo "3. Install NAS"
-            echo "4. Install setwifi via terminal"
+            echo "4. Set WiFi"
             echo "5. Install ipv6 TTL"
             echo "6. Install luci-app-netstat"
             echo "7. Themes Selection"
@@ -387,10 +387,14 @@ while true; do
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/NAS/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
-                4)
-                    echo "Installing setwifi..."
+                4) 
+                    if [ -f /usr/bin/setwifi ]; then
+                    /usr/bin/setwifi
+                    else
+                    echo "Please wait"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/setwifi/Sw2/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
-                    break
+                    /usr/bin/setwifi
+                    fi
                     ;;
                 5)
                     echo "Installing ipv6 ttl"
