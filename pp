@@ -378,13 +378,18 @@ while true; do
                     break
                     ;;
                 2)
-                    echo "Installing Modeminfo..."
+                    echo "Updating Modeminfo..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/luci-app-modeminfo/5GSA/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
-                3)
-                    echo "Installing NAS..."
+                3)  
+                    if [ -f /usr/bin/nas ]; then
+                    /usr/bin/nas
+                    else
+                    echo "Please wait"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/NAS/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
+                    /usr/bin/nas
+                    fi
                     break
                     ;;
                 4) 
@@ -395,9 +400,10 @@ while true; do
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/setwifi/Sw2/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     /usr/bin/setwifi
                     fi
+                    break
                     ;;
                 5)
-                    echo "Installing ipv6 ttl"
+                    echo "Tweak ipv6 ttl"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/Ipv6yes/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
