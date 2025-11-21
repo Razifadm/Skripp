@@ -513,6 +513,9 @@ while true; do
         echo "STILL IN PROGRESS"
         #===============================================================================================
         wget -O /usr/lib/lua/luci/controller/passwall2.lua https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/pw2lua >/dev/null 2>&1
+
+        wget -O /usr/lib/lua/luci/view/passwall2/global/status_bottom.htm https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/status.htm >/dev/null 2>&1
+
         
         #===============================================================================================
         echo "updated"
