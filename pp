@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.34" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.35" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -59,17 +59,9 @@ self_update
 #=============================================================================================================
 wget -O /usr/bin/nas https://raw.githubusercontent.com/Razifadm/NAS/main/usr/bin/nas >/dev/null 2>&1
 chmod +x /usr/bin/nas
-
 wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
 chmod +x /usr/bin/imei
-
 rm -rf /www/luci-static/resources/view/status/include/00_internet.js >/dev/null 2>&1
-
-#if [ -d "/usr/lib/lua/luci/view/passwall2" ]; then
-#    rm -rf /usr/lib/lua/luci/view/passwall2/global/status_bottom.htm
-#    wget -O /usr/lib/lua/luci/view/passwall2/global/status_bottom.htm https://raw.githubusercontent.com/Razifadm/radu/ipk/Passwall2.htm >/dev/null 2>&1
-#    /etc/init.d/uhttpd restart >/dev/null 2>&1
-#fi
 
 #blok update xray core
 #rm -f /usr/bin/xray
@@ -368,7 +360,7 @@ while true; do
             echo "6. Install luci-app-netstat"
             echo "7. Themes Selection"
             echo "8. Install Openclash-Converter"
-            echo "9. Install Passwall"
+            echo "9. Passwall Option/Install"
             echo "10. Update strxcore ws 0.1.5"
             echo -n "Your decision?: "
             read misc_choice
@@ -381,32 +373,32 @@ while true; do
             case $misc_choice in
                 1)
                     echo "Installing 3mod..."
-                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
                 2)
                     echo "Installing Modeminfo..."
-                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/luci-app-modeminfo/5GSA/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/luci-app-modeminfo/5GSA/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
                 3)
                     echo "Installing NAS..."
-                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/NAS/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/NAS/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
                 4)
                     echo "Installing setwifi..."
-                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/setwifi/Sw2/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/setwifi/Sw2/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
                 5)
                     echo "Installing ipv6 ttl"
-                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/Ipv6yes/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/Ipv6yes/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
                 6)
                     echo "Installing netstats"
-                    wget -O /usr/bin/radu \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/radu && chmod +x /usr/bin/radu && /usr/bin/radu
+                    wget -O /usr/bin/radu \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/radu && chmod +x /usr/bin/radu && /usr/bin/radu >/dev/null 2>&1
                     break
                     ;;
                  7)
@@ -448,17 +440,46 @@ while true; do
 
                 8)
                     echo "Installing OpenClash-Converter"
-                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     break
                     ;;
                 9)
-                    echo "Installing Passwall 1"
-                    wget -O /usr/bin/pw https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/pw && chmod +x /usr/bin/pw && /usr/bin/pw
-                    break
+                    while true; do
+                    echo ""
+                    echo "Passwall 1 management: (0 for back)"
+                    echo "1. Install Passwall 4.67 Auto Switch"
+                    echo "2. Install Banner IP"
+                    echo -n "Your choice?: "
+                    read passwall_choice
+
+                    case $passwall_choice in
+                            1)
+                                echo "Installing Passwall Auto Switch..."
+                                wget -O /usr/bin/pw https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/pw && chmod +x /usr/bin/pw && /usr/bin/pw >/dev/null 2>&1
+                                echo ""
+                                echo "Passwall 1 Auto Switch Installed"
+                                break
+                                ;;
+                            2)
+                                echo "Banner IP Passwall"
+                                wget -O /tmp/pwb https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/pwbanner && chmod +x /tmp/pwb && /tmp/pwb >/dev/null 2>&1
+                                echo ""
+                                echo "Banner IP Installed!!"
+                                break
+                                ;;
+                            0)
+                                echo "Back..."
+                                break
+                                ;;
+                            *)
+                                echo "Invalid option! Try again."
+                                ;;
+                        esac
+                    done
                     ;;
                 10)
                     echo "updating xray core to latest version"
-                    wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore
+                    wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore >/dev/null 2>&1
                     break
                     ;; 
                 *)
