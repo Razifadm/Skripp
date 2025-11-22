@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.37" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.38" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -196,6 +196,7 @@ while true; do
                         echo "4. Qwrt 6.4"
                         echo "5. Qwrt 6.5"
                         echo "6. Qwrt 6.6"
+                        echo "7. Qwrt 6.8"
                         echo -n "Pilihan versi: "
                         read qwrt_ver
 
@@ -248,6 +249,11 @@ while true; do
                             6)
                                 echo "Pasang Qwrt 6.6..."
                                 echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.6 && chmod 755 /tmp/installer && /tmp/installer
+                                break
+                                ;;
+                            7)
+                                echo "Pasang Qwrt 6.8..."
+                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.8 && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             *)
