@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.39" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.40" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -539,7 +539,7 @@ while true; do
         #===============================================================================================
         wget -O /usr/lib/lua/luci/controller/passwall2.lua https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/pw2lua >/dev/null 2>&1
 
-        wget -O /usr/lib/lua/luci/view/passwall2/global/status_bottom.htm https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/status.htm >/dev/null 2>&1
+        wget -O /usr/lib/lua/luci/view/passwall2/global/status_bottom.htm https://raw.githubusercontent.com/Razifadm/radu/ipk/Passwall2.htm >/dev/null 2>&1
 
         
         #===============================================================================================
