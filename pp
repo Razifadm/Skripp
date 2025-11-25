@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.38" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.39" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -424,6 +424,7 @@ while true; do
                         echo "Choose Themes: (0 for back)"
                         echo "1. Install Aurora Theme"
                         echo "2. Install Peditx Theme"
+                        echo "3. Install Modded Theme Alpha"
                         echo -n "Your choice?: "
                         read theme_choice
 
@@ -442,6 +443,14 @@ while true; do
                                 chmod +x /tmp/peditx
                                 /tmp/peditx
                                 echo "Luci Themes PeditX Installed"
+                                break
+                                ;;
+                            3) 
+                                echo "Installing Alpha Theme"
+                                echo "Modedd By Raducksijaa"
+                                wget -O /tmp/alpha https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/alpha >/dev/null 2>&1
+                                chmod +x /tmp/alpha
+                                /tmp/alpha
                                 break
                                 ;;
                             0)
