@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.40" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.41" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -62,12 +62,6 @@ chmod +x /usr/bin/nas
 wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
 chmod +x /usr/bin/imei
 rm -rf /www/luci-static/resources/view/status/include/00_internet.js >/dev/null 2>&1
-
-#blok update xray core
-#rm -f /usr/bin/xray
-#sleep 1
-#wget xray core bla bla
-#chmod +x /usr/bin/xray
 #==============================================================================================================
 
 
@@ -538,12 +532,12 @@ while true; do
         echo "STILL IN PROGRESS"
         #===============================================================================================
         wget -O /usr/lib/lua/luci/controller/passwall2.lua https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/pw2lua >/dev/null 2>&1
-
         wget -O /usr/lib/lua/luci/view/passwall2/global/status_bottom.htm https://raw.githubusercontent.com/Razifadm/radu/ipk/Passwall2.htm >/dev/null 2>&1
-
-        
+        echo "Passwall 2 banner ip fixed"
+        wget -O /www/luci-static/resources/view/status/include/08_stats.js https://raw.githubusercontent.com/Razifadm/radu/ipk/netstat >/dev/null 2>&1
+        echo "netstat fixed"
         #===============================================================================================
-        echo "UPDATED"
+        echo "DONE"
         ;; 
         
     9) 
