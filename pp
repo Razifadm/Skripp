@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.41" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.42" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -76,7 +76,7 @@ while true; do
     echo "5. Change firmware?"
     echo "6. Miscelineous"
     echo "7. Change Imei"
-    echo "8. Auto Updater FW Raducksijaa ONLY"
+ #  echo "8. Auto Updater FW Raducksijaa ONLY"
     echo "9. Bye!!"
     echo -n "Choose your options pilih no: "
     read choice
