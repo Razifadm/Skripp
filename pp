@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.42" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.43" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -363,6 +363,7 @@ while true; do
             echo "8. Install Openclash-Converter"
             echo "9. Passwall Option/Install"
             echo "10. Update strxcore ws 0.1.5"
+            echo "11. Update 4G/5G Information"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -502,6 +503,14 @@ while true; do
                     wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore >/dev/null 2>&1
                     break
                     ;; 
+                11) 
+                    echo "This will install new 4G/5G Information"
+                    wget -O /usr/bin/mdmdata \
+https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/mdmdata && chmod +x /usr/bin/mdmdata && /usr/bin/mdmdata >/dev/null 2>&1
+                    echo ""
+                    echo "New 4G/5G Information Installed"
+                    break
+                    ;;
                 *)
                     echo "Please choose"
                     ;;
