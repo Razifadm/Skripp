@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.44" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.45" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -129,7 +129,7 @@ while true; do
                 wget https://install.speedtest.net/app/cli/ookla-speedtest-1.2.0-linux-aarch64.tgz && \
                 tar -xzf ookla-speedtest-1.2.0-linux-aarch64.tgz && \
                 mv speedtest /bin && chmod +x /bin/speedtest && \
-                echo "okay shiapp, blh goooo"
+                echo "okay shiapp, blh go"
                 speedtest
             else
                 echo "Xde internet ni bang, cane nak test?."
@@ -183,7 +183,7 @@ while true; do
             case $fw_choice in
                 1)
                     while true; do
-                        echo "Choose QWRT by AbiDarwish: (0 For back)"
+                        echo "Pilih versi Qwrt AbiDarwish: (0 untuk kembali)"
                         echo "1. Qwrt 6.1"
                         echo "2. Qwrt 6.2"
                         echo "3. Qwrt 6.3"
@@ -191,13 +191,12 @@ while true; do
                         echo "5. Qwrt 6.5"
                         echo "6. Qwrt 6.6"
                         echo "7. Qwrt 6.8"
-                        echo "8. Qwrt 6.9"
-                        echo -n "Choose QWRT Version: "
+                        echo -n "Pilihan versi: "
                         read qwrt_ver
 
                         if [ "$qwrt_ver" = "0" ]; then
-                            echo "Back To QWRT Selection..."
-                            break 
+                            echo "Kembali ke menu firmware..."
+                            break # Exit the Qwrt AbiDarwish sub-menu loop
                         fi
 
                         case $qwrt_ver in
@@ -207,7 +206,7 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/gbps6.1
                                 chmod 755 /tmp/installer
                                 /tmp/installer
-                                break 
+                                break # Exit this inner loop after installation
                                 ;;
                             2)
                                 echo "Pasang Qwrt 6.2..."
@@ -251,17 +250,12 @@ while true; do
                                 echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.8 && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
-                            8) 
-                                echo "Pasang Qwrt 6.9..."
-                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.9 && chmod 755 /tmp/installer && /tmp/installer
-                                break
-                                ;;
                             *)
                                 echo "Pilihan versi tidak sah."
                                 ;;
                         esac
-                    done
-                    ;;
+                    done # End of Qwrt AbiDarwish version selection loop
+                    ;; # End of case 1 (Qwrt AbiDarwish)
                 2)
                     echo "Pasang Qwrt Hongkong..."
                     echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.d/resolv.conf.auto
@@ -370,7 +364,6 @@ while true; do
             echo "9. Passwall Option/Install"
             echo "10. Update strxcore ws 0.1.5"
             echo "11. Update 4G/5G Information"
-            echo "12. Install Bandix"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -413,15 +406,11 @@ while true; do
                 5)
                     echo "Tweak ipv6 ttl"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/Ipv6yes/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
-                    echo "Ipv6 TTL Installed!!"
-                    echo ""
                     break
                     ;;
                 6)
                     echo "Installing netstats"
                     wget -O /usr/bin/radu \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/radu && chmod +x /usr/bin/radu && /usr/bin/radu >/dev/null 2>&1
-                    echo "Netstats Installed!!"
-                    echo ""
                     break
                     ;;
                  7)
@@ -473,8 +462,6 @@ while true; do
                 8)
                     echo "Installing OpenClash-Converter"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
-                    echo "Openclash-Converter Installed"
-                    echo ""
                     break
                     ;;
                 9)
@@ -514,23 +501,14 @@ while true; do
                 10)
                     echo "updating xray core to latest version"
                     wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore >/dev/null 2>&1
-                    echo "xray core Updated!!"
                     break
                     ;; 
                 11) 
                     echo "This will install new 4G/5G Information"
-                    wget -O /usr/bin/mdmdata https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/mdmdata && chmod +x /usr/bin/mdmdata && /usr/bin/mdmdata >/dev/null 2>&1
+                    wget -O /usr/bin/mdmdata \
+https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/mdmdata && chmod +x /usr/bin/mdmdata && /usr/bin/mdmdata >/dev/null 2>&1
                     echo ""
                     echo "New 4G/5G Information Installed"
-                    break
-                    ;;
-                12) 
-                    echo "This will Install Bandix"
-                    wget -O /tmp/bandix https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/bandix && chmod +x /tmp/bandix && /tmp/bandix >/dev/null 2>&1
-                    echo ""
-                    echo "Bandix Installed!!"
-                    echo "Access Bandix:Control-Bandix"
-                    echo ""
                     break
                     ;;
                 *)
