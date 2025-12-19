@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.47" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.48" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -192,6 +192,7 @@ while true; do
                         echo "6. Qwrt 6.6"
                         echo "7. Qwrt 6.8"
                         echo "8. Qwrt 6.9"
+                        echo "9. Qwrt 6.10"
                         echo -n "Choose QWRT Version: "
                         read qwrt_ver
 
@@ -256,8 +257,13 @@ while true; do
                                 echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.9 && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
+                            9)  
+                                echo "Pasang Qwrt 6.10..."
+                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.10 && chmod 755 /tmp/installer && /tmp/installer
+                                break
+                                ;;
                             *)
-                                echo "Pilihan versi tidak sah."
+                                echo "Please Choose Wisely man."
                                 ;;
                         esac
                     done
@@ -301,6 +307,7 @@ while true; do
                         echo "4. RaduImmo NSSxFCN"
                         echo "5. RaduImmo-ipv4v6"
                         echo "6. ChaseNSS-STRX"
+                        echo "7. Lede-K6-6-119"
                         echo -n "Choose version: "
                         read raduck_ver
 
@@ -340,8 +347,13 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/chasenssstrx13112025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
+                            7) #
+                                echo "Flashing Lede-K6-6-119"
+                                wget -q -O /tmp/installer http://abidarwi.sh/radulede19122025.sh && chmod 755 /tmp/installer && /tmp/installer
+                                break
+                                ;;
                             *)
-                                echo "Option no valid!!."
+                                echo "Option not valid!!."
                                 ;;
                         esac
                     done
@@ -516,6 +528,7 @@ while true; do
                     echo "updating xray core to latest version"
                     wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore >/dev/null 2>&1
                     echo "xray core Updated!!"
+                    strxcore --version
                     break
                     ;; 
                 11) 
