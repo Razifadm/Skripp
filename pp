@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.48" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.49" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -502,7 +502,7 @@ while true; do
                     case $passwall_choice in
                             1)
                                 echo "Installing Passwall Auto Switch..."
-                                wget -O /usr/bin/pw https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/pw && chmod +x /usr/bin/pw && /usr/bin/pw >/dev/null 2>&1
+                                wget -O /usr/bin/pw https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/pw && chmod +x /usr/bin/pw && /usr/bin/pw
                                 echo ""
                                 echo "Passwall 1 Auto Switch Installed"
                                 break
