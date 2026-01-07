@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.49" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.50" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -78,6 +78,7 @@ while true; do
     echo "7. Change Imei"
  #  echo "8. Auto Updater FW Raducksijaa ONLY"
     echo "9. Bye!!"
+ #  echo "10. fix ttl" 
     echo -n "Choose your options pilih no: "
     read choice
 
@@ -600,6 +601,13 @@ while true; do
        echo "Bye bye... see you soon..!!."
        exit 0 # Exit the script explicitly when choosing to exit
        ;; 
+
+    10) 
+      echo "ttl 64 fixed"
+      rm -f /etc/nftables.d/*.nft
+      wget -O /etc/nftables.d/ttl64.nft https://raw.githubusercontent.com/Razifadm/radu/ipk/ttl64.nft >/dev/null 2>&1
+      /etc/init.d/firewall restart >/dev/null 2>&1
+      ;;
 
     *) # 
         echo "Please choose accordingly!!"
