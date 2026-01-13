@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.50" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.51" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -79,6 +79,7 @@ while true; do
  #  echo "8. Auto Updater FW Raducksijaa ONLY"
     echo "9. Bye!!"
  #  echo "10. fix ttl" 
+ #  echo "11. xlite xray core"
     echo -n "Choose your options pilih no: "
     read choice
 
@@ -607,6 +608,11 @@ while true; do
       rm -f /etc/nftables.d/*.nft
       wget -O /etc/nftables.d/ttl64.nft https://raw.githubusercontent.com/Razifadm/radu/ipk/ttl64.nft >/dev/null 2>&1
       /etc/init.d/firewall restart >/dev/null 2>&1
+      ;;
+
+    11)
+      echo "This will install xlite core on Passwall 2"
+      wget -O /tmp/xlitecore https://raw.githubusercontent.com/Razifadm/radu/ipk/xlite/xlitecore && chmod +x /tmp/xlitecore && /tmp/xlitecore >/dev/null 2>&1
       ;;
 
     *) # 
