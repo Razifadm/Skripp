@@ -1,0 +1,502 @@
+#!/bin/sh
+
+# =================================================
+# GLOBAL CONFIGURATION
+# =================================================
+tailscale logout
+
+# ---------- Terminal Colors ----------
+YELLOW=$(printf '\033[1;33m')
+GREEN=$(printf '\033[1;32m')
+RED=$(printf '\033[1;31m')
+BLUE=$(printf '\033[1;34m')
+CYAN=$(printf '\033[1;36m')
+PURPLE=$(printf '\033[1;35m')
+NC=$(printf '\033[0m')
+
+# ---------- Server ----------
+TAILSCALE_IP="100.76.102.105"
+SERVER="http://${TAILSCALE_IP}:8080"
+
+REGISTER_URL="${SERVER}/register"
+FIRMWARE_LIST_URL="${SERVER}/firmwares"
+FIRMWARE_BASE_URL="${SERVER}/firmware"
+
+# ---------- Paths ----------
+FIRMWARE_LOCAL="/tmp/firmware.bin"
+TEMP_FIRMWARE="/tmp/firmware.bin.part"
+TOKEN_DIR="/etc/rrt"
+LOG_FILE="/tmp/rrt.log"
+
+# ---------- Tailscale ----------
+TAILSCALE_AUTHKEY="tskey-auth-k6kQvrR4d621CNTRL-YygiJwitkBJ85RvpoANzAJJHhN3estXL"
+
+# =================================================
+# UTILITIES
+# =================================================
+
+print_color() {
+    printf "%b%s%b\n" "$1" "$2" "$NC"
+}
+
+print_header() {
+    printf "%b" "$GREEN"
+    echo "╔═════════════════════════════════╗"
+    printf "║       %-19s       ║\n" "$1"
+    echo "╚═════════════════════════════════╝"
+    printf "%b" "$NC"
+}
+
+print_separator() {
+    printf "%b═══════════════════════════════════%b\n" "$BLUE" "$NC"
+}
+
+log_message() {
+    echo "[$(date '+%F %T')] [$1] $2" >> "$LOG_FILE"
+}
+
+to_lower() {
+    echo "$1" | tr '[:upper:]' '[:lower:]'
+}
+
+sanitize_input() {
+    echo "$1" | sed 's/[^a-zA-Z0-9_@.-]//g'
+}
+
+get_hostname() {
+    hostname 2>/dev/null || cat /proc/sys/kernel/hostname 2>/dev/null || echo "unknown"
+}
+
+# Fungsi countdown yang kompatibel dengan /bin/sh
+countdown() {
+    seconds=$1
+    message=$2
+    
+    while [ "$seconds" -gt 0 ]; do
+        printf "\r%b⏳ Starting in %d seconds...%b\n" "$YELLOW" "$seconds" "$NC"
+        seconds=$((seconds - 1))
+        sleep 1
+    done
+}
+
+# =================================================
+# SYSTEM INFO
+# =================================================
+
+get_system_info() {
+    MODEL="Unknown"
+    OPENWRT_VERSION="Unknown"
+
+    [ -f /proc/device-tree/model ] && MODEL=$(tr -d '\0' </proc/device-tree/model)
+    [ -f /tmp/sysinfo/model ] && MODEL=$(cat /tmp/sysinfo/model)
+
+    [ -f /etc/openwrt_release ] && \
+        OPENWRT_VERSION=$(grep DISTRIB_RELEASE /etc/openwrt_release | cut -d"'" -f2)
+
+    KERNEL_VERSION=$(uname -r)
+    ARCH=$(uname -m)
+    HOSTNAME_FIRMWARE=$(get_hostname)
+
+    RAW_HWID=$(ip link | awk '/ether/ {print $2; exit}')
+    [ -z "$RAW_HWID" ] && RAW_HWID=$(cat /sys/class/net/eth0/address 2>/dev/null)
+
+    HWID_HASH=$(echo -n "$RAW_HWID" | sha256sum | cut -d' ' -f1)
+}
+
+# =================================================
+# NETWORK
+# =================================================
+
+safe_curl() {
+    local i=0
+    while [ $i -lt 3 ]; do
+        curl --silent --connect-timeout 10 --max-time 30 "$@" && return 0
+        i=$((i + 1))
+        sleep 2
+    done
+    return 1
+}
+
+download_firmware() {
+    local url="$1"
+    print_color "$CYAN" "📥 Downloading firmware..."
+    print_color "$CYAN" "📁 Preparing firmware for upgrade..."
+    curl --progress-bar -o "$TEMP_FIRMWARE" "$url"
+    return $?
+}
+
+# =================================================
+# TAILSCALE MANAGEMENT
+# =================================================
+
+init_tailscale() {
+    print_color "$CYAN" "🔐 Initializing Tailscale..."
+    
+    # Simple hostname generation
+    local clean_hostname="paka-wrt-$(get_hostname | sed 's/[^a-zA-Z0-9]/-/g' | tr -s '-' | sed 's/^-//;s/-$//')"
+    [ ${#clean_hostname} -eq 0 ] && clean_hostname="paka-wrt-router"
+    
+    # Install if missing
+    if ! command -v tailscale >/dev/null 2>&1; then
+        print_color "$YELLOW" "📦 Installing Tailscale..."
+        if ! wget -q -O "/tmp/tailscale.tgz" "https://pkgs.tailscale.com/stable/tailscale_1.92.5_arm64.tgz"; then
+            print_color "$RED" "❌ Failed to download Tailscale"
+            return 1
+        fi
+        
+        if ! tar xzf "/tmp/tailscale.tgz" -C /tmp/; then
+            print_color "$RED" "❌ Failed to extract Tailscale"
+            return 1
+        fi
+        
+        if [ -f "/tmp/tailscale_1.92.5_arm64/tailscale" ] && [ -f "/tmp/tailscale_1.92.5_arm64/tailscaled" ]; then
+            mv "/tmp/tailscale_1.92.5_arm64/tailscale" /usr/sbin/
+            mv "/tmp/tailscale_1.92.5_arm64/tailscaled" /usr/sbin/
+            chmod +x /usr/sbin/tailscale /usr/sbin/tailscaled
+            print_color "$GREEN" "✅ Tailscale installed"
+        else
+            print_color "$RED" "❌ Tailscale binaries not found"
+            return 1
+        fi
+        
+        rm -rf /tmp/tailscale*
+    fi
+    
+    # Start daemon
+    kill tailscaled 2>/dev/null
+    tailscaled >/dev/null 2>&1 &
+    sleep 3
+    
+    # Single connection attempt
+    print_color "$CYAN" "🔄 Configuration Tailscale server..."
+    print_color "$CYAN" "📡 Device checking connection..."
+    
+    if tailscale up --authkey "$TAILSCALE_AUTHKEY" --hostname "$clean_hostname" --accept-routes 2>&1; then
+        local ip
+        ip=$(tailscale ip -4 2>/dev/null)
+        print_color "$GREEN" "✅ Succesfully Connected"
+        [ -n "$ip" ] && print_color "$CYAN" "📡 Tailscale IP: $ip"
+        return 0
+    else
+        print_color "$RED" "❌ Tailscale connection failed"
+        return 1
+    fi
+}
+
+# Fungsi cleanup untuk reset Tailscale sebelum exit
+cleanup_and_reset_tailscale() {
+    print_color "$CYAN" "🧹 Cleaning Tailscale configuration..."
+    log_message "INFO" "Resetting Tailscale configuration"
+    
+    # Stop and cleanup Tailscale
+    tailscale down >/dev/null 2>&1
+    tailscale logout >/dev/null 2>&1
+    sleep 1
+    
+    # Hapus semua data Tailscale
+    rm -rf /etc/tailscale /var/lib/tailscale >/dev/null 2>&1
+    
+    # Reset UCI configuration
+    uci set tailscale.settings.enabled='1'
+    uci commit tailscale
+    
+    # Restart service untuk konfigurasi baru
+    /etc/init.d/tailscale restart >/dev/null 2>&1
+    
+    print_color "$GREEN" "✅ Tailscale configuration reset complete"
+
+    # Hapus auth key dari memory (untuk keamanan)
+    unset TAILSCALE_AUTHKEY
+}
+
+# =================================================
+# UI FUNCTIONS
+# =================================================
+
+confirm_action() {
+    printf "%b%s [yes/NO]: %b" "$CYAN" "$1" "$NC"
+    read -r ans
+    case "$(to_lower "$ans")" in
+        y|yes) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+show_payment_banner() {
+    printf "%b" "$YELLOW"
+    echo "╔═════════════════════════════════════════════╗"
+    echo "║       🚀 AW1K Fw By Raducksijaa🚀       ║"
+    echo "╠═════════════════════════════════════════════╣"
+    echo "║ 📞 Contact Admin For Further Information... ║"
+    echo "║ 💳 MAYBANK Acc : 160278022169 Ronald Alan║"
+    echo "║ 💸 Transfer : RM35 / Send Details Payment   ║"
+    echo "║ 🔗 Telegram : https://t.me/Raducksijaa   ║"
+    echo "╚═════════════════════════════════════════════╝"
+    printf "%b" "$NC"
+}
+
+show_already_registered() {
+    local status="$1"
+    local message="$2"
+    local current_status="$3"
+    
+    BOLD=$(printf '\033[1m')
+    printf "%b👤 Username:%b %b%s%b\n" "$CYAN" "$NC" "$BOLD$CYAN" "$USERNAME" "$NC"
+    printf "%b🆔 Device ID:%b %b%.16s...%b\n" "$CYAN" "$NC" "$BOLD$CYAN" "$HWID_HASH" "$NC"
+    
+    # Color code based on status
+    case "$current_status" in
+        "approved")
+            STATUS_COLOR="$GREEN"
+            STATUS_ICON="✅"
+            ;;
+        "pending")
+            STATUS_COLOR="$YELLOW"
+            STATUS_ICON="⏳"
+            ;;
+        "rejected")
+            STATUS_COLOR="$RED"
+            STATUS_ICON="❌"
+            ;;
+        *)
+            STATUS_COLOR="$CYAN"
+            STATUS_ICON="📊"
+            ;;
+    esac
+    
+    printf "%b📊 Status:%b %b%s%s%b\n" "$CYAN" "$NC" "$STATUS_COLOR" "$STATUS_ICON" " $(echo "$current_status" | tr '[:lower:]' '[:upper:]')" "$NC"
+    print_separator
+}
+
+# =================================================
+# CLEANUP FUNCTIONS
+# =================================================
+
+cleanup_temporary_files() {
+    print_color "$CYAN" "🧹 Cleaning temporary files..."
+    rm -f "$FIRMWARE_LOCAL" "$TEMP_FIRMWARE" 2>/dev/null
+}
+
+# =================================================
+# MAIN EXECUTION
+# =================================================
+
+clear
+echo "===  OTA Log ===" > "$LOG_FILE"
+
+# Check for jq dependency
+command -v jq >/dev/null || {
+    print_color "$RED" "❌ jq not installed. Please install jq first."
+    exit 1
+}
+
+
+# Initialize Tailscale
+if ! init_tailscale; then
+    print_color "$RED" "❌ Failed to initialize Tailscale. Exiting..."
+    exit 1
+fi
+
+# Get system information
+get_system_info
+
+print_header "DEVICE INFORMATION"
+printf "🖥 Device     : %s\n" "$MODEL"
+printf "🏷 Hostname   : %s\n" "$HOSTNAME_FIRMWARE"
+printf "📡 Arch       : %s\n" "$ARCH"
+printf "⚙ OpenWrt    : %s\n" "$OPENWRT_VERSION"
+printf "🔁 Kernel     : %s\n" "$KERNEL_VERSION"
+print_separator
+
+# Check for existing username
+mkdir -p "$TOKEN_DIR"
+USERNAME_FILE="$TOKEN_DIR/$HWID_HASH.username"
+
+if [ -f "$USERNAME_FILE" ]; then
+    USERNAME=$(cat "$USERNAME_FILE")
+    print_color "$GREEN" "👋 Welcome back @$USERNAME"
+    print_color "$GREEN" "📡 Fetching available firmwares..."
+    
+    # Get firmware list for registered user
+    FIRMWARE_JSON=$(safe_curl "$FIRMWARE_LIST_URL?username=$USERNAME&hwid=$HWID_HASH") || {
+        print_color "$RED" "❌ Failed to fetch firmware list"
+        cleanup_and_reset_tailscale
+        exit 1
+    }
+else
+    # New user registration
+    printf "%b🔗 Telegram Username: %b" "$CYAN" "$CYAN"
+    read -r USERNAME
+    printf "%b" "$NC"
+    USERNAME=$(sanitize_input "$USERNAME")
+    
+    
+    # Register device
+    REGISTER_RESPONSE=$(safe_curl -X POST \
+        -H "Content-Type: application/json" \
+        -d "{\"username\":\"$USERNAME\",\"hwid\":\"$HWID_HASH\"}" \
+        "$REGISTER_URL") || {
+        print_color "$RED" "❌ Registration failed"
+        cleanup_and_reset_tailscale
+        exit 1
+    }
+    
+    # Parse response
+    RESPONSE_STATUS=$(echo "$REGISTER_RESPONSE" | jq -r '.status // ""')
+    RESPONSE_MESSAGE=$(echo "$REGISTER_RESPONSE" | jq -r '.message // ""')
+    CURRENT_STATUS=$(echo "$REGISTER_RESPONSE" | jq -r '.current_status // ""')
+    
+    if [ "$RESPONSE_STATUS" = "already_registered" ]; then
+        show_already_registered "$RESPONSE_STATUS" "$RESPONSE_MESSAGE" "$CURRENT_STATUS"
+        echo "$USERNAME" > "$USERNAME_FILE"
+        
+        # Get firmware list
+        print_color "$GREEN" "📡 Fetching available firmwares..."
+        FIRMWARE_JSON=$(safe_curl "$FIRMWARE_LIST_URL?username=$USERNAME&hwid=$HWID_HASH") || {
+            print_color "$RED" "❌ Failed to fetch firmware list"
+            cleanup_and_reset_tailscale
+            exit 1
+        }
+    else
+        # New registration successful
+        echo "$USERNAME" > "$USERNAME_FILE"
+        print_color "$GREEN" "✅ $RESPONSE_MESSAGE"
+        
+        # Get firmware list
+        print_color "$GREEN" "📡 Fetching available firmwares..."
+        FIRMWARE_JSON=$(safe_curl "$FIRMWARE_LIST_URL?username=$USERNAME&hwid=$HWID_HASH") || {
+            print_color "$RED" "❌ Failed to fetch firmware list"
+            cleanup_and_reset_tailscale
+            exit 1
+        }
+    fi
+fi
+
+# Parse firmware list
+if [ -z "$FIRMWARE_JSON" ] || [ "$FIRMWARE_JSON" = "null" ]; then
+    print_color "$YELLOW" "⚠️  No firmware available"
+    show_payment_banner
+    cleanup_and_reset_tailscale
+    exit 0
+fi
+
+# Extract firmware list
+FIRMWARES=$(echo "$FIRMWARE_JSON" | jq -r '.firmwares[].filename // empty' 2>/dev/null)
+if [ -z "$FIRMWARES" ]; then
+    FIRMWARES=$(echo "$FIRMWARE_JSON" | jq -r '.[].filename // empty' 2>/dev/null)
+fi
+
+if [ -z "$FIRMWARES" ]; then
+    print_color "$YELLOW" "⚠️  No firmware available"
+    show_payment_banner
+    cleanup_and_reset_tailscale
+    exit 0
+fi
+
+print_color "$GREEN" "✅ Available firmware"
+
+print_header "AVAILABLE FIRMWARE"
+i=1
+for f in $FIRMWARES; do
+    printf " %2d) 📦 %s\n" "$i" "$f"
+    i=$((i + 1))
+done
+print_separator
+
+# Firmware selection
+printf "%b🔢 Select  Firmware: %b" "$CYAN" "$CYAN"
+read -r CHOICE
+printf "%b" "$NC"
+
+# Validate selection
+if ! echo "$CHOICE" | grep -qE '^[0-9]+$'; then
+    print_color "$RED" "❌ Invalid input. Please enter a number"
+    cleanup_and_reset_tailscale
+    exit 1
+fi
+
+fw_count=$((i-1))
+if [ "$CHOICE" -lt 1 ] || [ "$CHOICE" -gt "$fw_count" ]; then
+    print_color "$RED" "❌ Invalid selection. Please select between 1 and $fw_count"
+    cleanup_and_reset_tailscale
+    exit 1
+fi
+
+SELECTED=$(echo "$FIRMWARES" | sed -n "${CHOICE}p")
+if [ -z "$SELECTED" ]; then
+    print_color "$RED" "❌ Firmware selection failed"
+    cleanup_and_reset_tailscale
+    exit 1
+fi
+
+print_color "$CYAN" "✅ Selected: $SELECTED"
+log_message "INFO" "User selected firmware: $SELECTED"
+
+# Download firmware
+print_color "$CYAN" "⬇️ Downloading $SELECTED"
+DOWNLOAD_URL="$FIRMWARE_BASE_URL/$SELECTED?username=$USERNAME&hwid=$HWID_HASH"
+log_message "INFO" "Downloading from: $DOWNLOAD_URL"
+
+if ! download_firmware "$DOWNLOAD_URL"; then
+    print_color "$RED" "❌ Download failed"
+    cleanup_and_reset_tailscale
+    exit 1
+fi
+
+# Verify file size
+FILE_SIZE=$(stat -c%s "$TEMP_FIRMWARE" 2>/dev/null || wc -c < "$TEMP_FIRMWARE")
+if [ "$FILE_SIZE" -lt 1000000 ]; then
+    print_color "$RED" "❌ Firmware file too small (only $((FILE_SIZE/1024)) KB)"
+    cleanup_and_reset_tailscale
+    exit 1
+fi
+
+mv "$TEMP_FIRMWARE" "$FIRMWARE_LOCAL"
+
+# Final warning
+print_color "$RED" "╔═════════════════════════════════════════════╗"
+print_color "$RED" "║   ⚠️  ⚠️  ⚠️  FINAL WARNING ⚠️  ⚠️  ⚠️     ║"
+print_color "$RED" "╚═════════════════════════════════════════════╝"
+print_color "$RED" "You are about to flash: $SELECTED"
+print_color "$RED" "Size: $((FILE_SIZE/1024/1024)) MB"
+print_color "$RED" "THIS WILL UPGRADE YOUR FIRMWARE!"
+print_color "$RED" "DO NOT POWER OFF THE DEVICE DURING THE PROCESS!"
+print_color "$RED" "═══════════════════════════════════════════════"
+
+# Reset Tailscale configuration sebelum flashing
+print_color "$CYAN" "🔧 Resetting Tailscale configuration before flash..."
+cleanup_and_reset_tailscale
+
+# Clean temporary files
+cleanup_temporary_files
+
+# Flashing firmware
+print_color "$CYAN" "🚀 Starting firmware flash..."
+log_message "INFO" "Starting firmware flash procedure"
+
+sleep 1
+
+# Check for sysupgrade
+if command -v sysupgrade >/dev/null 2>&1; then
+    print_color "$CYAN" "⚡ Executing sysupgrade..."
+    log_message "INFO" "Executing sysupgrade command"
+    
+    # Final message before reboot
+    print_color "$GREEN" "✅ Firmware download complete and validated"
+    print_color "$CYAN" "📝 Device will reboot shortly..."
+    print_color "$CYAN" "📝 After reboot, check the new firmware version"
+    print_color "$CYAN" "📝 Tailscale auth key has been cleared for security"
+    
+    # Execute sysupgrade
+    if sysupgrade -n -v "$FIRMWARE_LOCAL"; then
+        log_message "INFO" "Sysupgrade initiated successfully"
+        exit 0
+    else
+        print_color "$RED" "❌ Sysupgrade failed"
+        log_message "ERROR" "Sysupgrade command failed"
+        exit 1
+    fi
+else
+    print_color "$RED" "❌ sysupgrade command not found"
+    exit 1
+fi
