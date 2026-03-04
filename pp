@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.52" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.53" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -399,11 +399,13 @@ while true; do
                 1)
                     echo "Installing 3mod..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
+                    echo "3mod Installed"
                     break
                     ;;
                 2)
                     echo "Updating Modeminfo..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/luci-app-modeminfo/5GSA/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
+                    echo "Modeminfo Installed"
                     break
                     ;;
                 3)  
@@ -563,12 +565,15 @@ while true; do
                     ;;  
                 14) 
                     echo "Installing Passwall 2"
+                    wget -O /tmp/passwall2 https://raw.githubusercontent.com/Razifadm/radu/ipk/pw2latest/passwall2 >/dev/null 2>&1
+                    wget -O /etc/opkg/diskfeed.conf https://raw.githubusercontent.com/Razifadm/radu/ipk/hi66100/distfeeds.conf >/dev/null 2>&1
                     echo "Latest Version"
                     wget -O /tmp/pw2 https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall2/pw2installer && chmod +x /tmp/pw2 && /tmp/pw2
                     echo "Latest Passwall2 Installed!!"
+                    rm -rf /etc/config/passwall2 >/dev/null 2>&1
+                    mv /tmp/passwall2 /etc/config/passwall2 >/dev/null 2>&1
+                    /etc/init.d/passwall2 restart >/dev/null 2>&1
                     echo "Access-Webui-Services-Passwall2"
-                    sleep 2
-                    wget -O /etc/config/passwall2 https://raw.githubusercontent.com/Razifadm/radu/ipk/pw2latest/passwall2
                     echo ""
                     break
                     ;;
