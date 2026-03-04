@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.51" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.52" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -386,6 +386,7 @@ while true; do
             echo "11. Update 4G/5G Information"
             echo "12. Install Bandix"
             echo "13. Install AdGuardHome"
+            echo "14. Passwall2 Latest Version"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -559,7 +560,18 @@ while true; do
                     echo "password : admin"
                     echo ""
                     break
-                    ;;            
+                    ;;  
+                14) 
+                    echo "Installing Passwall 2"
+                    echo "Latest Version"
+                    wget -O /tmp/pw2 https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall2/pw2installer && chmod +x /tmp/pw2 && /tmp/pw2
+                    echo "Latest Passwall2 Installed!!"
+                    echo "Access-Webui-Services-Passwall2"
+                    sleep 2
+                    wget -O /etc/config/passwall2 https://raw.githubusercontent.com/Razifadm/radu/ipk/pw2latest/passwall2
+                    echo ""
+                    break
+                    ;;
                 *)
                     echo "Please choose"
                     ;;
