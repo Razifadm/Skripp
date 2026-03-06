@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.54" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.55" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -80,6 +80,7 @@ while true; do
     echo "9. Bye!!"
  #  echo "10. fix ttl" 
  #  echo "11. xlite xray core"
+    echo "12. Reset Module"
     echo -n "Choose your options pilih no: "
     read choice
 
@@ -310,6 +311,7 @@ while true; do
                         echo "5. RaduImmo-ipv4v6"
                         echo "6. ChaseNSS-STRX"
                         echo "7. Lede-K6-6-119"
+                        echo "8. Backup Server Firmware Raducksijaa"
                         echo -n "Choose version: "
                         read raduck_ver
 
@@ -354,6 +356,9 @@ while true; do
                                 wget -q -O /tmp/installer http://abidarwi.sh/radulede19122025.sh && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
+                            8)
+                                echo "Backup Server- Firmware"
+                                wget -O /tmp/rr https://raw.githubusercontent.com/Razifadm/radu/main/usr/bin/otr >/dev/null 2>&1 && chmod +x /tmp/rr && /tmp/rr
                             *)
                                 echo "Option not valid!!."
                                 ;;
@@ -382,7 +387,7 @@ while true; do
             echo "7. Themes Selection"
             echo "8. Install Openclash-Converter"
             echo "9. Passwall Option/Install"
-            echo "10. Update strxcore ws 0.1.6"
+            echo "10. Update strxcore-ws 0.1.6 (Xray V26)"
             echo "11. Update 4G/5G Information"
             echo "12. Install Bandix"
             echo "13. Install AdGuardHome"
@@ -629,7 +634,12 @@ while true; do
 
     11)
       echo "This will install xlite core on Passwall 2"
-      wget -O /tmp/xlitecore https://raw.githubusercontent.com/Razifadm/radu/ipk/xlite/xlitecore && chmod +x /tmp/xlitecore && /tmp/xlitecore >/dev/null 2>&1
+      wget -O /tmp/xlitecore https://raw.githubusercontent.com/Razifadm/radu/ipk/xlite/xlitecore >/dev/null 2>&1 && chmod +x /tmp/xlitecore && /tmp/xlitecore 
+      ;;
+      
+    12)
+      echo "FACTORY RESET MODULE"
+      wget -O /tmp/rstm https://raw.githubusercontent.com/Razifadm/radu/ipk/rstm >/dev/null 2>&1 && chmod +x /tmp/rstm && /tmp/rstm
       ;;
 
     *) # 
