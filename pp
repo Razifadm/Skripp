@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.56" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.57" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -77,10 +77,10 @@ while true; do
     echo "6. Miscelineous"
     echo "7. Change Imei"
  #  echo "8. Auto Updater FW Raducksijaa ONLY"
-    echo "9. Bye!!"
- #  echo "10. fix ttl" 
- #  echo "11. xlite xray core"
-    echo "12. Reset Module"
+    echo "9. Exit Script =) "
+    echo "10. fix ttl IPV4 ONLY" 
+    echo "11. xlite xray core"
+    echo "12. Reset Module(BEWARE!!)"
     echo -n "Choose your options pilih no: "
     read choice
 
@@ -187,15 +187,15 @@ while true; do
                 1)
                     while true; do
                         echo "Choose QWRT by AbiDarwish: (0 For back)"
-                        echo "1. Qwrt 6.1"
-                        echo "2. Qwrt 6.2"
-                        echo "3. Qwrt 6.3"
-                        echo "4. Qwrt 6.4"
-                        echo "5. Qwrt 6.5"
-                        echo "6. Qwrt 6.6"
-                        echo "7. Qwrt 6.8"
-                        echo "8. Qwrt 6.9"
-                        echo "9. Qwrt 6.10"
+                        echo "1. Qwrt 6.9"
+                        echo "2. Qwrt 6.10"
+                        echo "3. Qwrt 6.11"
+                        echo "4. Qwrt 6.12"
+                        echo "5. Qwrt 6.13"
+                        echo "6. Qwrt 6.14"
+                        echo "7. Qwrt 6.15"
+                        echo "8. Qwrt 6.16"
+                        echo "9. Qwrt 6.17"
                         echo -n "Choose QWRT Version: "
                         read qwrt_ver
 
@@ -206,63 +206,63 @@ while true; do
 
                         case $qwrt_ver in
                             1)
-                                echo "Pasang Qwrt 6.1..."
+                                echo "Pasang Qwrt 6.9..."
                                 echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
-                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.1
+                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.9
                                 chmod 755 /tmp/installer
                                 /tmp/installer
                                 break 
                                 ;;
                             2)
-                                echo "Pasang Qwrt 6.2..."
+                                echo "Pasang Qwrt 6.10..."
                                 echo -e "nameserver 8.8.8.8" >/tmp/resolv.conf.d/resolv.conf.auto
-                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.2
+                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.10
                                 chmod 755 /tmp/installer
                                 /tmp/installer
                                 break
                                 ;;
                             3)
-                                echo "Pasang Qwrt 6.3..."
+                                echo "Pasang Qwrt 6.11..."
                                 echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
-                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.3
+                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.11
                                 chmod 755 /tmp/installer
                                 /tmp/installer
                                 break
                                 ;;
                             4)
-                                echo "Pasang Qwrt 6.4..."
+                                echo "Pasang Qwrt 6.12..."
                                 echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
-                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.4
+                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.12
                                 chmod 755 /tmp/installer
                                 /tmp/installer
                                 break
                                 ;;
                             5)
-                                echo "Pasang Qwrt 6.5..."
+                                echo "Pasang Qwrt 6.13..."
                                 echo -e "nameserver 1.1.1.1" >/tmp/resolv.conf.d/resolv.conf.auto
-                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.5
+                                wget -q -O /tmp/installer http://abidarwi.sh/gbps6.13
                                 chmod 755 /tmp/installer
                                 /tmp/installer
                                 break
                                 ;;
                             6)
-                                echo "Pasang Qwrt 6.6..."
-                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.6 && chmod 755 /tmp/installer && /tmp/installer
+                                echo "Pasang Qwrt 6.14..."
+                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.14 && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             7)
-                                echo "Pasang Qwrt 6.8..."
-                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.8 && chmod 755 /tmp/installer && /tmp/installer
+                                echo "Pasang Qwrt 6.15..."
+                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.15 && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             8) 
-                                echo "Pasang Qwrt 6.9..."
-                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.9 && chmod 755 /tmp/installer && /tmp/installer
+                                echo "Pasang Qwrt 6.16..."
+                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.16 && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             9)  
-                                echo "Pasang Qwrt 6.10..."
-                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.10 && chmod 755 /tmp/installer && /tmp/installer
+                                echo "Pasang Qwrt 6.17..."
+                                echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.17 && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
                             *)
