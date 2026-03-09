@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.57" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.58" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -76,11 +76,11 @@ while true; do
     echo "5. Change firmware?"
     echo "6. Miscelineous"
     echo "7. Change Imei"
- #  echo "8. Auto Updater FW Raducksijaa ONLY"
-    echo "9. Exit Script =) "
-    echo "10. fix ttl IPV4 ONLY" 
-    echo "11. xlite xray core"
-    echo "12. Reset Module(BEWARE!!)"
+    echo "8. fix ttl IPV4 ONLY" 
+    echo "9. xlite xray core"
+    echo "10. Reset Module(BEWARE!!)"
+# echo "u. Auto Updater FW Raducksijaa ONLY"
+    echo "x. Exit"
     echo -n "Choose your options pilih no: "
     read choice
 
@@ -606,9 +606,26 @@ while true; do
         else
             echo "❌ Error changing Imei"
         fi
-        ;;
+        ;;    
 
-    8)
+    8) 
+      echo "ttl 64 fixed"
+      rm -f /etc/nftables.d/*.nft
+      wget -O /etc/nftables.d/ttl64.nft https://raw.githubusercontent.com/Razifadm/radu/ipk/ttl64.nft >/dev/null 2>&1
+      /etc/init.d/firewall restart >/dev/null 2>&1
+      ;;
+
+    9)
+      echo "This will install xlite core on Passwall 2"
+      wget -O /tmp/xlitecore https://raw.githubusercontent.com/Razifadm/radu/ipk/xlite/xlitecore >/dev/null 2>&1 && chmod +x /tmp/xlitecore && /tmp/xlitecore 
+      ;;
+      
+    10)
+      echo "FACTORY RESET MODULE"
+      wget -O /tmp/rstm https://raw.githubusercontent.com/Razifadm/radu/ipk/rstm >/dev/null 2>&1 && chmod +x /tmp/rstm && /tmp/rstm
+      ;;
+
+    u)
         echo "Auto Updater Raducksijaa"
         echo "STILL IN PROGRESS"
         #===============================================================================================
@@ -621,28 +638,11 @@ while true; do
         echo "DONE"
         ;; 
         
-    9) 
+    x) 
        echo "Bye bye... see you soon..!!."
        exit 0 # Exit the script explicitly when choosing to exit
        ;; 
-
-    10) 
-      echo "ttl 64 fixed"
-      rm -f /etc/nftables.d/*.nft
-      wget -O /etc/nftables.d/ttl64.nft https://raw.githubusercontent.com/Razifadm/radu/ipk/ttl64.nft >/dev/null 2>&1
-      /etc/init.d/firewall restart >/dev/null 2>&1
-      ;;
-
-    11)
-      echo "This will install xlite core on Passwall 2"
-      wget -O /tmp/xlitecore https://raw.githubusercontent.com/Razifadm/radu/ipk/xlite/xlitecore >/dev/null 2>&1 && chmod +x /tmp/xlitecore && /tmp/xlitecore 
-      ;;
-      
-    12)
-      echo "FACTORY RESET MODULE"
-      wget -O /tmp/rstm https://raw.githubusercontent.com/Razifadm/radu/ipk/rstm >/dev/null 2>&1 && chmod +x /tmp/rstm && /tmp/rstm
-      ;;
-
+       
     *) # 
         echo "Please choose accordingly!!"
         ;;
