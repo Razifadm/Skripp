@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.58" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.59" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -80,6 +80,7 @@ while true; do
     echo "9. xlite xray core"
     echo "10. Reset Module(BEWARE!!)"
 # echo "u. Auto Updater FW Raducksijaa ONLY"
+    echo "w. Reset Wifi Config"
     echo "x. Exit"
     echo -n "Choose your options pilih no: "
     read choice
@@ -393,6 +394,7 @@ while true; do
             echo "12. Install Bandix"
             echo "13. Install AdGuardHome"
             echo "14. Passwall2 Latest Version"
+            echo "15. NetspeedTest Via Webui"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -425,13 +427,14 @@ while true; do
                     break
                     ;;
                 4) 
-                    if [ -f /usr/bin/setwifi ]; then
-                    /usr/bin/setwifi
-                    else
-                    echo "Please wait"
+                 #  if [ -f /usr/bin/setwifi ]; then
+                 #  /usr/bin/setwifi
+                 # else
+                    echo "Opening setwifi script"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/setwifi/Sw2/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     /usr/bin/setwifi
-                    fi
+                 # fi
+                    echo ""
                     break
                     ;;
                 5)
@@ -481,6 +484,8 @@ while true; do
                                 wget -O /tmp/alpha https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/alpha >/dev/null 2>&1
                                 chmod +x /tmp/alpha
                                 /tmp/alpha
+                                echo "Luci Theme Alpha-Mod Installed"
+                                echo ""
                                 break
                                 ;;
                             0)
@@ -516,6 +521,7 @@ while true; do
                                 wget -O /usr/bin/pw https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/pw && chmod +x /usr/bin/pw && /usr/bin/pw
                                 echo ""
                                 echo "Passwall 1 Auto Switch Installed"
+                                echo ""
                                 break
                                 ;;
                             2)
@@ -523,6 +529,7 @@ while true; do
                                 wget -O /tmp/pwb https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/pwbanner && chmod +x /tmp/pwb && /tmp/pwb >/dev/null 2>&1
                                 echo ""
                                 echo "Banner IP Installed!!"
+                                echo ""
                                 break
                                 ;;
                             0)
@@ -540,6 +547,7 @@ while true; do
                     wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore >/dev/null 2>&1
                     echo "xray core Updated!!"
                     strxcore --version
+                    echo ""
                     break
                     ;; 
                 11) 
@@ -547,6 +555,7 @@ while true; do
                     wget -O /usr/bin/mdmdata https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/mdmdata && chmod +x /usr/bin/mdmdata && /usr/bin/mdmdata >/dev/null 2>&1
                     echo ""
                     echo "New 4G/5G Information Installed"
+                    echo ""
                     break
                     ;;
                 12) 
@@ -583,6 +592,15 @@ while true; do
                     echo ""
                     break
                     ;;
+                15)
+                    echo "Installing NetSpeedTest via Webui"
+                    wget -O /tmp/netspeedtest https://raw.githubusercontent.com/Razifadm/radu/ipk/netspeedtest/netspeed >/dev/null 2>&1 && chmod +x /tmp/netspeedtest && /tmp/netspeedtest 
+                   echo "   "
+                   echo "NetSpeedTest Installed"
+                   echo "Network Netspeedtest"
+                   echo "  "
+                   break
+                   ;;
                 *)
                     echo "Please choose"
                     ;;
@@ -612,12 +630,19 @@ while true; do
       echo "ttl 64 fixed"
       rm -f /etc/nftables.d/*.nft
       wget -O /etc/nftables.d/ttl64.nft https://raw.githubusercontent.com/Razifadm/radu/ipk/ttl64.nft >/dev/null 2>&1
+      sleep 1
+      wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
       /etc/init.d/firewall restart >/dev/null 2>&1
+      echo "ttl ipv4 fixed"
+      echo ""
       ;;
 
     9)
       echo "This will install xlite core on Passwall 2"
       wget -O /tmp/xlitecore https://raw.githubusercontent.com/Razifadm/radu/ipk/xlite/xlitecore >/dev/null 2>&1 && chmod +x /tmp/xlitecore && /tmp/xlitecore 
+      echo ""
+      echo "Passwall2 using xlite core now!!"
+      echo ""
       ;;
       
     10)
@@ -638,6 +663,22 @@ while true; do
         echo "DONE"
         ;; 
         
+   w)
+        echo "📶Set Default Wifi Configuration"
+
+       rm /etc/config/wireless
+       wifi config
+       uci commit wireless
+       wifi up
+       echo "WiFi Reset!"
+       echo "SSID :Openwrt"
+       echo "or"
+       echo "SSID : Immortalwrt"
+       echo "or"
+       echo "SSID : LEDE"
+       echo "No Password"
+       ;;
+
     x) 
        echo "Bye bye... see you soon..!!."
        exit 0 # Exit the script explicitly when choosing to exit
