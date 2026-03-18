@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.60" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.61" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -652,7 +652,7 @@ while true; do
       ;;
 
     p)
-       wget -O /tmp/pci https://raw.githubusercontent.com/Razifadm/radu/ipk/rstm >/dev/null 2>&1 && chmod +x /tmp/pci && /tmp/pci
+       wget -O /tmp/pci https://raw.githubusercontent.com/Razifadm/radu/ipk/pci >/dev/null 2>&1 && chmod +x /tmp/pci && /tmp/pci
        ;;
 
     u)
