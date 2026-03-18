@@ -3,7 +3,7 @@
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.59" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.60" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -79,6 +79,7 @@ while true; do
     echo "8. fix ttl IPV4 ONLY" 
     echo "9. xlite xray core"
     echo "10. Reset Module(BEWARE!!)"
+    echo "p. Lock PCI Menu"
 # echo "u. Auto Updater FW Raducksijaa ONLY"
     echo "w. Reset Wifi Config"
     echo "x. Exit"
@@ -650,6 +651,10 @@ while true; do
       wget -O /tmp/rstm https://raw.githubusercontent.com/Razifadm/radu/ipk/rstm >/dev/null 2>&1 && chmod +x /tmp/rstm && /tmp/rstm
       ;;
 
+    p)
+       wget -O /tmp/pci https://raw.githubusercontent.com/Razifadm/radu/ipk/rstm >/dev/null 2>&1 && chmod +x /tmp/pci && /tmp/pci
+       ;;
+
     u)
         echo "Auto Updater Raducksijaa"
         echo "STILL IN PROGRESS"
@@ -670,6 +675,7 @@ while true; do
        wifi config
        uci commit wireless
        wifi up
+       wifi reload
        echo "WiFi Reset!"
        echo "SSID :Openwrt"
        echo "or"
