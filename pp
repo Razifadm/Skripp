@@ -1,9 +1,21 @@
 #!/bin/sh
+
+R='\033[1;31m'   # Red
+G='\033[1;32m'   # Green
+Y='\033[1;33m'   # Yellow
+B='\033[1;34m'   # Blue
+M='\033[1;35m'   # Magenta
+C='\033[1;36m'   # Cyan
+W='\033[1;37m'   # White
+
+#printf "${M}ITEM${NC}\n"
+
+
 #≈=====================================================
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.61" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.62" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -52,6 +64,18 @@ self_update() {
     fi
 }
 
+confirm_yesno() {
+    while true; do
+        printf "%s [y/N]: " "$1"
+        read ans
+        case "$ans" in
+            y|Y|yes) return 0 ;;
+            n|N|"") return 1 ;;
+            *) echo "Please answer y or n." ;;
+        esac
+    done
+}
+
 # --- Execute the self-update check at the very beginning ---
 self_update
 
@@ -62,29 +86,60 @@ chmod +x /usr/bin/nas
 wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
 chmod +x /usr/bin/imei
 rm -rf /www/luci-static/resources/view/status/include/00_internet.js >/dev/null 2>&1
+wget -O /usr/bin/pci https://raw.githubusercontent.com/Razifadm/radu/ipk/pci >/dev/null 2>&1 && chmod +x /usr/bin/pci 
 #==============================================================================================================
 
 
 # --- Main Menu Loop ---
 
+# ===== COLOR CODE =====
+R='\033[1;31m'
+G='\033[1;32m'
+Y='\033[1;33m'
+B='\033[1;34m'
+C='\033[1;36m'
+M='\033[1;35m'
+NC='\033[0m'
+
+# ===== BASIC COLORS =====
+print_red()     { printf "${R}%s${NC}\n" "$1"; }
+print_green()   { printf "${G}%s${NC}\n" "$1"; }
+print_yellow()  { printf "${Y}%s${NC}\n" "$1"; }
+print_blue()    { printf "${B}%s${NC}\n" "$1"; }
+print_cyan()    { printf "${C}%s${NC}\n" "$1"; }
+print_magenta() { printf "${M}%s${NC}\n" "$1"; }
+
+# ===== EXTRA =====
+print_white()   { printf "\033[1;37m%s${NC}\n" "$1"; }
+print_gray()    { printf "\033[0;37m%s${NC}\n" "$1"; }
+
+# ===== INLINE (NO NEWLINE) =====
+print_inline()  { printf "%s" "$1"; }
+print_inline_y(){ printf "${Y}%s${NC}" "$1"; }
+
+# ===== MENU LOOP =====
 while true; do
-    echo "Select an option:"
-    echo "1. Run htop"
-    echo "2. Speedtest GBPS"
-    echo "3. Reboot AW1000?"
-    echo "4. Ping 1.1.1.1 and google.com"
-    echo "5. Change firmware?"
-    echo "6. Miscelineous"
-    echo "7. Change Imei"
-    echo "8. fix ttl IPV4 ONLY" 
-    echo "9. xlite xray core"
-    echo "10. Reset Module(BEWARE!!)"
-    echo "p. Lock PCI Menu"
-# echo "u. Auto Updater FW Raducksijaa ONLY"
-    echo "w. Reset Wifi Config"
-    echo "x. Exit"
-    echo -n "Choose your options pilih no: "
-    read choice
+    printf "${NC}"   # reset warna setiap loop (IMPORTANT)
+
+    print_cyan "=========== MENU PP ==========="
+print_green  "Select an option:"
+
+print_green       "1. Run htop"
+print_green       "2. Speedtest GBPS"
+print_green       "3. Reboot AW1000?"
+print_green       "4. Ping 1.1.1.1 and google.com"
+print_magenta "5. Change Firmware"
+print_green       "6. Miscelineous"
+print_magenta  "7. Change Imei"
+print_yellow      "8. Fix TTL IPV4 ONLY"
+print_green       "9. xlite xray core"
+print_magenta "10. Reset Module (BEWARE!!)"
+print_yellow      "p. Lock PCI Menu"
+print_green        "w. Reset Wifi Config"
+print_red            "x. Exit"
+
+print_inline_y "Choose Menu PP No:? "
+read choice
 
     case $choice in
     1)
@@ -176,7 +231,7 @@ while true; do
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
             echo "4. Solomon"
-            echo "5. Raducksija Firmware"
+            print_magenta "5. Raducksija Firmware"
             echo -n "Choose wisely: "
             read fw_choice
 
@@ -313,7 +368,7 @@ while true; do
                         echo "5. RaduImmo-ipv4v6"
                         echo "6. ChaseNSS-STRX"
                         echo "7. Lede-K6-6-119"
-                        echo "8. Backup Server Firmware Raducksijaa"
+                        print_magenta "8. Backup Server Firmware Raducksijaa"
                         echo -n "Choose version: "
                         read raduck_ver
 
@@ -360,6 +415,8 @@ while true; do
                                 ;;
                             8)
                                 echo "Backup Server- Firmware"
+                                killall rr >/dev/null 2>&1
+                                sleep 1
                                 wget -O /tmp/rr https://raw.githubusercontent.com/Razifadm/radu/main/usr/bin/otr >/dev/null 2>&1 && chmod +x /tmp/rr && /tmp/rr
                                 ;;
                             *)
@@ -381,16 +438,16 @@ while true; do
         while true; do
             echo ""
             echo "Choose Miscelineous: (0 for back menu)"
-            echo "1. Install 3mod"
-            echo "2. Install Modeminfo"
+            print_magenta "1. Install 3mod"
+            print_magenta "2. Install Modeminfo"
             echo "3. Install NAS"
-            echo "4. Set WiFi"
+            print_magenta "4. Set WiFi"
             echo "5. Install ipv6 TTL"
             echo "6. Install luci-app-netstat"
             echo "7. Themes Selection"
             echo "8. Install Openclash-Converter"
             echo "9. Passwall Option/Install"
-            echo "10. Update strxcore-ws 0.1.6 (Xray V26)"
+            print_magenta "10. Update strxcore-ws 0.1.6 (Xray V26)"
             echo "11. Update 4G/5G Information"
             echo "12. Install Bandix"
             echo "13. Install AdGuardHome"
@@ -610,11 +667,11 @@ while true; do
         ;;
 
     7)
-        echo "Changing Imei!!."
+        print_yellow "Changing Imei!!."
         echo -n "NEW_IMEI: "   
         read NEW_IMEI          
         
-        echo "Changing Imei: $NEW_IMEI"
+        print_magenta "Changing Imei: $NEW_IMEI"
         
         # run correct 
         /usr/bin/imei "$NEW_IMEI"
@@ -623,7 +680,7 @@ while true; do
         if [ $? -eq 0 ]; then
             echo "✅ IMEI Changed to $NEW_IMEI"
         else
-            echo "❌ Error changing Imei"
+            print_red "❌ Error changing Imei"
         fi
         ;;    
 
@@ -647,12 +704,27 @@ while true; do
       ;;
       
     10)
-      echo "FACTORY RESET MODULE"
-      wget -O /tmp/rstm https://raw.githubusercontent.com/Razifadm/radu/ipk/rstm >/dev/null 2>&1 && chmod +x /tmp/rstm && /tmp/rstm
-      ;;
+    print_magenta "FACTORY RESET MODULE"
+    echo ""
+    print_yellow "This will reset module and reuse current IMEI"
+    echo ""
+
+    if confirm_yesno "Proceed Reset Module?"; then
+        print_red "Resetting module..."
+        wget -O /tmp/rstm https://raw.githubusercontent.com/Razifadm/radu/ipk/rstm >/dev/null 2>&1 && \
+        chmod +x /tmp/rstm && /tmp/rstm
+    else
+        print_green "Cancelled."
+    fi
+       ;;
 
     p)
-       wget -O /tmp/pci https://raw.githubusercontent.com/Razifadm/radu/ipk/pci >/dev/null 2>&1 && chmod +x /tmp/pci && /tmp/pci
+      killall pci >/dev/null 2>&1
+      if [ -f /usr/bin/pci ]; then
+       /usr/bin/pci
+       else
+       wget -O /usr/bin/pci https://raw.githubusercontent.com/Razifadm/radu/ipk/pci >/dev/null 2>&1 && chmod +x /usr/bin/pci && /usr/bin/pci
+       fi
        ;;
 
     u)
@@ -665,24 +737,25 @@ while true; do
         wget -O /www/luci-static/resources/view/status/include/08_stats.js https://raw.githubusercontent.com/Razifadm/radu/ipk/netstat >/dev/null 2>&1
         echo "netstat fixed"
         #===============================================================================================
-        echo "DONE"
+        print_green "DONE"
         ;; 
         
    w)
-        echo "📶Set Default Wifi Configuration"
-
-       rm /etc/config/wireless
-       wifi config
-       uci commit wireless
-       wifi up
-       wifi reload
-       echo "WiFi Reset!"
-       echo "SSID :Openwrt"
-       echo "or"
-       echo "SSID : Immortalwrt"
-       echo "or"
-       echo "SSID : LEDE"
-       echo "No Password"
+        print_red "📶Set Default Wifi Configuration"
+        print_yellow "SSID : LEDE"
+        print_yellow "SSID : OPENWRT"
+        print_yellow "SSID : IMMORTALWRT"
+        print_red "No Password"
+       
+            if confirm_yesno "Proceed Reset WiFi Configuration?"; then
+               print_red "Resetting wifi..."
+               rm -f /etc/config/wireless && wifi config && \
+               uci set wireless.radio0.disabled='0' && \
+               uci set wireless.radio1.disabled='0' && \
+               uci commit wireless && wifi reload
+            else
+               print_green "Cancelled."
+             fi
        ;;
 
     x) 
