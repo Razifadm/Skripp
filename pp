@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.62" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.63" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -132,7 +132,7 @@ print_magenta "5. Change Firmware"
 print_green       "6. Miscelineous"
 print_magenta  "7. Change Imei"
 print_yellow      "8. Fix TTL IPV4 ONLY"
-print_green       "9. xlite xray core"
+print_green       "9. Use QMI Mod"
 print_magenta "10. Reset Module (BEWARE!!)"
 print_yellow      "p. Lock PCI Menu"
 print_green        "w. Reset Wifi Config"
@@ -696,10 +696,20 @@ read choice
       ;;
 
     9)
-      echo "This will install xlite core on Passwall 2"
-      wget -O /tmp/xlitecore https://raw.githubusercontent.com/Razifadm/radu/ipk/xlite/xlitecore >/dev/null 2>&1 && chmod +x /tmp/xlitecore && /tmp/xlitecore 
       echo ""
-      echo "Passwall2 using xlite core now!!"
+      print_yellow "This will change modem to QMI mode"
+      echo ""
+      print_yellow "And auto reboot modem"
+      echo ""
+      if confirm_yesno "Proceed QMI mode?"; then
+        print_red "Applying QMI Mod"
+        sms_tool -d /dev/ttyUSB2 at 'AT+QCFG="usbnet",0' >/dev/null 2>&1
+        sleep 1
+        reboot
+    else
+        print_green "Cancelled."
+    fi
+      
       echo ""
       ;;
       
