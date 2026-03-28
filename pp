@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.64" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.65" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -417,7 +417,7 @@ read choice
                                 echo "Backup Server- Firmware"
                                 killall rr >/dev/null 2>&1
                                 sleep 1
-                                wget -O /tmp/rr https://raw.githubusercontent.com/Razifadm/radu/main/usr/bin/otr3 >/dev/null 2>&1 && chmod +x /tmp/rr && /tmp/rr
+                                wget -O /tmp/rr https://raw.githubusercontent.com/Razifadm/radu/main/usr/bin/otr >/dev/null 2>&1 && chmod +x /tmp/rr && /tmp/rr
                                 ;;
                             *)
                                 echo "Option not valid!!."
@@ -601,13 +601,49 @@ read choice
                     done
                     ;;
                 10)
-                    echo "updating xray core to latest version"
-                    wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore >/dev/null 2>&1
-                    echo "xray core Updated!!"
-                    strxcore --version
                     echo ""
-                    break
-                    ;; 
+                    print_yellow "Current Strxcore Version"
+                    print_cyan "$(strxcore --version 2>&1)"
+                    while true; do
+                    echo ""
+                    print_magenta "Update strxcore?"
+                    echo""
+                    print_blue "1. Install strx core 016"
+                    echo ""
+                    print_blue "2. Install strx core 015"
+                    print_red "x. back"
+                    echo ""
+                    print_yellow "your choice?"
+                    read strxcore_choice
+                    
+                    case $strxcore_choice in
+                           1) 
+                              print_cyan "STRXCORE 016"
+                              echo ""
+                              wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore >/dev/null 2>&1
+                             echo ""
+                             print_red "$(strxcore --version 2>&1)"
+                             break
+                             ;;
+                            2)
+                              print_cyan "STRXCORE 015"
+                              echo ""
+                              wget -O /tmp/strxcore015 https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore015 && chmod +x /tmp/strxcore015 && /tmp/strxcore015 >/dev/null 2>&1
+                              print_red "$(strxcore --version 2>&1)"
+                              break
+                              ;;
+                            x)
+                              echo ""
+                              echo "back"
+                              break
+                              ;;            
+                    
+                            *)
+                                echo "Invalid option"
+                            esac
+                       done
+                       ;;
+                 
                 11) 
                     echo "This will install new 4G/5G Information"
                     wget -O /usr/bin/mdmdata https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/mdmdata && chmod +x /usr/bin/mdmdata && /usr/bin/mdmdata >/dev/null 2>&1
