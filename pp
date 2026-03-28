@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.66" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.67" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -361,6 +361,12 @@ read choice
                 5) # NEW CASE ADDED HERE
                     while true; do
                         echo "List Off Available Firmware by Raducksija: (0 Back)"
+                        echo ""
+                        print_magenta "Join Group Support TELEGRAM"
+                        print_cyan "Kalau Sudi Mari laa 🤣"
+                        echo ""            
+                        print_yellow "https://t.me/+UfDHRuTPmLxlODBl"
+                        echo ""
                         echo "1. ChaseNSS"
                         echo "2. Full Blood Nss"
                         echo "3. FBD Lite"
