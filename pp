@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.68" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.69" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -136,6 +136,19 @@ print_green       "9. Use QMI Mod"
 print_magenta "10. Reset Module (BEWARE!!)"
 print_yellow      "p. Lock PCI Menu"
 print_green        "w. Reset Wifi Config"
+			TTL_FILE="/etc/nftables.d/ttl64.nft"
+			TTL_FILE_DISABLED="${TTL_FILE}.disabled"
+
+			if [ -f "$TTL_FILE" ]; then
+			    STATUS="ON"
+			elif [ -f "$TTL_FILE_DISABLED" ]; then
+			    STATUS="OFF"
+			else
+			    STATUS="UNKNOWN"
+			fi
+
+print_inline_y 		"t. TTL Switch - Current Status: "
+print_cyan 		       "[$STATUS]"
 print_red            "x. Exit"
 
 print_inline_y "Choose Menu PP No:? "
@@ -809,6 +822,39 @@ read choice
                print_green "Cancelled."
              fi
        ;;
+
+
+    t) 
+    	print_magenta "TTL Quick Toggle"
+    	echo ""
+    
+    	# Toggle
+    	if [ "$STATUS" = "ON" ]; then
+    	if [ -f "$TTL_FILE" ]; then
+            mv "$TTL_FILE" "$TTL_FILE_DISABLED"
+            print_green "Switching OFF TTL..."
+    	    else
+            print_red "TTL file missing!"
+    	        exit 1
+    	    fi
+    	else
+    	    if [ -f "$TTL_FILE_DISABLED" ]; then
+    	        mv "$TTL_FILE_DISABLED" "$TTL_FILE"
+    	        print_green "Switching ON TTL..."
+    	    else
+    	        print_red "TTL disabled file missing!"
+    	        exit 1
+    	    fi
+    	fi
+    
+    	# Apply firewall
+    	/etc/init.d/firewall restart >/dev/null 2>&1
+    	sleep 2
+    
+    	# Optional connectivity test
+    	ping -c 2 8.8.8.8 #>/dev/null 2>&1 && 
+        ;;
+
 
     x) 
        echo "Bye bye... see you soon..!!."
