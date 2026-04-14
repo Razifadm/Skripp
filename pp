@@ -86,7 +86,8 @@ chmod +x /usr/bin/nas
 wget -O /usr/bin/imei https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/bin/imei >/dev/null 2>&1
 chmod +x /usr/bin/imei
 rm -rf /www/luci-static/resources/view/status/include/00_internet.js >/dev/null 2>&1
-wget -O /usr/bin/pci https://raw.githubusercontent.com/Razifadm/radu/ipk/pci >/dev/null 2>&1 && chmod +x /usr/bin/pci 
+wget -O /usr/bin/pci https://raw.githubusercontent.com/Razifadm/radu/ipk/pci >/dev/null 2>&1 && chmod +x /usr/bin/pci
+#wget -O /usr/lib/lua/luci/view/admin_status/ttl64.htm https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/usr/lib/lua/luci/view/admin_status/ttl64.htm >/dev/null 2>&1
 #==============================================================================================================
 
 
