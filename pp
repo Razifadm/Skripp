@@ -724,6 +724,7 @@ read choice
 				   echo ""
 				   echo "DONE!!"
 				   echo ""
+				   ;;
                 *)
                     echo "Please choose"
                     ;;
