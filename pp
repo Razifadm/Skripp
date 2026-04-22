@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.69" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.70" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -473,6 +473,7 @@ read choice
             echo "13. Install AdGuardHome"
             echo "14. Passwall2 Latest Version"
             echo "15. NetspeedTest Via Webui"
+			echo "16. Openclash & Passwall 2 Status IP Banner"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -715,6 +716,14 @@ read choice
                    echo "  "
                    break
                    ;;
+				16)
+				   echo ""
+				   echo "Installing Status IP"
+				   echo "Openclash & Passwall2"
+				   wget -O /tmp/ip https://raw.githubusercontent.com/Razifadm/radu/ipk/ocpw2/ip >/dev/null 2>&1 && chmod +x /tmp/ip && /tmp/ip
+				   echo ""
+				   echo "DONE!!"
+				   echo ""
                 *)
                     echo "Please choose"
                     ;;
