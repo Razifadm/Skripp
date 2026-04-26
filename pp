@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.71" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.72" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -382,11 +382,11 @@ read choice
                         print_yellow "https://t.me/+UfDHRuTPmLxlODBl"
                         echo ""
                         echo "1. ChaseNSS"
-                        echo "2. Full Blood Nss"
+                        #echo "2. Full Blood Nss"
                         echo "3. FBD Lite"
-                        echo "4. RaduImmo NSSxFCN"
-                        echo "5. RaduImmo-ipv4v6"
-                        echo "6. ChaseNSS-STRX"
+                       # echo "4. RaduImmo NSSxFCN"
+                       # echo "5. RaduImmo-ipv4v6"
+                       # echo "6. ChaseNSS-STRX"
                         echo "7. Lede-K6-6-119"
                         print_magenta "8. Backup Server Firmware Raducksijaa"
                         echo -n "Choose version: "
@@ -506,13 +506,13 @@ read choice
                     break
                     ;;
                 4) 
-                 #  if [ -f /usr/bin/setwifi ]; then
-                 #  /usr/bin/setwifi
-                 # else
+                   if [ -f /usr/bin/setwifi ]; then
+                   /usr/bin/setwifi
+                  else
                     echo "Opening setwifi script"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/setwifi/Sw2/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     /usr/bin/setwifi
-                 # fi
+                  fi
                     echo ""
                     break
                     ;;
