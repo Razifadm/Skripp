@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.73" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.74" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -595,7 +595,7 @@ read choice
                 8)
                     clear
 					echo "Installing OpenClash-Converter"
-                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
+                    wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/OC/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     echo "Openclash-Converter Installed"
                     echo ""
                     break
