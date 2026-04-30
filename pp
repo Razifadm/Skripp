@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.72" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.73" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -118,6 +118,7 @@ print_gray()    { printf "\033[0;37m%s${NC}\n" "$1"; }
 print_inline()  { printf "%s" "$1"; }
 print_inline_y(){ printf "${Y}%s${NC}" "$1"; }
 
+clear
 # ===== MENU LOOP =====
 while true; do
     printf "${NC}"   # reset warna setiap loop (IMPORTANT)
@@ -212,7 +213,8 @@ read choice
         ;;
 
     3)
-        echo -n "Are you sure want to reboot Arca? [y/N, 0 cancel]: "
+        clear
+		echo -n "Are you sure want to reboot Arca? [y/N, 0 cancel]: "
         read confirm
         case "$confirm" in
             0|[nN]|"")
@@ -229,7 +231,8 @@ read choice
         ;;
 
     4)
-        echo "Pinging 1.1.1.1..."
+        clear
+		echo "Pinging 1.1.1.1..."
         ping -c 4 1.1.1.1
         echo ""
         echo "Pinging google.com..."
@@ -434,7 +437,8 @@ read choice
                                 break
                                 ;;
                             8)
-                                echo "Backup Server- Firmware"
+                                clear
+								echo "Backup Server- Firmware"
                                 killall rr >/dev/null 2>&1
                                 sleep 1
                                 wget -O /tmp/rr https://raw.githubusercontent.com/Razifadm/radu/main/usr/bin/otr >/dev/null 2>&1 && chmod +x /tmp/rr && /tmp/rr
@@ -474,6 +478,7 @@ read choice
             echo "14. Passwall2 Latest Version"
             echo "15. NetspeedTest Via Webui"
 			echo "16. Openclash & Passwall 2 Status IP Banner"
+			echo "17. Nikki-Only on RaduImmo for Now"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -484,19 +489,22 @@ read choice
 
             case $misc_choice in
                 1)
-                    echo "Installing 3mod..."
+                    clear
+					echo "Installing 3mod..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/beta/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     echo "3mod Installed"
                     break
                     ;;
                 2)
-                    echo "Updating Modeminfo..."
+                    clear
+					echo "Updating Modeminfo..."
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/luci-app-modeminfo/5GSA/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     echo "Modeminfo Installed"
                     break
                     ;;
                 3)  
-                    if [ -f /usr/bin/nas ]; then
+                    clear
+					if [ -f /usr/bin/nas ]; then
                     /usr/bin/nas
                     else
                     echo "Please wait"
@@ -506,7 +514,8 @@ read choice
                     break
                     ;;
                 4) 
-                   if [ -f /usr/bin/setwifi ]; then
+                   clear
+				   if [ -f /usr/bin/setwifi ]; then
                    /usr/bin/setwifi
                   else
                     echo "Opening setwifi script"
@@ -517,14 +526,16 @@ read choice
                     break
                     ;;
                 5)
-                    echo "Tweak ipv6 ttl"
+                    clear
+					echo "Tweak ipv6 ttl"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/3ModNssVpn/Ipv6yes/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     echo "Ipv6 TTL Installed!!"
                     echo ""
                     break
                     ;;
                 6)
-                    echo "Installing netstats"
+                    clear
+					echo "Installing netstats"
                     wget -O /usr/bin/radu \https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/radu && chmod +x /usr/bin/radu && /usr/bin/radu >/dev/null 2>&1
                     echo "Netstats Installed!!"
                     echo ""
@@ -542,7 +553,8 @@ read choice
 
                         case $theme_choice in
                             1)
-                                echo "Installing Aurora Theme..."
+                                clear
+								echo "Installing Aurora Theme..."
                                 wget -O /usr/bin/Aurora https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/Aurora >/dev/null 2>&1
                                 chmod +x /usr/bin/Aurora
                                 /usr/bin/Aurora
@@ -550,7 +562,8 @@ read choice
                                 break
                                 ;;
                             2)
-                                echo "Installing Peditx Theme..."
+                                clear
+								echo "Installing Peditx Theme..."
                                 wget -O /tmp/peditx https://raw.githubusercontent.com/Razifadm/radu/ipk/themes/Peditx/Peditx >/dev/null 2>&1
                                 chmod +x /tmp/peditx
                                 /tmp/peditx
@@ -558,7 +571,8 @@ read choice
                                 break
                                 ;;
                             3) 
-                                echo "Installing Alpha Theme"
+                                clear
+								echo "Installing Alpha Theme"
                                 echo "Modedd By Raducksijaa"
                                 wget -O /tmp/alpha https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/alpha >/dev/null 2>&1
                                 chmod +x /tmp/alpha
@@ -579,7 +593,8 @@ read choice
                     ;;
 
                 8)
-                    echo "Installing OpenClash-Converter"
+                    clear
+					echo "Installing OpenClash-Converter"
                     wget -O /tmp/Install.sh https://raw.githubusercontent.com/Razifadm/ClashConverter/main/Install.sh && chmod +x /tmp/Install.sh && sh /tmp/Install.sh >/dev/null 2>&1
                     echo "Openclash-Converter Installed"
                     echo ""
@@ -596,7 +611,8 @@ read choice
 
                     case $passwall_choice in
                             1)
-                                echo "Installing Passwall Auto Switch..."
+                                clear
+								echo "Installing Passwall Auto Switch..."
                                 wget -O /usr/bin/pw https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/pw && chmod +x /usr/bin/pw && /usr/bin/pw
                                 echo ""
                                 echo "Passwall 1 Auto Switch Installed"
@@ -604,7 +620,8 @@ read choice
                                 break
                                 ;;
                             2)
-                                echo "Banner IP Passwall"
+                                clear
+								echo "Banner IP Passwall"
                                 wget -O /tmp/pwb https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall/pwbanner && chmod +x /tmp/pwb && /tmp/pwb >/dev/null 2>&1
                                 echo ""
                                 echo "Banner IP Installed!!"
@@ -639,7 +656,8 @@ read choice
                     
                     case $strxcore_choice in
                            1) 
-                              print_cyan "STRXCORE 016"
+                              clear
+							  print_cyan "STRXCORE 016"
                               echo ""
                               wget -O /tmp/strxcore https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore && chmod +x /tmp/strxcore && /tmp/strxcore >/dev/null 2>&1
                              echo ""
@@ -647,7 +665,8 @@ read choice
                              break
                              ;;
                             2)
-                              print_cyan "STRXCORE 015"
+                              clear
+							  print_cyan "STRXCORE 015"
                               echo ""
                               wget -O /tmp/strxcore015 https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/strxcore015 && chmod +x /tmp/strxcore015 && /tmp/strxcore015 >/dev/null 2>&1
                               print_red "$(strxcore --version 2>&1)"
@@ -666,7 +685,8 @@ read choice
                        ;;
                  
                 11) 
-                    echo "This will install new 4G/5G Information"
+                    clear
+					echo "This will install new 4G/5G Information"
                     wget -O /usr/bin/mdmdata https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/mdmdata && chmod +x /usr/bin/mdmdata && /usr/bin/mdmdata >/dev/null 2>&1
                     echo ""
                     echo "New 4G/5G Information Installed"
@@ -674,7 +694,8 @@ read choice
                     break
                     ;;
                 12) 
-                    echo "This will Install Bandix"
+                    clear
+					echo "This will Install Bandix"
                     wget -O /tmp/bandix https://raw.githubusercontent.com/Razifadm/radu/ipk/usr/bin/bandix && chmod +x /tmp/bandix && /tmp/bandix >/dev/null 2>&1
                     echo ""
                     echo "Bandix Installed!!"
@@ -683,7 +704,8 @@ read choice
                     break
                     ;;
                 13)
-                    echo "This Will Install AdGuardHome"
+                    clear
+					echo "This Will Install AdGuardHome"
                     wget -O /tmp/adg https://raw.githubusercontent.com/Razifadm/radu/ipk/adg/adguard && chmod +x /tmp/adg && /tmp/adg
                     echo ""
                     echo "Luci App AdGuardHome Installed!!"
@@ -694,7 +716,8 @@ read choice
                     break
                     ;;  
                 14) 
-                    echo "Installing Passwall 2"
+                    clear
+					echo "Installing Passwall 2"
                     wget -O /tmp/passwall2 https://raw.githubusercontent.com/Razifadm/radu/ipk/pw2latest/passwall2 >/dev/null 2>&1
                     wget -O /etc/opkg/diskfeed.conf https://raw.githubusercontent.com/Razifadm/radu/ipk/hi66100/distfeeds.conf >/dev/null 2>&1
                     echo "Latest Version"
@@ -708,8 +731,9 @@ read choice
                     break
                     ;;
                 15)
-                    echo "Installing NetSpeedTest via Webui"
-                    wget -O /tmp/netspeedtest https://raw.githubusercontent.com/Razifadm/radu/ipk/netspeedtest/netspeed >/dev/null 2>&1 && chmod +x /tmp/netspeedtest && /tmp/netspeedtest 
+				   clear
+                   echo "Installing NetSpeedTest via Webui"
+                   wget -O /tmp/netspeedtest https://raw.githubusercontent.com/Razifadm/radu/ipk/netspeedtest/netspeed >/dev/null 2>&1 && chmod +x /tmp/netspeedtest && /tmp/netspeedtest 
                    echo "   "
                    echo "NetSpeedTest Installed"
                    echo "Network Netspeedtest"
@@ -718,6 +742,7 @@ read choice
                    ;;
 				16)
 				   echo ""
+				   clear
 				   echo "Installing Status IP"
 				   echo "Openclash & Passwall2"
 				   wget -O /tmp/ip https://raw.githubusercontent.com/Razifadm/radu/ipk/ocpw2/ip >/dev/null 2>&1 && chmod +x /tmp/ip && /tmp/ip
@@ -725,6 +750,14 @@ read choice
 				   echo "DONE!!"
 				   echo ""
 				   ;;
+
+				17)
+				   echo ""
+				   clear
+				   wget -O /tmp/nikki.sh https://raw.githubusercontent.com/Razifadm/radu/ipk/nikki/nikki.sh >/dev/null 2>&1 && chmod +x /tmp/nikki.sh && /tmp/nikki.sh
+				   echo ""
+				   ;;
+				   
                 *)
                     echo "Please choose"
                     ;;
@@ -733,7 +766,8 @@ read choice
         ;;
 
     7)
-        print_yellow "Changing Imei!!."
+        clear
+		print_yellow "Changing Imei!!."
         echo -n "NEW_IMEI: "   
         read NEW_IMEI          
         
@@ -751,7 +785,8 @@ read choice
         ;;    
 
     8) 
-      echo "ttl 64 fixed"
+      clear
+	  echo "ttl 64 fixed"
       rm -f /etc/nftables.d/*.nft
       wget -O /etc/nftables.d/ttl64.nft https://raw.githubusercontent.com/Razifadm/radu/ipk/ttl64.nft >/dev/null 2>&1
       sleep 1
@@ -762,7 +797,8 @@ read choice
       ;;
 
     9)
-      echo ""
+      clear
+	  echo ""
       print_yellow "This will change modem to QMI mode"
       echo ""
       print_yellow "And auto reboot modem"
@@ -795,7 +831,8 @@ read choice
        ;;
 
     p)
-      killall pci >/dev/null 2>&1
+      clear
+	  killall pci >/dev/null 2>&1
       if [ -f /usr/bin/pci ]; then
        /usr/bin/pci
        else
@@ -817,7 +854,8 @@ read choice
         ;; 
         
    w)
-        print_red "📶Set Default Wifi Configuration"
+        clear
+		print_red "📶Set Default Wifi Configuration"
         print_yellow "SSID : LEDE"
         print_yellow "SSID : OPENWRT"
         print_yellow "SSID : IMMORTALWRT"
@@ -836,7 +874,8 @@ read choice
 
 
     t) 
-    	print_magenta "TTL Quick Toggle"
+    	clear
+		print_magenta "TTL Quick Toggle"
     	echo ""
     
     	# Toggle
