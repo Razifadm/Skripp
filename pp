@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.75" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.76" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -152,7 +152,7 @@ print_green        "w. Reset Wifi Config"
 print_inline_y 		"t. TTL Switch - Current Status: "
 print_cyan 		       "[$STATUS]"
 print_magenta    "m. Module Updater(Kernel 6.6.93 ONLY!!)"
-print_magenta    "u. Uboot Installer"
+print_magenta    "b. Uboot Installer"
 print_red            "x. Exit"
 
 print_inline_y "Choose Menu PP No:? "
@@ -919,7 +919,7 @@ read choice
     fi
        ;;
        
-   u)
+   b)
        clear
        print_cyan "Uboot Installer"
     if confirm_yesno "Proceed Uboot Installer?"; then
