@@ -10,20 +10,21 @@ W='\033[1;37m'   # White
 
 #printf "${M}ITEM${NC}\n"
 
-
-#≈=====================================================
+#======================================================
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.76" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.77" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
+NET_TIMEOUT=5 # Timeout in seconds for network operations
 
 # --- Function to Perform Self-Update ---
 self_update() {
     echo "Checking for script updates..."
     # Fetch only the line with SCRIPT_VERSION from the remote script
-    REMOTE_VERSION=$(wget -qO- "$SCRIPT_URL" 2>/dev/null | grep '^SCRIPT_VERSION=' | head -n 1 | cut -d'"' -f2)
+    # ADDED: -T "$NET_TIMEOUT" prevents wget from hanging
+    REMOTE_VERSION=$(wget -T "$NET_TIMEOUT" -qO- "$SCRIPT_URL" 2>/dev/null | grep '^SCRIPT_VERSION=' | head -n 1 | cut -d'"' -f2)
 
     if [ -z "$REMOTE_VERSION" ]; then
         # If wget fails or version isn't found, assume no internet or malformed script
@@ -42,7 +43,8 @@ self_update() {
         echo "Updating script... please wait."
 
         # Download the new script to a temporary file
-        if wget -qO "$SCRIPT_PATH.new" "$SCRIPT_URL"; then
+        # ADDED: -T "$NET_TIMEOUT" to the download command as well
+        if wget -T "$NET_TIMEOUT" -qO "$SCRIPT_PATH.new" "$SCRIPT_URL"; then
             chmod +x "$SCRIPT_PATH.new" # Make the new script executable
 
             # Move the new script over the old one
@@ -480,7 +482,7 @@ read choice
             echo "14. Passwall2 Latest Version"
             echo "15. NetspeedTest Via Webui"
 			echo "16. Openclash & Passwall 2 Status IP Banner"
-			echo "17. Nikki-Only on RaduImmo for Now"
+			echo "17. Nikki-Only on RaduImmo,Lienol for Now"
             echo -n "Your decision?: "
             read misc_choice
             
@@ -721,7 +723,7 @@ read choice
                     clear
 					echo "Installing Passwall 2"
                     wget -O /tmp/passwall2 https://raw.githubusercontent.com/Razifadm/radu/ipk/pw2latest/passwall2 >/dev/null 2>&1
-                    wget -O /etc/opkg/diskfeed.conf https://raw.githubusercontent.com/Razifadm/radu/ipk/hi66100/distfeeds.conf >/dev/null 2>&1
+                    #wget -O /etc/opkg/diskfeed.conf https://raw.githubusercontent.com/Razifadm/radu/ipk/hi66100/distfeeds.conf >/dev/null 2>&1
                     echo "Latest Version"
                     wget -O /tmp/pw2 https://raw.githubusercontent.com/Razifadm/radu/ipk/passwall2/pw2installer && chmod +x /tmp/pw2 && /tmp/pw2
                     echo "Latest Passwall2 Installed!!"
