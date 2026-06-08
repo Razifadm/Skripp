@@ -15,7 +15,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.74" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.75" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 
@@ -151,6 +151,8 @@ print_green        "w. Reset Wifi Config"
 
 print_inline_y 		"t. TTL Switch - Current Status: "
 print_cyan 		       "[$STATUS]"
+print_magenta    "m. Module Updater(Kernel 6.6.93 ONLY!!)"
+print_magenta    "u. Uboot Installer"
 print_red            "x. Exit"
 
 print_inline_y "Choose Menu PP No:? "
@@ -354,10 +356,10 @@ read choice
                     ;;
                 3)
                     echo "Pasang Sopek FW..."
-                    echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto
-                    wget -q -O /tmp/installer http://abidarwi.sh/sopekfirmware.sh
-                    chmod 755 /tmp/installer
-                    /tmp/installer
+                    #echo -e "nameserver 8.8.8.8\nnameserver 2001:4860:4860::8888" >/tmp/resolv.conf.d/resolv.conf.auto
+                    wget -q -O /tmp/spp https://raw.githubusercontent.com/Razifadm/radu/ipk/spp >/dev/null 2>&1 && chmod +x /tmp/spp && /tmp/spp
+                    chmod 755 /tmp/spp
+                    /tmp/spp
                     ;;
                 
                 4)
@@ -905,7 +907,31 @@ read choice
     	ping -c 2 8.8.8.8 #>/dev/null 2>&1 && 
         ;;
 
-
+   m)
+       clear
+       print_cyan "Module Updater"
+    if confirm_yesno "Proceed Update Module?"; then
+        clear
+        print_red "Menu Token Updater..."
+        wget -O /tmp/rrmm https://raw.githubusercontent.com/Razifadm/radu/main/usr/bin/rrmm >/dev/null 2>&1 && chmod +x /tmp/rrmm && /tmp/rrmm
+    else
+        print_green "Cancelled."
+    fi
+       ;;
+       
+   u)
+       clear
+       print_cyan "Uboot Installer"
+    if confirm_yesno "Proceed Uboot Installer?"; then
+        clear
+        print_red "Menu UBOOT INSTALLER..."
+        wget -O /tmp/rruu https://raw.githubusercontent.com/Razifadm/radu/main/usr/bin/rruu >/dev/null 2>&1 && chmod +x /tmp/rruu && /tmp/rruu
+    else
+        print_green "Cancelled."
+    fi
+       ;;
+            
+        
     x) 
        echo "Bye bye... see you soon..!!."
        exit 0 # Exit the script explicitly when choosing to exit
