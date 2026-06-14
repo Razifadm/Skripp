@@ -14,7 +14,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.77" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.78" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 NET_TIMEOUT=5 # Timeout in seconds for network operations
@@ -153,8 +153,8 @@ print_green        "w. Reset Wifi Config"
 
 print_inline_y 		"t. TTL Switch - Current Status: "
 print_cyan 		       "[$STATUS]"
-print_magenta    "m. Module Updater(Kernel 6.6.93 ONLY!!)"
-print_magenta    "b. Uboot Installer"
+#print_magenta    "m. Module Updater(Kernel 6.6.93 ONLY!!)"
+#print_magenta    "b. Uboot Installer"
 print_red            "x. Exit"
 
 print_inline_y "Choose Menu PP No:? "
@@ -274,6 +274,7 @@ read choice
                         echo "7. Qwrt 6.15"
                         echo "8. Qwrt 6.16"
                         echo "9. Qwrt 6.17"
+						echo "10. Qwrt 6.18"
                         echo -n "Choose QWRT Version: "
                         read qwrt_ver
 
@@ -343,6 +344,12 @@ read choice
                                 echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.17 && chmod 755 /tmp/installer && /tmp/installer
                                 break
                                 ;;
+
+							10) 
+							    echo "QWRT 6.18..."
+								echo 'nameserver 8.8.8.8' >/tmp/resolv.conf.auto && wget -q -O /tmp/installer http://abidarwi.sh/gbps6.18 && chmod 755 /tmp/installer && /tmp/installer
+                                break
+								;;
                             *)
                                 echo "Please Choose Wisely man."
                                 ;;
@@ -552,6 +559,7 @@ read choice
                         echo "1. Install Aurora Theme"
                         echo "2. Install Peditx Theme"
                         echo "3. Install Modded Theme Alpha"
+						echo "4. Theme Glass"
                         echo -n "Your choice?: "
                         read theme_choice
 
@@ -585,10 +593,18 @@ read choice
                                 echo ""
                                 break
                                 ;;
-                            0)
-                                echo "Back..."
-                                break
-                                ;;
+
+							4) 
+							   clear
+							   echo "Installing Themes Glass"
+							   echo ""
+							   echo "Direct from repository"                            0)
+                               curl -L -o /tmp/luxe.ipk https://github.com/de-quenx/luci-theme-luxe/releases/download/v1.0.4_dev/luci-theme-luxe_1.0.4_dev-r13062026_all.ipk
+                               opkg install /tmp/luxe.ipk
+							   echo "Installation DONE!!"
+							   rm -rf /tmp/*.ipk
+                               break
+                               ;;
                             *)
                                 echo "Invalid option! Try again."
                                 ;;
