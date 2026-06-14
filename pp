@@ -14,7 +14,7 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.78" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.79" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 NET_TIMEOUT=5 # Timeout in seconds for network operations
@@ -598,7 +598,7 @@ read choice
 							   clear
 							   echo "Installing Themes Glass"
 							   echo ""
-							   echo "Direct from repository"                            0)
+							   echo "Direct from repository" 
                                curl -L -o /tmp/luxe.ipk https://github.com/de-quenx/luci-theme-luxe/releases/download/v1.0.4_dev/luci-theme-luxe_1.0.4_dev-r13062026_all.ipk
                                opkg install /tmp/luxe.ipk
 							   echo "Installation DONE!!"
