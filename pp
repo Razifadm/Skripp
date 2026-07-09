@@ -8,12 +8,8 @@ M='\033[1;35m'   # Magenta
 C='\033[1;36m'   # Cyan
 W='\033[1;37m'   # White
 
-#printf "${M}ITEM${NC}\n"
-
 #======================================================
 # --- Script Version and Update Information ---
-# IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
-# to your GitHub repository.
 SCRIPT_VERSION="0.81" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://cdn.jsdelivr.net/gh/Razifadm/Skripp@main/pp"
 SCRIPT_PATH="/usr/bin/pp"
@@ -22,18 +18,16 @@ NET_TIMEOUT=5 # Timeout in seconds for network operations
 # --- Function to Perform Self-Update ---
 self_update() {
     echo "Checking for script updates..."
+    wget -qO- "https://purge.jsdelivr.net/gh/Razifadm/Skripp@main/pp" > /dev/null 2>&1
     # Fetch only the line with SCRIPT_VERSION from the remote script
-    # ADDED: -T "$NET_TIMEOUT" prevents wget from hanging
     REMOTE_VERSION=$(wget -T "$NET_TIMEOUT" -qO- "$SCRIPT_URL" 2>/dev/null | grep '^SCRIPT_VERSION=' | head -n 1 | cut -d'"' -f2)
 
     if [ -z "$REMOTE_VERSION" ]; then
-        # If wget fails or version isn't found, assume no internet or malformed script
         echo "Warning: Could not check for remote script version. Network issue or repo problem?"
         return 0 # Continue with current version
     fi
 
     # Compare versions. 'sort -V' handles version strings correctly (e.g., 1.9 < 1.10)
-    # If the local version is numerically smaller than the remote version, an update is available.
     if [ "$(printf '%s\n' "$SCRIPT_VERSION" "$REMOTE_VERSION" | sort -V | head -n 1)" = "$SCRIPT_VERSION" ] && [ "$SCRIPT_VERSION" != "$REMOTE_VERSION" ]; then
         echo "---------------------------------------------------------"
         echo "           *** SCRIPT UPDATE AVAILABLE! *** "
@@ -43,7 +37,6 @@ self_update() {
         echo "Updating script... please wait."
 
         # Download the new script to a temporary file
-        # ADDED: -T "$NET_TIMEOUT" to the download command as well
         if wget -T "$NET_TIMEOUT" -qO "$SCRIPT_PATH.new" "$SCRIPT_URL"; then
             chmod +x "$SCRIPT_PATH.new" # Make the new script executable
 
@@ -54,7 +47,6 @@ self_update() {
             echo "---------------------------------------------------------"
 
             # Re-execute the script with the same arguments ($@)
-            # This is crucial for the user to instantly use the updated version
             exec "$SCRIPT_PATH" "$@"
         else
             echo "Failed to download update. Please check your internet connection."
