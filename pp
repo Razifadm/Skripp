@@ -14,8 +14,8 @@ W='\033[1;37m'   # White
 # --- Script Version and Update Information ---
 # IMPORTANT: Increment this SCRIPT_VERSION every time you push a new version
 # to your GitHub repository.
-SCRIPT_VERSION="0.80" # CURRENT VERSION OF THIS SCRIPT
-SCRIPT_URL="https://raw.githubusercontent.com/Razifadm/Skripp/main/pp"
+SCRIPT_VERSION="0.81" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_URL="https://cdn.jsdelivr.net/gh/Razifadm/Skripp@main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 NET_TIMEOUT=5 # Timeout in seconds for network operations
 
