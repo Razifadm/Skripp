@@ -10,7 +10,7 @@ W='\033[1;37m'   # White
 
 #======================================================
 # --- Script Version and Update Information ---
-SCRIPT_VERSION="0.81" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.82" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://cdn.jsdelivr.net/gh/Razifadm/Skripp@main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 NET_TIMEOUT=5 # Timeout in seconds for network operations
@@ -129,7 +129,8 @@ print_green       "6. Miscelineous"
 print_magenta  "7. Change Imei"
 print_yellow      "8. Fix TTL IPV4 ONLY"
 print_green       "9. Use QMI Mod"
-print_magenta "10. Reset Module (BEWARE!!)"
+print_magenta "10. Reset Module "
+print_yellow       "11. Arca LED by Radu"
 print_yellow      "p. Lock PCI Menu"
 print_green        "w. Reset Wifi Config"
 			TTL_FILE="/etc/nftables.d/ttl64.nft"
@@ -383,7 +384,7 @@ read choice
                         echo "List Off Available Firmware by Raducksija: (0 Back)"
                         echo ""
                         print_magenta "Join Group Support TELEGRAM"
-                        print_cyan "Kalau Sudi Mari laa 🤣"
+                        print_cyan "Kalau Sudi Mari laa ð¤£"
                         echo ""            
                         print_yellow "https://t.me/+UfDHRuTPmLxlODBl"
                         echo ""
@@ -797,9 +798,9 @@ read choice
         
         # Checking status
         if [ $? -eq 0 ]; then
-            echo "✅ IMEI Changed to $NEW_IMEI"
+            echo "â IMEI Changed to $NEW_IMEI"
         else
-            print_red "❌ Error changing Imei"
+            print_red "â Error changing Imei"
         fi
         ;;    
 
@@ -848,6 +849,21 @@ read choice
         print_green "Cancelled."
     fi
        ;;
+       
+    11)
+    print_magenta "Install LED By Radu?"
+    echo ""
+    print_yellow "Power Boleh laa"
+    echo ""
+
+    if confirm_yesno "Proceed install LED?"; then
+        print_red "installing led..."
+        wget -qO /tmp/ledr.zip https://raw.githubusercontent.com/Razifadm/radu/ipk/ledr && mkdir -p /tmp/ledr && unzip -oq /tmp/ledr.zip -d /tmp/ledr && cd /tmp/ledr && sh install.sh
+        print_magenta "done"
+    else
+        print_green "Cancelled."
+    fi
+       ;;
 
     p)
       clear
@@ -874,7 +890,7 @@ read choice
         
    w)
         clear
-		print_red "📶Set Default Wifi Configuration"
+		print_red "ð¶Set Default Wifi Configuration"
         print_yellow "SSID : LEDE"
         print_yellow "SSID : OPENWRT"
         print_yellow "SSID : IMMORTALWRT"
