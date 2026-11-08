@@ -10,7 +10,7 @@ W='\033[1;37m'   # White
 
 #======================================================
 # --- Script Version and Update Information ---
-SCRIPT_VERSION="0.82" # CURRENT VERSION OF THIS SCRIPT
+SCRIPT_VERSION="0.83" # CURRENT VERSION OF THIS SCRIPT
 SCRIPT_URL="https://cdn.jsdelivr.net/gh/Razifadm/Skripp@main/pp"
 SCRIPT_PATH="/usr/bin/pp"
 NET_TIMEOUT=5 # Timeout in seconds for network operations
@@ -131,6 +131,7 @@ print_yellow      "8. Fix TTL IPV4 ONLY"
 print_green       "9. Use QMI Mod"
 print_magenta "10. Reset Module "
 print_yellow       "11. Arca LED by Radu"
+print_green        "12. Xray-core CF-RAY-httpupgrade"
 print_yellow      "p. Lock PCI Menu"
 print_green        "w. Reset Wifi Config"
 			TTL_FILE="/etc/nftables.d/ttl64.nft"
@@ -245,7 +246,7 @@ read choice
             echo "2. Qwrt Hongkong"
             echo "3. Sopek FW"
             echo "4. Solomon"
-            print_magenta "5. Raducksija Firmware"
+           # print_magenta "5. Raducksija Firmware"
             echo -n "Choose wisely: "
             read fw_choice
 
@@ -379,86 +380,11 @@ read choice
                     fi # CORRECTED LINE
                     cd - >/dev/null 2>&1
                     ;;
-                5) # NEW CASE ADDED HERE
-                    while true; do
-                        echo "List Off Available Firmware by Raducksija: (0 Back)"
-                        echo ""
-                        print_magenta "Join Group Support TELEGRAM"
-                        print_cyan "Kalau Sudi Mari laa ð¤£"
-                        echo ""            
-                        print_yellow "https://t.me/+UfDHRuTPmLxlODBl"
-                        echo ""
-                        echo "1. ChaseNSS"
-                        #echo "2. Full Blood Nss"
-                        echo "3. FBD Lite"
-                       # echo "4. RaduImmo NSSxFCN"
-                       # echo "5. RaduImmo-ipv4v6"
-                       # echo "6. ChaseNSS-STRX"
-                        echo "7. Lede-K6-6-119"
-                        print_magenta "8. Backup Server Firmware Raducksijaa"
-                        echo -n "Choose version: "
-                        read raduck_ver
-
-                        if [ "$raduck_ver" = "0" ]; then
-                            echo "Back to main menu"
-                            break
-                        fi
-
-                        case $raduck_ver in
-                            1)
-                                echo "Flashing ChaseNSS..."
-                                wget -q -O /tmp/installer http://abidarwi.sh/chasenss10092025.sh && chmod 755 /tmp/installer && /tmp/installer
-                                break
-                                ;;
-                            2)
-                                echo "FlashingFull Blood Nss..."
-                                wget -q -O /tmp/installer http://abidarwi.sh/fbd10092025.sh && chmod 755 /tmp/installer && /tmp/installer
-                                break
-                                ;;
-                            3) # 
-                                echo "Flashing FBD Lite..."
-                                wget -q -O /tmp/installer http://abidarwi.sh/fbdlite11092025.sh && chmod 755 /tmp/installer && /tmp/installer
-                                break
-                                ;;
-                            4) # 
-                                echo "Flashing FCN..."
-                                wget -q -O /tmp/installer http://abidarwi.sh/nssfcn18092025.sh && chmod 755 /tmp/installer && /tmp/installer
-                                break
-                                ;;
-                            5) # 
-                                echo "Flashing RaduImmo ipv4v6..."
-                                wget -q -O /tmp/installer http://abidarwi.sh/raduimmo06102025.sh && chmod 755 /tmp/installer && /tmp/installer
-                                break
-                                ;;
-                            6) # 
-                                echo "Flashing ChaseNSS-STRX..."
-                                wget -q -O /tmp/installer http://abidarwi.sh/chasenssstrx13112025.sh && chmod 755 /tmp/installer && /tmp/installer
-                                break
-                                ;;
-                            7) #
-                                echo "Flashing Lede-K6-6-119"
-                                wget -q -O /tmp/installer http://abidarwi.sh/radulede19122025.sh && chmod 755 /tmp/installer && /tmp/installer
-                                break
-                                ;;
-                            8)
-                                clear
-								echo "Backup Server- Firmware"
-                                killall rr >/dev/null 2>&1
-                                sleep 1
-                                wget -O /tmp/rr https://raw.githubusercontent.com/Razifadm/radu/main/usr/bin/otr >/dev/null 2>&1 && chmod +x /tmp/rr && /tmp/rr
-                                ;;
-                            *)
-                                echo "Option not valid!!."
-                                ;;
-                        esac
-                    done
-                    ;;
                 *)
-                    echo "Option no valid!!."
+                    echo "Invalid firmware option. Try again."
                     ;;
             esac
-        done # End of Firmware selection loop
-        echo "Back to main Menu" 
+        done
         ;;
 
     6)
@@ -665,7 +591,7 @@ read choice
                     while true; do
                     echo ""
                     print_magenta "Update strxcore?"
-                    echo""
+                    echo ""
                     print_blue "1. Install strx core 016"
                     echo ""
                     print_blue "2. Install strx core 015"
@@ -798,9 +724,9 @@ read choice
         
         # Checking status
         if [ $? -eq 0 ]; then
-            echo "â IMEI Changed to $NEW_IMEI"
+            echo "Ã¢ÂÂ IMEI Changed to $NEW_IMEI"
         else
-            print_red "â Error changing Imei"
+            print_red "Ã¢ÂÂ Error changing Imei"
         fi
         ;;    
 
@@ -864,6 +790,21 @@ read choice
         print_green "Cancelled."
     fi
        ;;
+       
+     12)
+    print_magenta "Install New Xray Core - CF-Ray?"
+    echo ""
+    print_yellow "JURUS TELAN KUASA 2"
+    echo ""
+
+    if confirm_yesno "Proceed install XRAY CF-RAY?"; then
+        print_red "installing XRAY CF RAY..."
+        wget -qO /tmp/cf-ray.sh https://raw.githubusercontent.com/Razifadm/radu/main/cf-ray.sh && chmod 755 /tmp/cf-ray.sh && sh /tmp/cf-ray.sh
+        print_magenta "Done Installed Xray-Core CF -Ray!! Hoorayy"
+    else
+        print_green "Cancelled."
+    fi
+       ;;
 
     p)
       clear
@@ -890,7 +831,7 @@ read choice
         
    w)
         clear
-		print_red "ð¶Set Default Wifi Configuration"
+		print_red "Ã°ÂÂÂ¶Set Default Wifi Configuration"
         print_yellow "SSID : LEDE"
         print_yellow "SSID : OPENWRT"
         print_yellow "SSID : IMMORTALWRT"
